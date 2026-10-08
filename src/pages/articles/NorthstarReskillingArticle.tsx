@@ -477,7 +477,16 @@ Then I’d bring in the operational numbers from the business. Are
     needs attention, who’s responsible for it and what we’re going to measure next.
   </p>
 
-
+  <div className="ns-author">
+    <div className="ns-author-mark" aria-hidden="true"><span>G</span></div>
+    <div className="ns-author-body">
+      <div className="ns-author-eyebrow">Written by</div>
+      <div className="ns-author-name">GrowUp</div>
+      <p className="ns-author-bio">
+GrowUp writes product-led content for EdTech and enterprise learning platforms. This guide is a portfolio sample demonstrating how we'd turn a complex learning product into a practical, step-by-step walkthrough. Northstar is a fictional EdTech platform created for this demonstration.
+      </p>
+    </div>
+  </div>
 </Section>
 
   
@@ -495,4 +504,16 @@ const styles = String.raw`
 @media(max-width:580px){.ns-container{width:calc(100% - 32px)}.ns-hero{padding-top:42px;padding-bottom:50px}.ns-hero h1{font-size:39px}.ns-hero-main>div:first-child>p{font-size:13px}.ns-hero-window-body{padding:12px}.ns-hero-stats b{font-size:20px}.ns-hero-bar{grid-template-columns:90px 1fr}.ns-overview>div{font-size:10px;gap:9px}.ns-intro p{font-size:18px}.ns-editorial .ns-section>p{font-size:17px}.ns-section h2{font-size:30px}.ns-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.ns-metrics.three{grid-template-columns:repeat(2,minmax(0,1fr))}.ns-dash-grid,.ns-path-layout,.ns-learner-grid,.ns-finance-grid{grid-template-columns:1fr}.ns-dash-head{align-items:flex-start}.ns-dash-head h3{font-size:18px}.ns-skillrow{grid-template-columns:1fr 1fr 30px;gap:7px}.ns-skillrow small{display:none}.ns-figure-top{padding-inline:10px}.ns-live{font-size:7px}.ns-figure-divider{margin-inline:4px}.ns-hero-window-head{font-size:9px}.ns-periods button{padding:6px 3px;font-size:8px}.ns-learner-head{flex-wrap:wrap}.ns-learner-head .ns-pill{margin-left:0}.ns-editorial .ns-takeaway p{font-size:23px}.ns-bottom{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){.ns-page *{scroll-behavior:auto!important;transition:none!important}}
 @media print{.ns-page{background:#fff}.ns-hero{background:#fff;color:#172824;padding:20px 0}.ns-hero-main{min-height:0}.ns-hero-visual,.ns-nav,.ns-toc,.ns-mobile-toc,.ns-readprogress{display:none}.ns-hero h1{font-size:34px}.ns-hero-main>div:first-child>p{color:#334}.ns-layout{display:block}.ns-section{break-inside:auto}.ns-figure{break-inside:avoid}.ns-editorial .ns-section>p{font-size:12px}}
+
+
+.ns-author{margin-top:48px;padding:28px 30px;background:transparent;border:1px solid #e0e5df;border-radius:14px;display:flex;gap:28px;align-items:center}
+.ns-author-mark{flex:none;width:64px;height:64px;border-radius:50%;background:#041b1c;color:#fafaf7;display:flex;align-items:center;justify-content:center}
+.ns-author-mark span{font-size:26px;font-weight:900}
+.ns-author-body{min-width:0;padding-left:28px;border-left:1px solid #e0e5df}
+.ns-author-eyebrow{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#011522;font-weight:700}
+.ns-author-name{font-size:18px;font-weight:800;margin-top:4px;color:#011522}
+.ns-editorial .ns-author-bio{font-size:13px;line-height:1.65;color:#011522;margin:6px 0 0}
+@media(max-width:580px){.ns-author{align-items:flex-start;padding:22px;gap:18px}.ns-author-mark{width:48px;height:48px}.ns-author-body{padding-left:18px}}
+
+
 `;
