@@ -1445,16 +1445,11 @@ const skipInspectAfterDrag = useRef(false);
           <div className="jr-hero-foot"><CheckCircle2 size={15}/> A practical planning model, not a vendor implementation promise.</div>
         </div>
         <div className="jr-hero-visual" data-reveal>
-          <div className="jr-window-top"><span className="jr-window-brand"><span className="jr-window-logo">✦</span> Jenzabar One <span className="jr-window-suffix">/ Planning workspace</span></span><span className="jr-live-dot">Illustrative preview</span></div>
-          <div className="jr-window-body">
-            <div className="jr-window-side"><span className="active"><LayoutDashboard size={12}/> Timeline</span><span><Users size={12}/> Staffing</span><span><ShieldAlert size={12}/> Risks</span><span><Layers3 size={12}/> Ownership</span><span><FileText size={12}/> Documents</span></div>
-            <div className="jr-window-chart">
-              <div className="jr-window-chart-head"><strong>Implementation overview</strong><span>4,500 students <ChevronDown size={11}/></span></div>
-              <div className="jr-preview-months">{["JAN","MAR","MAY","JUL","SEP","NOV","JAN","MAR","MAY"].map((m,i)=><span key={i}>{m}</span>)}</div>
-              {[ ["Planning",2,3],["Data migration",10,45],["Integrations",24,48],["Finance",39,26],["Financial aid",50,32],["Student records",57,30],["Testing & training",70,25],["Go-live",89,10] ].map(([title,l,w],i)=><div key={String(title)} className="jr-preview-row"><span>{title}</span><div className="jr-preview-track"><b style={{ left:`${l}%`,width:`${w}%`,background:i===4 || i===7?"#B5E5D2":i%2===0?"#64BAA5":"#B7CCC7" }}/></div></div>)}
-              <div className="jr-preview-warnings"><span><ShieldAlert size={11}/> Registration</span><span><ShieldAlert size={11}/> Aid window</span><span><ShieldAlert size={11}/> Fiscal year-end</span></div>
-            </div>
-          </div>
+          <img 
+            src="/images/jenzabar-big-hero.png" 
+            alt="Jenzabar One implementation planning workspace" 
+            className="jr-hero-img"
+          />
         </div>
       </div>
     </section>
@@ -9570,6 +9565,23 @@ const styles = `
   border-radius: 9px;
 }
 
+/* NEW: Replace the mockup with the actual image */
+.jr .jr-hero-visual-img {
+  background-image: url('images/jenzabar-hero-img.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 450px; /* Adjust this if your image is shorter or taller */
+  border-radius: 9px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2); /* Optional: adds a nice shadow to the image */
+}
+
+/* Hide the old mockup elements when the image is active */
+.jr .jr-hero-visual-img .jr-window-top,
+.jr .jr-hero-visual-img .jr-window-body {
+  display: none;
+}
+
 /* REMOVE DECORATIVE DASHBOARD FRAME */
 
 .jr .jr-hero-visual::before,
@@ -9810,6 +9822,10 @@ const styles = `
     max-width: 720px;
     margin: 0 auto;
   }
+  
+  .jr .jr-hero-visual-img {
+    min-height: 350px; /* Smaller height for mobile */
+  }
 }
 
 @media (max-width: 610px) {
@@ -9876,6 +9892,323 @@ const styles = `
 .jr .jr-deck-editor-bottom > span {display:inline-flex;align-items:center;gap:6px}
 
 .jr .jr-deck-large-heat-row > span {min-width:0}
+
+
+
+
+
+/* ============================================
+   FINAL HERO REFINEMENT
+   TALLER ARTWORK + BOLDER TYPOGRAPHY
+   ============================================ */
+
+/* SOLID BLACK-GREEN BACKGROUND */
+
+.jr .jr-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+
+  background: #041b1c;
+  background-image: none;
+
+  padding: 68px 0 88px;
+  color: #ffffff;
+}
+
+/* MATCH THE REST OF THE PAGE */
+
+.jr .jr-hero .jr-wrap {
+  width: min(1380px, calc(100% - 80px));
+  max-width: none;
+  margin-inline: auto;
+}
+
+/* MORE SPACIOUS HERO LAYOUT */
+
+.jr .jr-hero-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(0, 1.1fr);
+
+  align-items: center;
+  gap: 35px;
+
+  min-height: 600px;
+  padding: 0;
+}
+
+/* LEFT CONTENT */
+
+.jr .jr-hero-copy {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+
+  padding: 45px 0;
+}
+
+/* EYEBROW */
+
+.jr .jr-hero .jr-kicker {
+  color: #69ddb3;
+
+  font-family: Inter, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+
+  margin-bottom: 25px;
+}
+
+/* BIGGER, BOLDER HERO HEADLINE */
+
+.jr .jr-hero h1 {
+  font-family: Inter, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  font-size: clamp(52px, 4.7vw, 76px);
+  font-weight: 800;
+  letter-spacing: -0.068em;
+  line-height: 1.035;
+
+  color: #f8fcfa;
+
+  max-width: 660px;
+  margin: 0 0 28px;
+}
+
+.jr .jr-hero h1 em {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  color: #aee6d2;
+}
+
+/* SUPPORTING PARAGRAPH */
+
+.jr .jr-hero-copy > p {
+  max-width: 530px;
+
+  font-family: Inter, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  font-size: 16px;
+  font-weight: 450;
+  line-height: 1.8;
+
+  color: #bed9ce;
+}
+
+/* BUTTON SPACING */
+
+.jr .jr-hero-actions {
+  gap: 13px;
+  margin-top: 33px;
+}
+
+.jr .jr-hero-actions .jr-btn {
+  min-height: 52px;
+  padding-inline: 22px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+/* KEEP THE PRIMARY CTA TEXT DARK */
+
+.jr .jr-hero .jr-btn-mint {
+  color: #011522 !important;
+}
+
+/* DISCLAIMER */
+
+.jr .jr-hero-foot {
+  margin-top: 24px;
+  font-size: 11px;
+  color: #91b5a6;
+}
+
+/* ============================================
+   BIGGER RIGHT-SIDE HERO ARTWORK
+   ============================================ */
+
+/* CONTAINER */
+
+.jr .jr-hero-visual {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+
+  overflow: visible;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  transform: none !important;
+}
+
+/* THE ACTUAL TRANSPARENT PNG */
+
+.jr .jr-hero-img {
+  display: block;
+
+  width: 115%;
+  max-width: none;
+  height: auto;
+
+  object-fit: contain;
+  object-position: center;
+
+  transform: translateX(-7%);
+  transform-origin: center;
+
+  background: transparent;
+  border: none;
+  box-shadow: none;
+
+  filter: none;
+}
+
+/* NO ARTIFICIAL IMAGE FRAME */
+
+.jr .jr-hero-visual::before,
+.jr .jr-hero-visual::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1150px) {
+  .jr .jr-hero {
+    padding: 55px 0 75px;
+  }
+
+  .jr .jr-hero-grid {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+
+    gap: 25px;
+    min-height: 540px;
+  }
+
+  .jr .jr-hero h1 {
+    font-size: clamp(46px, 4.8vw, 63px);
+  }
+
+  .jr .jr-hero-img {
+    width: 110%;
+    transform: translateX(-5%);
+  }
+}
+
+@media (max-width: 850px) {
+  .jr .jr-hero {
+    padding: 40px 0 70px;
+  }
+
+  .jr .jr-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .jr .jr-hero-copy {
+    padding: 38px 0 10px;
+  }
+
+  .jr .jr-hero h1 {
+    max-width: 720px;
+    font-size: clamp(43px, 6.5vw, 61px);
+  }
+
+  .jr .jr-hero-visual {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+    overflow: visible;
+  }
+
+  .jr .jr-hero-img {
+    width: 100%;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 610px) {
+  .jr .jr-hero {
+    padding: 30px 0 55px;
+  }
+
+  .jr .jr-hero .jr-wrap {
+    width: calc(100% - 36px);
+  }
+
+  .jr .jr-hero-grid {
+    gap: 22px;
+  }
+
+  .jr .jr-hero-copy {
+    padding: 30px 0 0;
+  }
+
+  .jr .jr-hero .jr-kicker {
+    font-size: 10px;
+    margin-bottom: 20px;
+  }
+
+  .jr .jr-hero h1 {
+    font-size: clamp(37px, 9vw, 49px);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.06em;
+
+    margin-bottom: 21px;
+  }
+
+  .jr .jr-hero-copy > p {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .jr .jr-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 27px;
+  }
+
+  .jr .jr-hero-actions .jr-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .jr .jr-hero-visual {
+    width: 100%;
+    margin: 0;
+    overflow: visible;
+  }
+
+  .jr .jr-hero-img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    transform: translateX(0);
+  }
+}
+
+/* KEEP YOUR EXISTING PRINT RULES */
 
 @media print{
    .jr-hero,.jr-builder,.jr-brief-actions,.jr-faq,.jr-final,.jr-map-controls,.jr-inspector-footer .jr-adjust{display:none!important}.jr-section{padding:15px 0}.jr-wrap{width:100%}.jr-map-card,.jr-owners-panel,.jr-risk-panel,.jr-staff-main{box-shadow:none;break-inside:avoid}.jr-gantt,.jr-heatmap{zoom:.8}}
