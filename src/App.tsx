@@ -6,7 +6,7 @@ import { Seo } from "./components/Seo";
 import Home from "./pages/Home";
 import NorthstarReskillingArticle from "./pages/articles/NorthstarReskillingArticle";
 import BestGlobalEmployeeBenefitsPlatforms2026 from "./pages/articles/BestGlobalEmployeeBenefitsPlatforms2026";
-import MakiBusinessCase from "./pages/articles/MakiBusinessCase";
+import JenzabarImplementationRealityMap from "./pages/articles/JenzabarImplementationRealityMap";
 
 function ScrollTop() {
   const { pathname } = useLocation();
@@ -69,19 +69,19 @@ export default function App() {
         />
 
         <Route
-          path="/articles/maki-business-case"
+          path="/articles/jenzabar-implementation-reality-map"
           element={
             <>
 <Seo
-                title="HR Tech Business Case Builder | GrowUp"
-                description="An HR tech portfolio sample showing how GrowUp designed an interactive business case builder for Maki, turning hiring inputs into a defensible executive summary."
-                path="/articles/maki-business-case"
+                title="HR Tech Implementation Reality Map | GrowUp"
+                description="An HR tech portfolio sample showing how GrowUp designed an interactive reality map for Jenzabar, turning implementation challenges into actionable insights."
+                path="/articles/jenzabar-implementation-reality-map"
                 image="/images/maki-business-case-og.png"
               />
 
 
 
-              <MakiBusinessCase />
+              <JenzabarImplementationRealityMap />
             </>
           }
         />
