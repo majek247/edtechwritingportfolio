@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1100" viewBox="0 0 1400 1100">
+<defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#123a2c"/><stop offset="1" stop-color="#071e18"/></linearGradient>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#aaf7b8" stop-opacity=".24"/><stop offset="1" stop-color="#4fce73" stop-opacity=".05"/></linearGradient>
+  <filter id="shadow"><feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#00130d" flood-opacity=".34"/></filter>
+</defs>
+<rect width="1400" height="1100" fill="none"/>
+<ellipse cx="760" cy="560" rx="520" ry="390" fill="#1d6848" opacity=".18"/>
+<g opacity=".36" fill="none" stroke="#64de82" stroke-width="3">
+  <ellipse cx="760" cy="560" rx="480" ry="250" transform="rotate(18 760 560)"/>
+  <ellipse cx="760" cy="560" rx="455" ry="205" transform="rotate(-22 760 560)"/>
+  <ellipse cx="760" cy="560" rx="410" ry="165" transform="rotate(44 760 560)"/>
+</g>
+<g filter="url(#shadow)">
+  <rect x="470" y="178" width="460" height="260" rx="30" fill="url(#g)" stroke="#7de592" stroke-opacity=".22"/>
+  <circle cx="518" cy="225" r="12" fill="#e83f71"/>
+  <text x="548" y="224" font-family="Arial" font-size="22" fill="#d8e9df">Client meeting</text>
+  <text x="548" y="254" font-family="Arial" font-size="14" fill="#91aa9c">54:18 · recording</text>
+  <path d="M515 330 q12-42 24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0" fill="none" stroke="#55dd7b" stroke-width="4"/>
+</g>
+<g stroke="#7fe79a" stroke-opacity=".45" fill="none" stroke-width="2">
+  <path d="M700 438V505M700 505H250M700 505H1150M430 505V565M700 505V565M970 505V565M250 505V565M1150 505V565"/>
+</g>
+<g font-family="Arial" filter="url(#shadow)">
+  <g transform="translate(125 565)"><rect width="250" height="170" rx="25" fill="url(#glass)" stroke="#83eb9b" stroke-opacity=".6"/><circle cx="44" cy="44" r="22" fill="#dff7df"/><text x="35" y="51" font-size="18" fill="#255d35">M</text><text x="28" y="96" font-size="18" fill="#e9f6eb">Meeting notes</text><text x="28" y="125" font-size="13" fill="#9fc3a9">Structured and reviewed</text></g>
+  <g transform="translate(400 565)"><rect width="250" height="170" rx="25" fill="url(#glass)" stroke="#83eb9b" stroke-opacity=".6"/><circle cx="44" cy="44" r="22" fill="#dff7df"/><text x="37" y="51" font-size="18" fill="#255d35">S</text><text x="28" y="96" font-size="18" fill="#e9f6eb">Suitability draft</text><text x="28" y="125" font-size="13" fill="#9fc3a9">Ready to review</text></g>
+  <g transform="translate(675 565)"><rect width="250" height="170" rx="25" fill="url(#glass)" stroke="#83eb9b" stroke-opacity=".6"/><circle cx="44" cy="44" r="22" fill="#dff7df"/><text x="31" y="51" font-size="15" fill="#255d35">CRM</text><text x="28" y="96" font-size="18" fill="#e9f6eb">CRM update</text><text x="28" y="125" font-size="13" fill="#9fc3a9">12 fields suggested</text></g>
+  <g transform="translate(950 565)"><rect width="250" height="170" rx="25" fill="url(#glass)" stroke="#83eb9b" stroke-opacity=".6"/><circle cx="44" cy="44" r="22" fill="#dff7df"/><text x="38" y="51" font-size="18" fill="#255d35">E</text><text x="28" y="96" font-size="18" fill="#e9f6eb">Source evidence</text><text x="28" y="125" font-size="13" fill="#9fc3a9">Linked to transcript</text></g>
+  <g transform="translate(430 790)"><rect width="540" height="170" rx="26" fill="#0b2b21" stroke="#83eb9b" stroke-opacity=".3"/><text x="32" y="44" font-size="15" fill="#82d993">Advice file</text><text x="32" y="84" font-size="20" fill="#ecf7ed">Human review before filing</text><rect x="32" y="111" width="130" height="28" rx="14" fill="#173c2e"/><text x="49" y="130" font-size="12" fill="#9bdca6">Transcript linked</text><rect x="180" y="111" width="130" height="28" rx="14" fill="#173c2e"/><text x="198" y="130" font-size="12" fill="#9bdca6">CRM updated</text><rect x="328" y="111" width="160" height="28" rx="14" fill="#173c2e"/><text x="346" y="130" font-size="12" fill="#9bdca6">Draft ready</text></g>
+</g>
+</svg>

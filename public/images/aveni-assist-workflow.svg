@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="860" viewBox="0 0 1280 860">
+<defs><filter id="s"><feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#17351f" flood-opacity=".18"/></filter><linearGradient id="b" x1="0" x2="1"><stop stop-color="#eef8ea"/><stop offset="1" stop-color="#dff3db"/></linearGradient></defs>
+<rect width="1280" height="860" rx="44" fill="url(#b)"/>
+<g filter="url(#s)">
+<rect x="110" y="90" width="1060" height="680" rx="28" fill="#fff" stroke="#dce6d8"/>
+<rect x="110" y="90" width="1060" height="58" rx="28" fill="#f7f8f5"/><rect x="110" y="120" width="1060" height="28" fill="#f7f8f5"/>
+<circle cx="145" cy="119" r="7" fill="#cfd6cd"/><circle cx="168" cy="119" r="7" fill="#cfd6cd"/><circle cx="191" cy="119" r="7" fill="#cfd6cd"/>
+<text x="225" y="124" font-family="Arial" font-size="15" fill="#94a095">aveni.ai/adviser-workspace</text>
+<rect x="110" y="148" width="190" height="622" fill="#fbfcf9"/><path d="M300 148V770" stroke="#e7ebe4"/>
+<path d="M150 205l18-26 18 26h-12l-6-10-6 10z" fill="#1ec76b"/><text x="195" y="205" font-family="Arial" font-size="24" fill="#1f3f30">Aveni</text>
+<g font-family="Arial" font-size="14" fill="#7b887e"><text x="150" y="276">Meetings</text><text x="150" y="325">Clients</text><text x="150" y="374">Documents</text><text x="150" y="423">CRM</text><text x="150" y="472">Compliance</text></g>
+<text x="345" y="208" font-family="Arial" font-size="13" fill="#8d9a90">CLIENT WORKSPACE</text><text x="345" y="247" font-family="Georgia" font-size="29" fill="#1e3b2d">Annual review · Sarah Jenkins</text>
+<rect x="345" y="282" width="375" height="195" rx="18" fill="#fbfcfa" stroke="#dfe5dc"/>
+<circle cx="385" cy="324" r="16" fill="#e53469"/><text x="414" y="320" font-family="Arial" font-size="13" fill="#7b897f">Client meeting</text><text x="414" y="344" font-family="Arial" font-size="18" fill="#243f31">54:18 · processed</text>
+<path d="M380 410 q12-30 24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0t24 0" fill="none" stroke="#24be66" stroke-width="3"/>
+<rect x="748" y="282" width="330" height="92" rx="16" fill="#eff8ec"/><text x="775" y="316" font-family="Arial" font-size="12" fill="#78897c">CRM suggestions</text><text x="775" y="346" font-family="Arial" font-size="22" fill="#214330">12 fields</text>
+<rect x="748" y="390" width="330" height="92" rx="16" fill="#f7f5ed"/><text x="775" y="424" font-family="Arial" font-size="12" fill="#8a8476">Suitability draft</text><text x="775" y="454" font-family="Arial" font-size="22" fill="#4d473b">Ready to review</text>
+<rect x="345" y="510" width="733" height="178" rx="18" fill="#fbfcfa" stroke="#dfe5dc"/>
+<text x="375" y="549" font-family="Arial" font-size="12" fill="#849187">POST-MEETING OUTPUT</text>
+<g font-family="Arial"><circle cx="390" cy="594" r="15" fill="#e5f5e2"/><text x="384" y="600" font-size="14" fill="#3e7948">✓</text><text x="420" y="599" font-size="15" fill="#294434">Structured meeting summary</text><circle cx="390" cy="643" r="15" fill="#e5f5e2"/><text x="384" y="649" font-size="14" fill="#3e7948">✓</text><text x="420" y="648" font-size="15" fill="#294434">Client actions and follow-up email</text><circle cx="740" cy="594" r="15" fill="#e5f5e2"/><text x="734" y="600" font-size="14" fill="#3e7948">✓</text><text x="770" y="599" font-size="15" fill="#294434">Source evidence linked</text><circle cx="740" cy="643" r="15" fill="#e5f5e2"/><text x="734" y="649" font-size="14" fill="#3e7948">✓</text><text x="770" y="648" font-size="15" fill="#294434">Human review required</text></g>
+</g>
+</svg>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GrowUp | HR tech Writing Portfolio</title>
+    <meta name="description" content="See hrtech content built for pipeline growth, from buyer guides and comparison pieces to research-led articles and customer stories." />
+    <link rel="icon" href="/favicon.ico?v=3" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/images/blackglogo.png?v=3" />
+    <link rel="apple-touch-icon" href="/images/blackglogo.png" />
+
+    <!-- Above the fold: hero image -->
+    <link rel="preload" as="image" href="/images/hr-tech-hero-image.png" fetchpriority="high" />
+
+    <!-- Featured Maki card: desktop only, because the image is hidden below 1024px -->
+    <link rel="preload" as="image" href="/images/maki-exec-summary.png" media="(min-width: 1024px)" />
+
+    <!-- Logo -->
+    <link rel="preload" as="image" href="/images/growupblacklogotransparent.png" />
+
+    <!-- Maki article page: hero image -->
+    <script>
+      if (location.pathname.indexOf("maki-business-case") > -1) {
+        var m = document.createElement("link");
+        m.rel = "preload";
+        m.as = "image";
+        m.href = "/images/maki-exec-summary.png";
+        m.fetchPriority = "high";
+        document.head.appendChild(m);
+      }
+    </script>
+
+    <!-- Benefits platforms article page: hero image -->
+    <script>
+      if (location.pathname.indexOf("best-global-employee-benefits-platform") > -1) {
+        var b = document.createElement("link");
+        b.rel = "preload";
+        b.as = "image";
+        b.href = "/images/ben-hero-img.png";
+        b.fetchPriority = "high";
+        document.head.appendChild(b);
+      }
+    </script>
+
+    <!-- AI employee lifecycle article page: hero image -->
+    <script>
+      if (location.pathname.indexOf("ai-employee-lifecycle") > -1) {
+        var a = document.createElement("link");
+        a.rel = "preload";
+        a.as = "image";
+        a.href = "/images/aiopsheroimg.png";
+        a.fetchPriority = "high";
+        document.head.appendChild(a);
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Fetch the below-the-fold images once the page has finished loading
+      window.addEventListener("load", function () {
+        var run = window.requestIdleCallback || function (fn) { setTimeout(fn, 400); };
+        run(function () {
+          [
+            "/images/benbenefitsdashboard.png",
+            "/images/maya-employee-lifecyle-dashboard.png",
+            "/images/maki-exec-summary.png",
+            "/images/ben-hero-img.png",
+            "/images/aiopsheroimg.png"
+          ].forEach(function (src) {
+            var img = new Image();
+            img.src = src;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
