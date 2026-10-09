@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * JENZABAR IMPLEMENTATION REALITY MAP
+ * JENZABAR JENZABAR IMPLEMENTATION PLAN
  * Independent portfolio concept by GrowUp; not a Jenzabar product or official plan.
  * Install: npm i lucide-react pptxgenjs
  * Drop this file into a React / Next.js project and render the default export.
@@ -957,7 +957,7 @@ const skipInspectAfterDrag = useRef(false);
 
         txt(
           s,
-          "IMPLEMENTATION REALITY MAP",
+          "JENZABAR IMPLEMENTATION PLAN",
           0.75, 1.12, 7, 0.3,
           {
             fontSize: 12,
@@ -1438,10 +1438,12 @@ const skipInspectAfterDrag = useRef(false);
     <section className="jr-hero">
       <div className="jr-wrap jr-hero-grid">
         <div className="jr-hero-copy" data-reveal>
-          <span className="jr-kicker jr-kicker-light">IMPLEMENTATION REALITY MAP</span>
-          <h1>Know what<br/>implementation<br/>will <em>really</em> take.</h1>
-          <p>Map the timeline, staffing requirements and campus-critical dates behind your move to Jenzabar One. Build a plan leadership can actually review.</p>
-          <div className="jr-hero-actions"><button type="button" className="jr-btn jr-btn-mint" onClick={()=>goTo("builder")}>Build your implementation map <ArrowRight size={17}/></button><button type="button" className="jr-btn jr-btn-outline" onClick={()=>goTo("map")}>See example plan <ArrowRight size={16}/></button></div>
+          <span className="jr-kicker jr-kicker-light">JENZABAR IMPLEMENTATION PLAN</span>
+          <h1>See what it takes <br/>to implement Jenzabar One.</h1>
+         <p style={{ color: "#fafafa", fontSize: "18px" }}>
+  Build a realistic implementation plan for your institution. Understand the timeline, staff involvement, key milestones and potential disruptions before committing resources.
+</p>
+ <div className="jr-hero-actions"><button type="button" className="jr-btn jr-btn-mint" onClick={()=>goTo("builder")}>Build your implementation map <ArrowRight size={17}/></button><button type="button" className="jr-btn jr-btn-outline" onClick={()=>goTo("map")}>See example plan <ArrowRight size={16}/></button></div>
           <div className="jr-hero-foot"><CheckCircle2 size={15}/> A practical planning model, not a vendor implementation promise.</div>
         </div>
         <div className="jr-hero-visual" data-reveal>
@@ -1776,7 +1778,7 @@ const skipInspectAfterDrag = useRef(false);
     </section>
 
     <section className="jr-section jr-section-muted" id="map"><div className="jr-wrap">
-      <SectionHeading number="02" eyebrow="YOUR IMPLEMENTATION REALITY MAP" title="See the whole project before the first kickoff." detail="Explore the phases, adjust dates and surface risk before finalising a plan. Click any phase to inspect its scope and change timing."/>
+      <SectionHeading number="02" eyebrow="YOUR JENZABAR IMPLEMENTATION PLAN" title="See the whole project before the first kickoff." detail="Explore the phases, adjust dates and surface risk before finalising a plan. Click any phase to inspect its scope and change timing."/>
       <div className="jr-summary-row"><div><span>MODELLED GO-LIVE</span><strong>{monthLong(goLive)}</strong><small>{totalMonths} months from kickoff</small></div><div><span>INTERNAL STAFF EFFORT</span><strong>{fmt(totalHours)} hrs</strong><small>Indicative, not contractual</small></div><div><span>PEAK TEAM DEMAND</span><strong>{monthTitle(peakMonth)}</strong><small>{fmt(Math.max(...aggregate))} combined hours</small></div><div className={`jr-target-box ${targetDelta<0?"late":""}`}><span>VS. YOUR TARGET</span><strong>{targetDelta===0?"On target":`${Math.abs(targetDelta)} mo ${targetDelta>0?"early":"late"}`}</strong><button type="button" onClick={alignTarget}>Align to target <ArrowRight size={13}/></button></div></div>
       <div className="jr-map-card" data-reveal>
         <div className="jr-map-top"><div><span className="jr-status"><span/> LIVE SCENARIO</span><h3>Your implementation timeline</h3><p>Plan start {monthLong(asMonth(config.startMonth))} · {config.modules.length} selected workstreams</p></div><div className="jr-map-controls"><Segmented value={tab} onChange={setTab} values={[{value:"timeline",label:"Timeline"},{value:"phases",label:"Phases"},{value:"months",label:"Month detail"}]}/><button className="jr-square-btn" aria-label="Reset phase adjustments" title="Reset phase adjustments" onClick={()=>setPhaseEdits({})}><RotateCcw size={15}/></button></div></div>
@@ -2774,7 +2776,7 @@ const skipInspectAfterDrag = useRef(false);
                     </div>
 
                     <span className="jr-deck-doc-kicker">
-                      IMPLEMENTATION REALITY MAP
+                      JENZABAR IMPLEMENTATION PLAN
                     </span>
 
                     <b>
@@ -2993,7 +2995,7 @@ const skipInspectAfterDrag = useRef(false);
       </h2>
 
       <p>
-        Bring a personalised implementation reality map
+        Bring a personalised JENZABAR IMPLEMENTATION PLAN
         to your first serious scoping discussion.
       </p>
     </div>
@@ -3104,7 +3106,7 @@ const skipInspectAfterDrag = useRef(false);
                   <Logo src={logoSrc} />
 
                   <span>
-                    IMPLEMENTATION REALITY MAP
+                    JENZABAR IMPLEMENTATION PLAN
                   </span>
                 </div>
 
@@ -3614,7 +3616,7 @@ const skipInspectAfterDrag = useRef(false);
 
 
 const styles = `
-/* JENZABAR IMPLEMENTATION REALITY MAP · premium GrowUp green theme */
+/* JENZABAR JENZABAR IMPLEMENTATION PLAN · premium GrowUp green theme */
 .jr{--deep:#041b1c;--deep2:#0a3434;--green:#0d7065;--mint:#a9e1ce;--mint2:#d5f1e5;--ink:#122626;--muted:#657774;--paper:#fff;--mist:#f7f9f7;--line:#dfe8e4;--warn:#d7834c;color:var(--ink);background:#fff;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;line-height:1.55;overflow:hidden;}
 .jr *{box-sizing:border-box}.jr button,.jr select,.jr input{font:inherit}.jr button{cursor:pointer}.jr a{color:inherit;text-decoration:none}.jr svg{flex-shrink:0}.jr h1,.jr h2,.jr h3,.jr h4,.jr p{margin:0}.jr h1,.jr h2,.jr h3{letter-spacing:-.042em}.jr h1,.jr h2{font-family:Georgia,'Times New Roman',serif;font-weight:500}.jr h3{font-family:Georgia,'Times New Roman',serif;font-weight:500}.jr button:focus-visible,.jr a:focus-visible,.jr input:focus-visible,.jr select:focus-visible{outline:3px solid #5ccfb0;outline-offset:3px}.jr-wrap{width:min(1340px,calc(100% - 92px));margin-inline:auto}.jr-kicker{font-size:10px;letter-spacing:.15em;color:var(--green);font-weight:800;text-transform:uppercase;display:block}.jr-kicker-light{color:#9cdfc6}.jr-section{padding:93px 0}.jr-section-muted{background:var(--mist)}.jr-section-head{display:flex;align-items:end;justify-content:space-between;gap:40px;margin-bottom:32px}.jr-section-head h2{font-size:clamp(33px,3.4vw,51px);line-height:1.1;white-space:pre-line;margin-top:13px;max-width:900px}.jr-section-head>p{font-size:14px;max-width:420px;line-height:1.8;color:var(--muted)}.jr-logo{height:39px;width:188px;display:inline-flex;align-items:center;overflow:hidden}.jr-logo img{display:block;max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain;object-position:left center;mix-blend-mode:multiply}.jr-logo-dark{background:#fff;border-radius:4px;padding:2px 6px;width:168px;height:37px}.jr-wordmark{font-size:27px;color:#263b3a;letter-spacing:-.08em;font-weight:700}.jr-butterfly{background:linear-gradient(140deg,#70c897 20%,#d351a2 47%,#e4b94c 65%,#6a87c9);color:transparent;background-clip:text;font-size:31px}
 .jr-hero{background:radial-gradient(ellipse at 73% 44%,#113a39 0%,#071f20 45%,#041b1c 73%);position:relative;color:#fff}.jr-hero:after{content:'';position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 90%,rgba(200,250,225,.04) 100%);background-size:72px 72px;pointer-events:none}.jr-hero-grid{min-height:568px;display:grid;grid-template-columns:43% 57%;align-items:center;gap:10px;position:relative;z-index:1}.jr-hero-copy{padding:80px 0;position:relative;z-index:3}.jr-hero h1{font-size:clamp(47px,4.25vw,72px);line-height:.99;max-width:600px;margin:24px 0 24px}.jr-hero h1 em{font-style:normal;color:#afe5d1}.jr-hero-copy>p{max-width:490px;font-size:16px;line-height:1.74;color:#d3e3df}.jr-hero-actions{display:flex;gap:13px;flex-wrap:wrap;margin-top:33px}.jr-btn{border:1px solid transparent;min-height:46px;border-radius:4px;padding:13px 18px;font-size:12px;font-weight:800;display:inline-flex;gap:15px;align-items:center;justify-content:center;white-space:nowrap;transition:transform .18s,background .18s}.jr-btn:hover{transform:translateY(-2px)}.jr-btn-mint{background:#aee6d2;color:#06302d}.jr-btn-mint:hover{background:#c4f2e0}.jr-btn-outline{border-color:#92aaa5;color:#fff;background:transparent}.jr-btn-outline:hover{background:#153b39}.jr-btn-dark{background:var(--deep);color:#fff}.jr-btn-dark:hover{background:#15574e}.jr-hero-foot{display:flex;align-items:center;gap:8px;font-size:11px;color:#a9c4bb;margin-top:24px}
@@ -4420,7 +4422,7 @@ const styles = `
 
 
 /* =========================================
-   PREMIUM DARK IMPLEMENTATION REALITY MAP
+   PREMIUM DARK JENZABAR IMPLEMENTATION PLAN
    Applies only to section #map
    ========================================= */
 
@@ -7929,7 +7931,7 @@ const styles = `
 
 
 /* ================================================
-   IMPLEMENTATION REALITY MAP
+   JENZABAR IMPLEMENTATION PLAN
    TYPOGRAPHY — MATCH BASELINE BUILDER
    ================================================ */
 
