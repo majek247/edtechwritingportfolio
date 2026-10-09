@@ -91,8 +91,8 @@ export default function App() {
           element={
             <>
 <Seo
-                title="HR Tech Implementation Reality Map | GrowUp"
-                description="An HR tech portfolio sample showing how GrowUp designed an interactive reality map for Jenzabar, turning implementation challenges into actionable insights."
+                title="EdTech Sales Enablement Content for Jenzabar | GrowUp"
+                description="Explore an EdTech sales enablement example built for Jenzabar One, with an interactive planner for implementation timelines, staffing and campus risks."
                 path="/articles/jenzabar-implementation-reality-map"
                 image="/images/maki-business-case-og.png"
               />
