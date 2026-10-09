@@ -64,7 +64,7 @@ type PlannedPhase = PhaseDefinition & { start: number; duration: number; end: nu
 type RiskWindow = { id: string; index: number; label: string; detail: string; level: "High" | "Medium"; kind: "registration" | "aid" | "fiscal" };
  
 
-const BRAND_LOGO = "https://mms.businesswire.com/media/20250730745865/en/2538073/22/Jenzabar_Butterfly_Logo_Color_Horiz.jpg";
+const BRAND_LOGO = "/images/logos/jenzabarlogo.svg";
 const MODS: Array<{ key: ModuleKey; name: string }> = [
   { key: "student", name: "Student information" },
   { key: "finance", name: "Finance / ERP" },
@@ -601,11 +601,15 @@ function calcLoad(c: Config, phases: PlannedPhase[], role: RoleKey, m: number) {
 }
 
 const goTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+
 function Logo({ src, inverse = false }: { src: string; inverse?: boolean }) {
   const [failed, setFailed] = useState(false);
   return <span className={`jr-logo ${inverse ? "jr-logo-dark" : ""}`}>
-    {!failed && <img src={src} alt="Jenzabar" onError={() => setFailed(true)} />}
-    {failed && <span className="jr-wordmark"><span className="jr-butterfly">✦</span> jenzabar</span>}
+    {!failed
+      ? <img src={src} alt="" onError={() => setFailed(true)} />
+      : <span className="jr-butterfly">✦</span>}
+    <span className="jr-wordmark">Jenzabar</span>
   </span>;
 }
 function SectionHeading({
@@ -915,13 +919,13 @@ if (duration === 1) {
 
   const briefDefaults = [
     {
-      title: "Implementation Planning Brief",
+      title: "A clearer path to Jenzabar One.",
       subtitle: `${fmt(config.size)} students · ${totalMonths} modelled months`,
       body:
-        "An institution-specific planning brief covering implementation scope, delivery timing, staffing, academic risks and proposed responsibilities.",
+        "An initial implementation view for institutional leadership. Review the proposed timing, staff commitments, campus constraints and ownership decisions before confirming a plan.",
     },
     {
-      title: "Project timeline",
+      title: "How the implementation could unfold.",
       subtitle: `${totalMonths} project months · ${monthLong(
         asMonth(config.startMonth)
       )} kickoff`,
@@ -929,25 +933,25 @@ if (duration === 1) {
         "Review the proposed phase sequence, dependencies and go-live date before agreeing the delivery plan.",
     },
     {
-      title: "Staffing plan",
+      title: "Where your team will be needed.",
       subtitle: `${fmt(totalHours)} internal hours · ${overloaded.length} potential capacity conflicts`,
       body:
         "Understand when each functional team is needed and where project responsibilities may exceed available capacity.",
     },
     {
-      title: "Key risks",
+      title: "Protect the dates campus cannot move.",
       subtitle: `${risks.length} campus-sensitive windows`,
       body:
         "Protect registration, financial aid and fiscal-close activity when sequencing implementation and go-live decisions.",
     },
     {
-      title: "Ownership & governance",
+      title: "Agree who will deliver the work.",
       subtitle: `${scopedTasks.length} proposed responsibilities`,
       body:
         "Agree the division of responsibilities between Jenzabar, your institution and shared project teams.",
     },
     {
-      title: "Next steps",
+      title: "What to validate before committing.",
       subtitle: "Validate before approval",
       body: [
         "Confirm implementation scope and dependencies",
@@ -964,9 +968,7 @@ if (duration === 1) {
       slideEdits[index]?.title ??
       briefDefaults[index].title,
 
-    subtitle:
-      slideEdits[index]?.subtitle ??
-      briefDefaults[index].subtitle,
+    subtitle: briefDefaults[index].subtitle,
 
     body:
       slideEdits[index]?.body ??
@@ -997,31 +999,29 @@ if (duration === 1) {
     });
   };
 
-  // Modal keyboard shortcuts and page scroll lock.
+  // Keep React hooks at the top level so opening either modal never
+  // changes the number or order of hooks between renders.
+  useEffect(() => {
+    if (!phaseModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setPhaseModalOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [phaseModalOpen]);
 
   useEffect(() => {
     if (!deckModalOpen) return;
 
-      useEffect(() => {
-    if (!phaseModalOpen) return;
-
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setPhaseModalOpen(false);
-    };
-
-    window.addEventListener("keydown", onKey);
-
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [phaseModalOpen]);
-
     const previousOverflow = document.body.style.overflow;
-
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -1031,11 +1031,7 @@ if (duration === 1) {
       }
 
       const target = event.target as HTMLElement;
-
-      if (
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA"
-      ) {
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA") {
         return;
       }
 
@@ -1051,7 +1047,6 @@ if (duration === 1) {
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
@@ -1093,17 +1088,47 @@ if (duration === 1) {
       pptx.company = "GrowUp";
       pptx.lang = "en-US";
 
+         // Load the logo (SVG or PNG) and rasterize it to a PNG so Slides/PowerPoint can show it.
+      let logoData: string | null = null;
+      try {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error("Logo failed to load"));
+          img.src = logoSrc;
+        });
+
+        const canvas = document.createElement("canvas");
+        canvas.width = 1064;
+        canvas.height = 780;
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) throw new Error("No canvas context");
+
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        logoData = canvas.toDataURL("image/png").replace(/^data:/, "");
+      } catch {
+        logoData = null;
+      }
+
       const C = {
         dark: "041B1C",
-        ink: "102E31",
-        green: "138063",
+        ink: "092D2D",
+        green: "087F75",
         mid: "55AE8A",
         light: "D8EEE2",
-        paper: "FFFFFF",
-        pale: "F4F9F6",
-        line: "DFEBE4",
-        muted: "668176",
+        paper: "FCFBF7",
+        pale: "F0F4EF",
+        line: "D9E4DF",
+        muted: "4D6260",
         white: "FFFFFF",
+        deep: "041B1C",
+        deep2: "0A3434",
+        mint: "A9E1CE",
+        mint2: "D5F1E5",
       };
 
       const SH = pptx.ShapeType;
@@ -1138,7 +1163,7 @@ if (duration === 1) {
       ) => {
         slide.addText(value, {
           x, y, w, h,
-          fontFace: "Aptos",
+          fontFace: "Inter",
           fontSize: 12,
           color: C.ink,
           margin: 0,
@@ -1157,54 +1182,59 @@ if (duration === 1) {
           color: dark ? C.dark : C.paper,
         };
 
-        txt(
-          slide,
-          "JENZABAR  /  IMPLEMENTATION PLANNING",
-          0.7, 0.35, 6, 0.25,
-          {
-            fontSize: 10,
+        // Masthead: butterfly + wordmark left, label right
+        if (logoData) {
+          slide.addImage({
+            data: logoData,
+            x: 0.7, y: 0.3, w: 0.55, h: 0.403,
+          });
+
+          txt(slide, "Jenzabar", 1.35, 0.4, 2, 0.3, {
+            fontSize: 15,
             bold: true,
-            color: dark ? C.light : C.green,
-            charSpacing: 1,
-          }
-        );
+            color: "263B3A",
+          });
+        } else {
+          txt(slide, "Jenzabar", 0.7, 0.4, 2, 0.3, {
+            fontSize: 15,
+            bold: true,
+            color: "263B3A",
+          });
+        }
 
         txt(
           slide,
-          "INDEPENDENT PLANNING CONCEPT · GROWUP",
-          8.1, 0.37, 4.5, 0.2,
+          "JENZABAR IMPLEMENTATION PLAN",
+          6.7, 0.5, 5.93, 0.2,
           {
             fontSize: 8,
+            bold: true,
             align: "right",
-            color: dark ? C.light : C.muted,
+            color: "587570",
+            charSpacing: 1.5,
           }
         );
 
-        rect(
-          slide,
-          0.7, 6.94, 11.95, 0.012,
-          dark ? "315850" : C.line
-        );
+        // Rule under masthead
+        rect(slide, 0.7, 0.95, 11.93, 0.01, "D9E2DC");
 
+        // Footer rule
+        rect(slide, 0.7, 6.92, 11.93, 0.01, "DCE3DE");
+
+        // Footer left
         txt(
           slide,
-          "Illustrative assumptions · Validate with Jenzabar",
-          0.7, 7.06, 8.5, 0.18,
-          {
-            fontSize: 8,
-            color: dark ? C.light : C.muted,
-          }
+          "Independent planning concept by GrowUp. Not an official Jenzabar document.",
+          0.7, 7.02, 9, 0.18,
+          { fontSize: 7, color: "687975" }
         );
 
+        // Footer right
         txt(
           slide,
-          `${String(index + 1).padStart(2, "0")} / 06`,
-          11.6, 7.05, 1.0, 0.18,
-          {
-            fontSize: 8,
-            align: "right",
-            color: dark ? C.light : C.muted,
-          }
+          `${String(index + 1).padStart(2, "0")}/06`,
+          11.53, 7.02, 1.1, 0.18,
+          { fontSize: 7, bold: true, align: "right", color: "687975" }
         );
 
         const notes = readBriefSlide(index).notes;
@@ -1225,6 +1255,7 @@ if (duration === 1) {
       ) => {
         const content = readBriefSlide(index);
 
+        // Eyebrow
         txt(
           slide,
           `${String(index + 1).padStart(2, "0")} / ${
@@ -1234,35 +1265,37 @@ if (duration === 1) {
               "STAFFING REQUIREMENTS",
               "ACADEMIC RISKS",
               "OWNERSHIP & GOVERNANCE",
-              "NEXT STEPS",
+              "DECISIONS & NEXT STEPS",
             ][index]
           }`,
-          0.7, 0.95, 8.5, 0.25,
+          0.7, 1.15, 8.5, 0.25,
           {
-            fontSize: 10,
-            color: C.green,
+            fontSize: 9,
             bold: true,
-            charSpacing: 1,
+            color: C.green,
+            charSpacing: 1.5,
           }
         );
 
+        // Title: bold serif, same as the preview
         txt(
           slide,
           content.title,
-          0.7, 1.32, 11.9, 0.72,
+          0.7, 1.42, 11.9, 0.75,
           {
-            fontFace: "Aptos Display",
-            fontSize: 29,
+            fontFace: "Georgia",
+            fontSize: 30,
             bold: true,
-            breakLine: false,
-            color: C.ink,
+            color: "092B2D",
+            valign: "top",
           }
         );
 
+        // Subtitle
         txt(
           slide,
           content.subtitle,
-          0.72, 2.10, 11.8, 0.44,
+          0.72, 2.2, 11.8, 0.3,
           {
             fontSize: 12,
             color: C.muted,
@@ -1279,98 +1312,151 @@ if (duration === 1) {
         txt(
           slide,
           readBriefSlide(index).body,
-          0.72, 6.34, 11.8, 0.44,
+          0.7, 6.3, 11.9, 0.5,
           {
             fontSize: 10,
-            color: C.muted,
+            color: "526966",
           }
         );
       };
+
 
       // ===================================
       // SLIDE 01 — EXECUTIVE SUMMARY
       // ===================================
 
       {
-        const s = base(0, true);
+        const s = base(0, false);
         const content = readBriefSlide(0);
 
-        txt(
-          s,
-          "JENZABAR IMPLEMENTATION PLAN",
-          0.75, 1.12, 7, 0.3,
-          {
-            fontSize: 12,
-            color: C.light,
-            bold: true,
-            charSpacing: 1.2,
-          }
+        // Eyebrow
+        txt(s, "01 / EXECUTIVE SUMMARY", 0.7, 1.15, 8.5, 0.25, {
+          fontSize: 9,
+          bold: true,
+          color: C.green,
+          charSpacing: 1.5,
+        });
+
+        // Big serif headline
+        txt(s, content.title, 0.7, 1.4, 11.9, 0.95, {
+          fontFace: "Georgia",
+          fontSize: 44,
+          bold: true,
+          color: "092B2D",
+          valign: "top",
+        });
+
+        // Subtitle
+        txt(s, content.subtitle, 0.72, 2.45, 11, 0.3, {
+          fontSize: 13,
+          color: C.muted,
+        });
+
+        // LEFT COLUMN
+        rect(s, 0.7, 3.6, 4.6, 0.01, "CDDBD3");
+
+        txt(s, "INSTITUTIONAL IMPLEMENTATION PLAN", 0.7, 3.8, 6, 0.22, {
+          fontSize: 9,
+          bold: true,
+          color: C.green,
+          charSpacing: 1.5,
+        });
+
+        txt(s, content.body, 0.7, 4.12, 5.6, 1.0, {
+          fontSize: 11,
+          color: "455F5A",
+          valign: "top",
+          paraSpaceAfter: 4,
+        });
+
+        s.addText(
+          [
+            { text: fmt(config.size), options: { bold: true, fontSize: 14, color: "092D2D" } },
+            { text: " students     |     ", options: { fontSize: 10, color: "63756D" } },
+            { text: String(totalMonths), options: { bold: true, fontSize: 14, color: "092D2D" } },
+            { text: " months     |     ", options: { fontSize: 10, color: "63756D" } },
+            { text: fmt(totalHours), options: { bold: true, fontSize: 14, color: "092D2D" } },
+            { text: " estimated staff hours", options: { fontSize: 10, color: "63756D" } },
+          ],
+          { x: 0.7, y: 5.4, w: 6.3, h: 0.35, fontFace: "Inter", margin: 0 }
         );
 
-        txt(
-          s,
-          content.title,
-          0.75, 1.73, 10.9, 1.4,
-          {
-            fontFace: "Aptos Display",
-            fontSize: 39,
-            bold: true,
-            color: C.white,
-          }
-        );
+        // RIGHT PANEL: proposed delivery sequence
+        const px = 7.2;
+        const pw = 5.43;
 
-        txt(
-          s,
-          content.subtitle,
-          0.76, 3.28, 10.9, 0.4,
-          {
-            fontSize: 16,
-            color: C.light,
-          }
-        );
+        rect(s, px, 2.95, pw, 3.75, "F0F4EF", "D1E0D7");
 
-        txt(
-          s,
-          content.body,
-          0.76, 4.05, 10.7, 0.7,
-          {
-            fontSize: 13,
-            color: C.light,
-          }
-        );
+        txt(s, "PROPOSED DELIVERY SEQUENCE", px + 0.25, 3.12, 3.5, 0.2, {
+          fontSize: 8,
+          bold: true,
+          color: "467569",
+          charSpacing: 1.2,
+        });
 
-        const metrics = [
-          ["STUDENTS", fmt(config.size)],
-          ["MONTHS", String(totalMonths)],
-          ["STAFF HOURS", fmt(totalHours)],
+        txt(s, "01 / 04", px + pw - 1.25, 3.12, 1.0, 0.2, {
+          fontSize: 8,
+          bold: true,
+          align: "right",
+          color: "467569",
+        });
+
+        const steps = [
+          ["01", "Discover & prepare", "Institutional scope and dependencies"],
+          ["02", "Configure & migrate", "Systems, data and integrations"],
+          ["03", "Test & enable", "Acceptance and departmental readiness"],
+          ["04", "Prepare for go-live", "Transition controls and final decisions"],
         ];
 
-        metrics.forEach(([label, value], i) => {
-          const x = 0.75 + i * 4.03;
+        steps.forEach(([num, title, sub], i) => {
+          const y = 3.45 + i * 0.7;
 
-          rect(s, x, 5.33, 3.78, 0.92, "103B35");
+          rect(s, px + 0.25, y, pw - 0.5, 0.01, "D3E1D9");
 
-          txt(
-            s, label,
-            x + 0.19, 5.48, 3.35, 0.17,
-            {
-              fontSize: 9,
-              bold: true,
-              color: C.light,
-            }
-          );
+          txt(s, num, px + 0.25, y + 0.2, 0.4, 0.25, {
+            fontSize: 10,
+            bold: true,
+            color: "0C8B75",
+          });
 
-          txt(
-            s, value,
-            x + 0.19, 5.76, 3.35, 0.32,
-            {
-              fontSize: 23,
-              bold: true,
-              color: C.white,
-            }
-          );
+          txt(s, title, px + 0.75, y + 0.14, 3.8, 0.24, {
+            fontSize: 10.5,
+            bold: true,
+            color: "103A37",
+          });
+
+          txt(s, sub, px + 0.75, y + 0.38, 3.8, 0.2, {
+            fontSize: 8.5,
+            color: "6C857A",
+          });
+
+          s.addShape(SH.ellipse, {
+            x: px + pw - 0.42,
+            y: y + 0.27,
+            w: 0.1,
+            h: 0.1,
+            fill: { color: "159E7B" },
+            line: { color: "159E7B", width: 0 },
+          });
+        });
+
+        rect(s, px + 0.25, 6.28, pw - 0.5, 0.01, "CADBD0");
+
+        txt(s, "MODELLED GO-LIVE", px + 0.25, 6.4, 2.5, 0.2, {
+          fontSize: 8,
+          bold: true,
+          color: "467569",
+          charSpacing: 1.2,
+        });
+
+        txt(s, monthLong(goLive), px + pw - 2.75, 6.37, 2.5, 0.25, {
+          fontSize: 11,
+          bold: true,
+          align: "right",
+          color: "113E39",
         });
       }
+
 
       // ===================================
       // SLIDE 02 — PROJECT TIMELINE
@@ -1381,24 +1467,25 @@ if (duration === 1) {
 
         heading(s, 1);
 
-        const chartX = 3.4;
-        const chartW = 8.65;
+        const chartX = 3.3;
+        const chartW = 8.8;
 
         phases.forEach((phase, i) => {
-          const y = 2.86 + i * 0.39;
+          const y = 2.82 + i * 0.4;
 
           txt(
             s, phase.name,
-            0.75, y, 2.4, 0.24,
+            0.7, y, 2.45, 0.24,
             {
-              fontSize: 10,
+              fontSize: 9,
               bold: true,
+              color: C.ink,
             }
           );
 
           rect(
             s, chartX, y + 0.05,
-            chartW, 0.15, "EEF5F0"
+            chartW, 0.16, "EEF5F0"
           );
 
           rect(
@@ -1410,16 +1497,16 @@ if (duration === 1) {
               (phase.duration / totalMonths) * chartW,
               chartW - (phase.start / totalMonths) * chartW
             ),
-            0.15,
+            0.16,
             C.green
           );
 
           txt(
             s,
             `${phase.duration} mo`,
-            12.15, y, 0.46, 0.22,
+            12.2, y, 0.45, 0.22,
             {
-              fontSize: 8,
+              fontSize: 7,
               color: C.muted,
               align: "right",
             }
@@ -1431,9 +1518,9 @@ if (duration === 1) {
           `Kickoff: ${monthLong(
             asMonth(config.startMonth)
           )}   ·   Modelled go-live: ${monthLong(goLive)}`,
-          0.75, 6.01, 11.8, 0.25,
+          0.7, 5.95, 11.8, 0.25,
           {
-            fontSize: 11,
+            fontSize: 10,
             color: C.green,
             bold: true,
           }
@@ -1452,18 +1539,19 @@ if (duration === 1) {
         heading(s, 2);
 
         const count = Math.min(12, totalMonths);
-        const cellW = 0.63;
-        const chartX = 3.6;
+        const cellW = 0.66;
+        const chartX = 3.5;
 
         ROLE.forEach((role, row) => {
-          const y = 3.02 + row * 0.48;
+          const y = 2.98 + row * 0.46;
 
           txt(
             s, role.name,
-            0.76, y, 2.5, 0.22,
+            0.7, y, 2.55, 0.22,
             {
-              fontSize: 10,
+              fontSize: 9,
               bold: true,
+              color: C.ink,
             }
           );
 
@@ -1485,15 +1573,15 @@ if (duration === 1) {
                 ? "C8EAD9"
                 : "EDF6EF";
 
-            const x = chartX + m * 0.72;
+            const x = chartX + m * 0.75;
 
-            rect(s, x, y - 0.04, cellW, 0.32, fill);
+            rect(s, x, y - 0.04, cellW, 0.3, fill);
 
             txt(
               s, String(hours),
-              x, y + 0.055, cellW, 0.13,
+              x, y + 0.045, cellW, 0.13,
               {
-                fontSize: 8,
+                fontSize: 7,
                 align: "center",
                 color: ratio > 1 ? C.white : C.ink,
               }
@@ -1506,9 +1594,9 @@ if (duration === 1) {
           `Peak demand: ${monthLong(
             peakMonth
           )}  ·  ${overloaded.length} potential role-month conflicts`,
-          0.75, 6.1, 11.8, 0.26,
+          0.7, 6.0, 11.8, 0.26,
           {
-            fontSize: 11,
+            fontSize: 10,
             bold: true,
             color: C.green,
           }
@@ -1532,9 +1620,9 @@ if (duration === 1) {
           txt(
             s,
             "No campus-sensitive dates are currently enabled.",
-            0.75, 3.06, 11, 0.45,
+            0.7, 3.0, 11, 0.45,
             {
-              fontSize: 15,
+              fontSize: 14,
               color: C.muted,
             }
           );
@@ -1544,19 +1632,19 @@ if (duration === 1) {
           const col = i % 2;
           const row = Math.floor(i / 2);
 
-          const x = 0.75 + col * 6.12;
-          const y = 2.95 + row * 1.03;
+          const x = 0.7 + col * 6.2;
+          const y = 2.9 + row * 1.0;
 
           rect(
-            s, x, y, 5.84, 0.86,
+            s, x, y, 5.95, 0.84,
             C.pale, C.line
           );
 
           txt(
             s, risk.label,
-            x + 0.18, y + 0.11, 4.4, 0.2,
+            x + 0.17, y + 0.1, 4.5, 0.2,
             {
-              fontSize: 13,
+              fontSize: 12,
               bold: true,
               color: C.ink,
             }
@@ -1565,18 +1653,18 @@ if (duration === 1) {
           txt(
             s,
             `${monthLong(months[risk.index])} · ${risk.level}`,
-            x + 0.18, y + 0.35, 5.3, 0.16,
+            x + 0.17, y + 0.33, 5.4, 0.16,
             {
-              fontSize: 10,
+              fontSize: 9,
               color: C.green,
             }
           );
 
           txt(
             s, risk.detail,
-            x + 0.18, y + 0.58, 5.45, 0.19,
+            x + 0.17, y + 0.55, 5.55, 0.19,
             {
-              fontSize: 8.5,
+              fontSize: 8,
               color: C.muted,
             }
           );
@@ -1601,7 +1689,7 @@ if (duration === 1) {
         ];
 
         owners.forEach((owner, i) => {
-          const x = 0.72 + i * 4.17;
+          const x = 0.7 + i * 4.2;
 
           const tasks = scopedTasks.filter(
             (task) =>
@@ -1610,7 +1698,7 @@ if (duration === 1) {
           );
 
           rect(
-            s, x, 2.82, 3.92, 3.32,
+            s, x, 2.78, 3.95, 3.35,
             C.pale, C.line
           );
 
@@ -1621,9 +1709,9 @@ if (duration === 1) {
               : owner === "shared"
               ? "SHARED*"
               : "INSTITUTION-LED*",
-            x + 0.16, 3.02, 3.55, 0.23,
+            x + 0.16, 2.96, 3.6, 0.23,
             {
-              fontSize: 11,
+              fontSize: 10,
               bold: true,
               color: C.green,
             }
@@ -1632,9 +1720,9 @@ if (duration === 1) {
           txt(
             s,
             `${tasks.length} proposed responsibilities`,
-            x + 0.16, 3.34, 3.52, 0.19,
+            x + 0.16, 3.28, 3.55, 0.19,
             {
-              fontSize: 9,
+              fontSize: 8,
               color: C.muted,
             }
           );
@@ -1645,10 +1733,10 @@ if (duration === 1) {
                 s,
                 `✓ ${task.text}`,
                 x + 0.17,
-                3.72 + taskIndex * 0.27,
-                3.52, 0.23,
+                3.65 + taskIndex * 0.28,
+                3.55, 0.23,
                 {
-                  fontSize: 8.6,
+                  fontSize: 8,
                   color: C.ink,
                 }
               );
@@ -1659,9 +1747,9 @@ if (duration === 1) {
             txt(
               s,
               `+ ${tasks.length - 8} additional tasks`,
-              x + 0.17, 5.91, 3.4, 0.16,
+              x + 0.17, 5.9, 3.4, 0.16,
               {
-                fontSize: 8,
+                fontSize: 7,
                 color: C.green,
               }
             );
@@ -1671,81 +1759,47 @@ if (duration === 1) {
         narrative(s, 4);
       }
 
-      // ===================================
+
+
+            // ===================================
       // SLIDE 06 — NEXT STEPS
       // ===================================
 
       {
-        const s = base(5, true);
-        const content = readBriefSlide(5);
+        const s = base(5, false);
 
-        txt(
-          s,
-          "06 / LEADERSHIP DECISIONS",
-          0.75, 1.12, 8, 0.27,
-          {
-            fontSize: 11,
-            color: C.light,
-            bold: true,
-            charSpacing: 1,
-          }
-        );
+        heading(s, 5);
 
-        txt(
-          s, content.title,
-          0.75, 1.62, 11.75, 0.83,
-          {
-            fontFace: "Aptos Display",
-            fontSize: 34,
-            bold: true,
-            color: C.white,
-          }
-        );
-
-        txt(
-          s, content.subtitle,
-          0.75, 2.57, 11.5, 0.35,
-          {
-            fontSize: 14,
-            color: C.light,
-          }
-        );
-
-        content.body
+        readBriefSlide(5).body
           .split("\n")
           .map((line) => line.trim())
           .filter(Boolean)
           .slice(0, 6)
           .forEach((line, i) => {
-            const y = 3.2 + i * 0.5;
+            const y = 2.85 + i * 0.64;
 
-            rect(
-              s, 0.77, y, 0.34, 0.33,
-              "155344"
-            );
+            rect(s, 0.7, y, 11.93, 0.5, "FFFFFF", "D8E6DB");
 
-            txt(
-              s,
-              String(i + 1).padStart(2, "0"),
-              0.82, y + 0.1, 0.23, 0.12,
-              {
-                fontSize: 10,
-                bold: true,
-                color: C.light,
-              }
-            );
+            txt(s, String(i + 1).padStart(2, "0"), 0.95, y + 0.14, 0.4, 0.22, {
+              fontSize: 10,
+              bold: true,
+              color: "0C8B75",
+            });
 
-            txt(
-              s, line,
-              1.3, y + 0.035, 10.7, 0.29,
-              {
-                fontSize: 15,
-                color: C.white,
-              }
-            );
+            txt(s, line, 1.6, y + 0.13, 10.2, 0.25, {
+              fontSize: 12,
+              bold: true,
+              color: "14332D",
+            });
+
+            txt(s, "✓", 12.1, y + 0.1, 0.35, 0.3, {
+              fontSize: 14,
+              bold: true,
+              align: "right",
+              color: "159E7B",
+            });
           });
       }
-
       await pptx.writeFile({
         fileName: "Jenzabar-Editable-Implementation-Brief.pptx",
       });
@@ -2740,10 +2794,10 @@ Identify critical academic dates that could affect implementation.
   >
     <div className="jr-wrap">
       <SectionHeading
-        number="04"
+        number="03"
         eyebrow="OWNERSHIP & RISK"
-        title="No surprises about who owns what."
-        detail="Agree responsibility before kickoff and identify academic calendar dates that affect sequencing, testing and go-live decisions."
+        title="Establish clear responsibilities before implementation begins."
+        detail="Review which activities Jenzabar would lead, what your institution needs to manage and where both teams will work together."
       />
 
       <div className="jr-ownership-grid" data-reveal>
@@ -2778,7 +2832,8 @@ Identify critical academic dates that could affect implementation.
                 <div className="jr-owner-col-head">
                   {owner === "jenzabar" ? (
                     <span className="jr-owner-brand">
-                      <Logo src={logoSrc} />
+                      <Logo src="/images/logos/jenzabarlogo.svg" />
+
                     </span>
                   ) : (
                     <span className="jr-owner-mark">
@@ -2903,10 +2958,7 @@ Identify critical academic dates that could affect implementation.
           </details>
 
           <p className="jr-fineprint">
-            *These are illustrative, editable assignments,
-            not statements of contractual responsibility.
-            Confirm delivery ownership, specialist inputs
-            and governance with Jenzabar.
+            *Ownership assignments are illustrative and editable. Confirm each team’s responsibilities with Jenzabar before implementation.
           </p>
         </div>
 
@@ -2920,8 +2972,7 @@ Identify critical academic dates that could affect implementation.
               </h3>
 
               <p>
-                Generated from the academic calendar
-                you entered.
+                Generated from the academic calendar you entered.
               </p>
             </div>
 
@@ -3858,52 +3909,26 @@ Identify critical academic dates that could affect implementation.
                   </p>
                 </div>
 
-                {/* SLIDE 01 / EXECUTIVE SUMMARY */}
-
+                {/* COVER — NARRATIVE EDITABLE, MODEL FIGURES LOCKED */}
                 {deckSlide === 0 && (
-                  <div className="jr-deck-large-summary">
-                    <div className="jr-deck-large-stats">
-                      <div>
-                        <span>INSTITUTION SIZE</span>
-                        <strong>
-                          {fmt(config.size)}
-                        </strong>
-                        <small>students</small>
-                      </div>
-
-                      <div>
-                        <span>PROGRAMME WINDOW</span>
-                        <strong>
-                          {totalMonths}
-                        </strong>
-                        <small>months</small>
-                      </div>
-
-                      <div>
-                        <span>INTERNAL EFFORT</span>
-                        <strong>
-                          {fmt(totalHours)}
-                        </strong>
-                        <small>hours</small>
+                  <div className="jr-executive-cover">
+                    <div className="jr-cover-intro">
+                      <div className="jr-cover-rule" />
+                      <span className="jr-cover-context">INSTITUTIONAL IMPLEMENTATION PLAN</span>
+                      <p>{readBriefSlide(0).body}</p>
+                      <div className="jr-cover-fixed-facts">
+                        <span><strong>{fmt(config.size)}</strong> students</span>
+                        <span><strong>{totalMonths}</strong> months</span>
+                        <span><strong>{fmt(totalHours)}</strong> estimated staff hours</span>
                       </div>
                     </div>
-
-                    <div className="jr-deck-large-summary-band">
-                      <div>
-                        <span>MODELLED GO-LIVE</span>
-                        <strong>
-                          {monthLong(goLive)}
-                        </strong>
-                      </div>
-
-                      <div>
-                        <span>YOUR TARGET</span>
-                        <strong>
-                          {monthLong(
-                            asMonth(config.targetMonth)
-                          )}
-                        </strong>
-                      </div>
+                    <div className="jr-cover-visual" aria-label="Illustrative implementation stages">
+                      <div className="jr-cover-visual-top">PROPOSED DELIVERY SEQUENCE <span>01 / 04</span></div>
+                      <div className="jr-cover-step"><span>01</span><div><strong>Discover & prepare</strong><small>Institutional scope and dependencies</small></div><i /></div>
+                      <div className="jr-cover-step"><span>02</span><div><strong>Configure & migrate</strong><small>Systems, data and integrations</small></div><i /></div>
+                      <div className="jr-cover-step"><span>03</span><div><strong>Test & enable</strong><small>Acceptance and departmental readiness</small></div><i /></div>
+                      <div className="jr-cover-step"><span>04</span><div><strong>Prepare for go-live</strong><small>Transition controls and final decisions</small></div><i /></div>
+                      <div className="jr-cover-visual-footer"><span>MODELLED GO-LIVE</span><strong>{monthLong(goLive)}</strong></div>
                     </div>
                   </div>
                 )}
@@ -4143,7 +4168,7 @@ Identify critical academic dates that could affect implementation.
 
                 {/* EDITABLE PRESENTATION NARRATIVE */}
 
-                {deckSlide !== 5 && (
+                {deckSlide !== 5 && deckSlide !== 0 && (
                   <p className="jr-deck-large-narrative">
                     {readBriefSlide(deckSlide).body}
                   </p>
@@ -4167,9 +4192,7 @@ Identify critical academic dates that could affect implementation.
 
               <div className="jr-deck-preview-helper">
                 <CircleHelp size={15} />
-                Calculated figures reflect your current
-                implementation inputs. Edit those in the
-                baseline builder.
+                Calculated values are locked to the live implementation model. Update inputs in the builder.
               </div>
             </div>
 
@@ -4185,14 +4208,14 @@ Identify critical academic dates that could affect implementation.
                     Presentation content
                   </h3>
                   <p>
-                    Changes appear immediately in the preview.
+                    Edit the narrative, not the calculated figures.
                   </p>
                 </div>
               </div>
 
               <div className="jr-deck-editor-fields">
                 <label>
-                  <span>Slide headline</span>
+                  <span>Slide headline <small>Editable</small></span>
 
                   <textarea
                     rows={2}
@@ -4208,28 +4231,17 @@ Identify critical academic dates that could affect implementation.
                   />
                 </label>
 
-                <label>
-                  <span>Supporting line</span>
-
-                  <textarea
-                    rows={2}
-                    value={
-                      readBriefSlide(deckSlide).subtitle
-                    }
-                    onChange={(event) =>
-                      editBriefSlide(
-                        "subtitle",
-                        event.target.value
-                      )
-                    }
-                  />
-                </label>
+                <div className="jr-locked-slide-field">
+                  <span>Modelled supporting line <strong>LIVE DATA · LOCKED</strong></span>
+                  <p>{briefDefaults[deckSlide].subtitle}</p>
+                  <small>Update these values in the institution profile or implementation timeline.</small>
+                </div>
 
                 <label>
                   <span>
                     {deckSlide === 5
                       ? "Next-step checklist"
-                      : "Slide summary"}
+                      : "Slide narrative"}
                   </span>
 
                   <textarea
@@ -6203,7 +6215,7 @@ const styles = `
 }
 
 #ownership {
-  padding: 44px 0 105px;
+  padding: 80px 0 95px;
 }
 
 /* MATCH BASELINE BUILDER TYPOGRAPHY */
@@ -6255,337 +6267,11 @@ const styles = `
   font-size: 16px;
   font-weight: 500;
   line-height: 1.7;
-  max-width: 440px;
+   max-width: 520px;
 }
 
-/* ==========================================
-   STAFFING HEATMAP LAYOUT
-   ========================================== */
 
-#staffing .jr-staff-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 252px;
-  gap: 15px;
-  align-items: stretch;
-}
 
-#staffing .jr-staff-main,
-#staffing .jr-staff-card,
-#ownership .jr-owners-panel,
-#ownership .jr-risk-panel {
-  border: 1px solid #e1e9e8;
-  border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 6px 24px rgba(5, 38, 33, 0.025);
-}
-
-#staffing .jr-staff-main {
-  min-width: 0;
-  padding: 20px 20px 17px;
-}
-
-#staffing .jr-staff-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 19px;
-}
-
-#staffing .jr-staff-top strong {
-  font-size: 16px;
-  color: #011522;
-  font-weight: 800;
-}
-
-#staffing .jr-staff-top > div:first-child > span {
-  margin-top: 6px;
-  color: #011522;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
-/* LEGEND */
-
-#staffing .jr-staff-scale {
-  display: flex !important;
-  align-items: center;
-  gap: 13px;
-  white-space: nowrap;
-  margin: 0;
-  padding-top: 1px;
-}
-
-#staffing .jr-staff-scale > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #011522;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-#staffing .jr-staff-scale i {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-#staffing .jr-staff-scale i.low {
-  background: #e8f5ee;
-}
-
-#staffing .jr-staff-scale i.high {
-  background: #8bceb0;
-}
-
-#staffing .jr-staff-scale i.over {
-  background: #0b6b53;
-}
-
-/* MONTH GRID */
-
-#staffing .jr-staff-scroll {
-  overflow-x: auto;
-}
-
-#staffing .jr-heatmap {
-  min-width: max(
-    775px,
-    calc(175px + var(--jr-months) * 46px)
-  );
-
-  display: grid;
-  grid-template-columns: 175px minmax(0, 1fr);
-  gap: 3px;
-}
-
-#staffing .jr-heat-left {
-  font-size: 13px;
-  font-weight: 750;
-  color: #011522;
-  align-self: center;
-  padding: 0 6px;
-  white-space: nowrap;
-}
-
-#staffing .jr-heat-header {
-  color: #011522;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.065em;
-  align-self: end;
-  padding-bottom: 9px;
-}
-
-#staffing .jr-heat-months {
-  display: grid;
-  grid-template-columns:
-    repeat(var(--jr-months), minmax(0, 1fr));
-  gap: 3px;
-}
-
-#staffing .jr-heat-months > span {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  min-height: 36px;
-  gap: 0;
-}
-
-#staffing .jr-heat-months b {
-  font-size: 12px;
-  font-weight: 750;
-  color: #011522;
-}
-
-#staffing .jr-heat-months small {
-  font-size: 11px;
-  color: #086c58;
-  font-weight: 800;
-}
-
-#staffing .jr-heat-row {
-  display: contents;
-}
-
-#staffing .jr-heat-cells {
-  display: grid;
-  grid-template-columns:
-    repeat(var(--jr-months), minmax(0, 1fr));
-  gap: 3px;
-  padding: 1px 0;
-}
-
-/* GREEN-ONLY INTENSITY SCALE */
-
-#staffing .jr-heat-cell {
-  height: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  border-radius: 4px;
-
-  display: grid;
-  place-items: center;
-  min-width: 0;
-
-  transition:
-    filter 0.15s ease,
-    transform 0.15s ease,
-    outline-color 0.15s ease;
-}
-
-#staffing .jr-heat-cell span {
-  opacity: 1;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-#staffing .jr-heat-cell.low {
-  background: #edf7f1;
-  color: #1c594b;
-}
-
-#staffing .jr-heat-cell.med {
-  background: #d3eee0;
-  color: #195544;
-}
-
-#staffing .jr-heat-cell.high {
-  background: #a1dbc0;
-  color: #0c4b39;
-}
-
-#staffing .jr-heat-cell.veryhigh {
-  background: #61ae8e;
-  color: #ffffff;
-}
-
-#staffing .jr-heat-cell.over {
-  background: #0b6b53;
-  color: #ffffff;
-}
-
-#staffing .jr-heat-cell:hover {
-  filter: brightness(0.92);
-  transform: translateY(-1px);
-}
-
-#staffing .jr-heat-cell.selected {
-  outline: 2px solid #073c32;
-  outline-offset: 1px;
-  position: relative;
-  z-index: 1;
-}
-
-/* ==========================================
-   RIGHT KPI CARDS
-   ========================================== */
-
-#staffing .jr-staff-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-
-#staffing .jr-staff-card {
-  display: flex;
-  flex: 1;
-  align-items: flex-start;
-  flex-direction: column;
-  padding: 21px 20px;
-}
-
-#staffing .jr-staff-card > svg {
-  color: #078164;
-  margin-bottom: 11px;
-}
-
-#staffing .jr-staff-card > span {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.11em;
-  color: #011522;
-}
-
-#staffing .jr-staff-card > strong {
-  font-family: Inter, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  font-size: clamp(24px, 2.1vw, 30px);
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.05em;
-  color: #011522;
-  margin: 12px 0 10px;
-}
-
-#staffing .jr-staff-card p {
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.6;
-  color: #011522;
-}
-
-#staffing .jr-staff-card-soft {
-  background: #f8fbf9;
-}
-
-#staffing .jr-staff-card button {
-  margin-top: auto;
-  padding-top: 16px;
-  color: #086c58;
-  font-size: 13px;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  font-weight: 800;
-}
-
-/* SELECTED HEATMAP DETAIL */
-
-#staffing .jr-load-detail {
-  background: #f6faf8;
-  border: 1px solid #dceae3;
-  border-radius: 9px;
-  margin-top: 14px;
-}
-
-#staffing .jr-load-detail h3 {
-  font-family: Inter, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 19px;
-  font-weight: 720;
-  letter-spacing: -0.035em;
-}
-
-#staffing .jr-load-numbers strong {
-  font-size: 21px;
-  color: #0c4435;
-}
-
-#staffing .jr-load-numbers .jr-red {
-  color: #085b46;
-}
-
-#staffing .jr-method-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  margin-top: 13px;
-  color: #011522;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-#staffing .jr-method-note svg {
-  color: #11856e;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
 
 /* ==========================================
    OWNERSHIP + RISK
@@ -6594,7 +6280,7 @@ const styles = `
 #ownership .jr-ownership-grid {
   display: grid;
   grid-template-columns:
-    minmax(0, 1.55fr) minmax(325px, 0.85fr);
+    minmax(0, 1.45fr) minmax(380px, 0.95fr);
   gap: 15px;
   align-items: stretch;
 }
@@ -6631,6 +6317,15 @@ const styles = `
   margin-bottom: 17px;
 }
 
+#ownership .jr-risk-panel-head > div {
+  flex: 1;
+  min-width: 0;
+}
+
+#ownership .jr-risk-panel-head p {
+  white-space: nowrap;
+}
+
 /* OWNERSHIP EDIT AND CALENDAR BUTTONS */
 
 #ownership .jr-ownership-toggle,
@@ -6638,7 +6333,7 @@ const styles = `
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 
   background: #f8fcf9;
@@ -6646,10 +6341,10 @@ const styles = `
   border: 1px solid #d3e6dd;
   border-radius: 6px;
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
-  min-height: 36px;
-  padding: 8px 12px;
+  min-height: 32px;
+  padding: 6px 10px;
   margin: 0;
 }
 
@@ -6681,8 +6376,22 @@ const styles = `
   min-height: 45px;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 5px;
   margin-bottom: 15px;
+}
+
+#ownership .jr-owner-col-head > strong {
+  margin-left: 0;
+}
+
+/* Pull the Jenzabar column's heading closer to its logo */
+
+#ownership .jr-ownership-col.vendor .jr-owner-col-head {
+  gap: 0;
+}
+
+#ownership .jr-ownership-col.vendor .jr-owner-brand {
+  margin-right: -49px;
 }
 
 #ownership .jr-owner-col-head strong {
@@ -6695,7 +6404,7 @@ const styles = `
 /* JENZABAR LOGO */
 
 #ownership .jr-owner-brand {
-  flex: 0 0 73px;
+  flex: 0 0 auto;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -6703,8 +6412,8 @@ const styles = `
 
 #ownership .jr-owner-brand .jr-logo {
   display: flex;
-  width: 73px;
-  height: 28px;
+  width: 88px;
+  height: 22px;
   min-width: 0;
   overflow: visible;
 }
@@ -12654,4 +12363,151 @@ const styles = `
 
 @media print{
    .jr-hero,.jr-builder,.jr-brief-actions,.jr-faq,.jr-final,.jr-map-controls,.jr-inspector-footer .jr-adjust{display:none!important}.jr-section{padding:15px 0}.jr-wrap{width:100%}.jr-map-card,.jr-owners-panel,.jr-risk-panel,.jr-staff-main{box-shadow:none;break-inside:avoid}.jr-gantt,.jr-heatmap{zoom:.8}}
+
+/* =====================================================
+   EDITORIAL EXECUTIVE DECK — 2026
+   Borrow the spacious presentation language of Maki,
+   keep every institution metric bound to the live model.
+   ===================================================== */
+.jr .jr-deck-large-slide{background:#f9f8f4;color:#092d2d;border:1px solid #d9e4df;border-radius:9px;box-shadow:0 20px 55px rgba(0,0,0,.2);padding:31px 36px 22px;min-height:475px}
+.jr .jr-deck-large-masthead{border-color:#d9e2dc;padding-bottom:18px}
+.jr .jr-deck-large-masthead .jr-logo{width:124px;height:42px;padding:4px 0;background:transparent}
+.jr .jr-deck-large-masthead>span:last-child{color:#587570;font-size:10px}
+.jr .jr-deck-large-heading{padding:21px 0 11px;max-width:96%}
+.jr .jr-deck-large-heading>span{color:#087f75;font-size:10px;letter-spacing:.15em}
+.jr .jr-deck-large-heading h2{color:#092b2d;font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:clamp(29px,3.25vw,48px);line-height:1.06;letter-spacing:-.055em;max-width:700px;margin:12px 0}
+.jr .jr-deck-large-heading p{color:#4d6260;font-size:13px}
+.jr .jr-deck-large-footer{border-top:1px solid #dce3de;color:#687975}
+.jr .jr-deck-large-footer span,.jr .jr-deck-large-footer strong{color:#687975}
+.jr .jr-deck-large-narrative{color:#526966!important;border-top:1px solid #dbe5df}
+.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading{position:relative;z-index:2;width:60%;margin-bottom:0}
+.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading h2{font-size:clamp(33px,3.9vw,57px);max-width:550px}
+.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading p{max-width:465px;font-size:15px}
+.jr .jr-executive-cover{display:grid;grid-template-columns:1fr .84fr;gap:30px;flex:1;min-height:220px;margin-top:-10px}
+.jr .jr-cover-intro{display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:15px}
+.jr .jr-cover-rule{width:65%;height:1px;background:#cddbd3;margin:0 0 15px}
+.jr .jr-cover-context{font-size:10px;letter-spacing:.12em;color:#087f75;font-weight:800}
+.jr .jr-cover-intro>p{max-width:310px;font-size:12px;color:#455f5a;line-height:1.6;margin:9px 0 16px}
+.jr .jr-cover-fixed-facts{display:flex;gap:16px;flex-wrap:wrap}
+.jr .jr-cover-fixed-facts>span{font-size:11px;color:#63756d;border-right:1px solid #cad8d2;padding-right:16px}
+.jr .jr-cover-fixed-facts>span:last-child{border:0}
+.jr .jr-cover-fixed-facts strong{font-size:15px;color:#092d2d}
+.jr .jr-cover-visual{position:relative;display:flex;flex-direction:column;gap:0;align-self:start;margin-top:-125px;padding:20px 20px 15px;background:#edf4ef;border:1px solid #d1e0d7;border-radius:10px;box-shadow:8px 12px 32px rgba(0,40,30,.1);transform:translateY(5px)}
+.jr .jr-cover-visual-top,.jr .jr-cover-visual-footer{display:flex;justify-content:space-between;gap:10px;font-size:9px;font-weight:800;letter-spacing:.1em;color:#467569;padding-bottom:14px}
+.jr .jr-cover-step{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid #d3e1d9}
+.jr .jr-cover-step>span{color:#0c8b75;font-size:12px;font-weight:800}
+.jr .jr-cover-step>div{display:flex;flex-direction:column;gap:4px;flex:1}
+.jr .jr-cover-step strong{color:#103a37;font-size:12px}
+.jr .jr-cover-step small{color:#6c857a;font-size:10px}
+.jr .jr-cover-step i{width:7px;height:7px;background:#159e7b;border-radius:50%}
+.jr .jr-cover-visual-footer{align-items:center;border-top:1px solid #cadbd0;padding:12px 0 0;margin-top:2px}
+.jr .jr-cover-visual-footer strong{font-size:13px;color:#113e39;letter-spacing:0}
+.jr .jr-deck-large-timeline{border-color:#d7e5de;background:#fff}
+.jr .jr-deck-large-timeline-head strong,.jr .jr-deck-large-timeline-head span{color:#567069}
+.jr .jr-deck-large-phase{border-color:#e2ebe5}
+.jr .jr-deck-large-phase>span{color:#18352f}
+.jr .jr-deck-large-phase>div{background:#e5efe8}
+.jr .jr-deck-large-phase>small{color:#47746a}
+.jr .jr-deck-large-risks,.jr .jr-deck-large-ownership{color:#193a34}
+.jr .jr-deck-large-risk,.jr .jr-deck-large-owner{background:#fff;border-color:#dee7df;color:#173c36}
+.jr .jr-deck-large-risk strong,.jr .jr-deck-large-owner strong{color:#123d38}
+.jr .jr-deck-large-risk p,.jr .jr-deck-large-owner p,.jr .jr-deck-large-risk small{color:#617a71}
+.jr .jr-deck-large-next>div{background:#fff;border-color:#d8e6db;color:#14332d}
+.jr .jr-deck-large-next strong{color:#14332d}
+.jr .jr-deck-large-staffing{background:#fff;border:1px solid #e1e9e4;padding:16px;border-radius:8px}
+.jr .jr-deck-large-heat-row>strong,.jr .jr-deck-large-heat-heading{color:#254c44}
+.jr .jr-locked-slide-field{display:flex;flex-direction:column;gap:8px;padding:14px;background:#10352f;border:1px solid #32574d;border-radius:7px}
+.jr .jr-locked-slide-field>span{display:flex;justify-content:space-between;color:#d4ebe1;font-size:11px;font-weight:700}
+.jr .jr-locked-slide-field>span strong{font-size:9px;color:#75dfb9;letter-spacing:.06em}
+.jr .jr-locked-slide-field p{color:#f2faf5;font-size:12px;line-height:1.5;margin:0}
+.jr .jr-locked-slide-field small{color:#9eb9a9;font-size:10px;line-height:1.5}
+.jr .jr-deck-editor-fields label>span small{font-size:10px;color:#75dfb9;font-weight:500;margin-left:7px}
+@media(max-width:900px){.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading{width:100%}.jr .jr-executive-cover{grid-template-columns:1fr;gap:10px}.jr .jr-cover-visual{margin:0;transform:none}.jr .jr-deck-large-slide{aspect-ratio:auto;min-height:540px}}
+
+/* REFINED DECK — generous margins, compact typography, readable evidence */
+.jr .jr-deck-large-slide{padding:29px 37px 22px;box-shadow:0 12px 36px rgba(0,0,0,.13);border-radius:7px;background:#fcfbf7}
+.jr .jr-deck-large-masthead{padding-bottom:11px}
+.jr .jr-deck-large-heading{padding:13px 0 12px;max-width:100%}
+.jr .jr-deck-large-heading h2{font-size:clamp(28px,2.65vw,39px);line-height:1.12;letter-spacing:-.045em;max-width:780px;margin:9px 0}
+.jr .jr-deck-large-heading p{font-size:12px;line-height:1.5}
+.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading{width:100%;position:static;padding-bottom:4px}
+.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading h2{font-size:clamp(31px,3.2vw,45px);max-width:800px}
+.jr .jr-executive-cover{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:34px;min-height:0;margin-top:4px;align-items:stretch}
+.jr .jr-cover-visual{margin:0;transform:none;box-shadow:none;background:#f0f4ef;padding:15px 17px 12px;align-self:stretch;border-radius:6px}
+.jr .jr-cover-intro{justify-content:center;padding:0}
+.jr .jr-cover-rule{width:75%;margin:0 0 12px}
+.jr .jr-cover-intro>p{font-size:12px;max-width:380px;margin:9px 0 12px;line-height:1.55}
+.jr .jr-cover-step{padding:8px 0;gap:9px}
+.jr .jr-cover-step strong{font-size:11px}
+.jr .jr-cover-step small{font-size:9px}
+.jr .jr-cover-visual-top{padding-bottom:7px}
+.jr .jr-cover-fixed-facts{gap:10px}
+.jr .jr-cover-fixed-facts>span{padding-right:10px;font-size:10px}
+.jr .jr-deck-large-timeline{padding:9px 13px!important}
+.jr .jr-deck-large-phase{min-height:26px!important}
+.jr .jr-deck-large-phase>span{font-size:11px;font-weight:650}
+.jr .jr-deck-large-risk,.jr .jr-deck-large-owner{border-radius:5px;padding:13px 14px;box-shadow:none}
+.jr .jr-deck-large-risk strong,.jr .jr-deck-large-owner strong{font-size:12px}
+.jr .jr-deck-large-risks,.jr .jr-deck-large-ownership{gap:10px}
+.jr .jr-deck-large-next{gap:8px}
+.jr .jr-deck-large-next>div{min-height:40px;padding:10px 15px;border-radius:5px}
+.jr .jr-deck-large-staffing{padding:12px;box-shadow:none}
+.jr .jr-deck-large-narrative{font-size:11px;line-height:1.55;padding-top:9px;margin-top:8px}
+.jr .jr-deck-large-footer{padding-top:8px;margin-top:8px}
+.jr .jr-deck-editor-fields textarea{line-height:1.65;border-radius:6px}
+@media(max-width:900px){.jr .jr-executive-cover{grid-template-columns:1fr}.jr .jr-cover-visual{align-self:auto}.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading{width:100%}}
+/* LOGO: butterfly + wordmark */
+.jr .jr-logo,
+.jr .jr-deck-large-masthead .jr-logo,
+.jr .jr-deck-logo .jr-logo,
+#ownership .jr-owner-brand .jr-logo {
+  width: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  overflow: visible;
+  background: transparent;
+  padding: 0;
+}
+
+.jr .jr-logo img,
+.jr .jr-deck-large-masthead .jr-logo img,
+.jr .jr-deck-logo .jr-logo img,
+#ownership .jr-owner-brand .jr-logo img {
+  width: auto;
+  height: 100%;
+  max-width: none;
+  flex: 0 0 auto;
+  mix-blend-mode: normal;
+}
+
+.jr .jr-logo .jr-wordmark {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #263b3a;
+  white-space: nowrap;
+}
+
+.jr .jr-logo .jr-butterfly {
+  font-size: 26px;
+  line-height: 1;
+}
+
+/* Brief preview slide (large) */
+.jr .jr-deck-large-masthead .jr-logo { height: 34px; }
+.jr .jr-deck-large-masthead .jr-logo .jr-wordmark { font-size: 17px; }
+
+/* Small carousel card */
+.jr .jr-deck-logo .jr-logo { height: 17px; gap: 5px; }
+.jr .jr-deck-logo .jr-logo .jr-wordmark { font-size: 9px; }
+
+/* Ownership column: heading already says "Jenzabar handles*", so keep the butterfly only */
+#ownership .jr-owner-brand .jr-logo { height: 24px; }
+#ownership .jr-owner-brand .jr-logo .jr-wordmark { display: none; }
+#ownership .jr-ownership-col.vendor .jr-owner-brand { margin-right: 0; }
+#ownership .jr-ownership-col.vendor .jr-owner-col-head { gap: 9px; }
+
 `;

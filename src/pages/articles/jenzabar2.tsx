@@ -62,7 +62,7 @@ type PhaseDefinition = {
 
 type PlannedPhase = PhaseDefinition & { start: number; duration: number; end: number };
 type RiskWindow = { id: string; index: number; label: string; detail: string; level: "High" | "Medium"; kind: "registration" | "aid" | "fiscal" };
-type Selection = { role: RoleKey; month: number } | null;
+ 
 
 const BRAND_LOGO = "https://mms.businesswire.com/media/20250730745865/en/2538073/22/Jenzabar_Butterfly_Logo_Color_Horiz.jpg";
 const MODS: Array<{ key: ModuleKey; name: string }> = [
@@ -109,6 +109,262 @@ const PHASES: PhaseDefinition[] = [
   { key: "training", name: "Testing & training", owner: "shared", desc: "Run end-to-end user acceptance, prepare support teams and complete role-based training.", deliverable: "UAT completion and readiness report", from: .67, to: .94, roles: { it: 27, registrar: 32, finance: 25, aid: 26, research: 14, leadership: 22 } },
   { key: "cutover", name: "Go-live readiness", owner: "shared", desc: "Execute cutover rehearsals, confirm stop/go criteria and prepare operational support.", deliverable: "Go / no-go decision", from: .88, to: 1, roles: { it: 52, registrar: 30, finance: 28, aid: 29, research: 13, leadership: 29 } },
 ];
+
+type ActivityStage = {
+  focus: string;
+  activities: string[];
+  outcome: string;
+};
+
+type PhaseActivityPlan = {
+  start: ActivityStage;
+  middle: ActivityStage;
+  end: ActivityStage;
+};
+
+const PHASE_ACTIVITIES: Record<PhaseKey, PhaseActivityPlan> = {
+  discovery: {
+    start: {
+      focus: "Establish project requirements",
+      activities: [
+        "Confirm project objectives, institutional priorities and implementation scope.",
+        "Identify departmental leads, decision-makers and project governance.",
+        "Review existing systems, dependencies and academic calendar constraints.",
+      ],
+      outcome: "Initial scope and project governance defined",
+    },
+    middle: {
+      focus: "Develop the implementation approach",
+      activities: [
+        "Document departmental workflows and configuration requirements.",
+        "Identify migration, integration and reporting dependencies.",
+        "Agree working arrangements, project milestones and escalation procedures.",
+      ],
+      outcome: "Requirements and implementation approach reviewed",
+    },
+    end: {
+      focus: "Confirm implementation readiness",
+      activities: [
+        "Review outstanding requirements and project dependencies.",
+        "Confirm departmental responsibilities and resource allocations.",
+        "Obtain approval of the proposed scope and implementation schedule.",
+      ],
+      outcome: "Project scope and delivery plan approved",
+    },
+  },
+
+  data: {
+    start: {
+      focus: "Assess existing institutional data",
+      activities: [
+        "Inventory student, financial and administrative data sources.",
+        "Identify data owners, formats and historical record requirements.",
+        "Document data quality issues and initial field mappings.",
+      ],
+      outcome: "Source inventory and migration requirements established",
+    },
+    middle: {
+      focus: "Prepare and convert institutional records",
+      activities: [
+        "Clean duplicate, incomplete and inconsistent records.",
+        "Develop and refine conversion rules and field mappings.",
+        "Run trial migrations and investigate conversion errors.",
+      ],
+      outcome: "Trial conversions completed and exceptions documented",
+    },
+    end: {
+      focus: "Validate migrated data",
+      activities: [
+        "Reconcile converted records against source systems.",
+        "Resolve outstanding data quality and conversion exceptions.",
+        "Confirm departmental acceptance of migration results.",
+      ],
+      outcome: "Migration results validated for go-live readiness",
+    },
+  },
+
+  integration: {
+    start: {
+      focus: "Confirm integration requirements",
+      activities: [
+        "Identify external systems and connections being retained.",
+        "Document interface requirements, owners and data exchanges.",
+        "Confirm technical dependencies and access requirements.",
+      ],
+      outcome: "Integration inventory and specifications established",
+    },
+    middle: {
+      focus: "Configure and test integrations",
+      activities: [
+        "Configure interfaces and data exchange processes.",
+        "Test connectivity, data formats and error handling.",
+        "Coordinate technical changes with third-party providers.",
+      ],
+      outcome: "Integration testing completed and issues documented",
+    },
+    end: {
+      focus: "Validate production integrations",
+      activities: [
+        "Complete end-to-end integration testing.",
+        "Resolve critical interface and data exchange issues.",
+        "Confirm monitoring, ownership and operational support arrangements.",
+      ],
+      outcome: "Integrations validated for operational use",
+    },
+  },
+
+  finance: {
+    start: {
+      focus: "Define financial processes",
+      activities: [
+        "Review accounting, billing and purchasing workflows.",
+        "Confirm chart of accounts and financial reporting requirements.",
+        "Identify financial controls and reconciliation dependencies.",
+      ],
+      outcome: "Finance configuration requirements documented",
+    },
+    middle: {
+      focus: "Configure finance workflows",
+      activities: [
+        "Configure accounting structures, approvals and billing processes.",
+        "Test financial transactions and reporting outputs.",
+        "Review configuration with finance stakeholders.",
+      ],
+      outcome: "Core finance processes configured and tested",
+    },
+    end: {
+      focus: "Validate financial controls",
+      activities: [
+        "Reconcile representative financial transactions.",
+        "Complete finance user acceptance testing.",
+        "Review outstanding issues and obtain departmental sign-off.",
+      ],
+      outcome: "Financial workflows and controls accepted",
+    },
+  },
+
+  aid: {
+    start: {
+      focus: "Review financial aid requirements",
+      activities: [
+        "Document financial aid workflows and reporting needs.",
+        "Identify award processing and disbursement dependencies.",
+        "Review compliance and student record requirements.",
+      ],
+      outcome: "Financial aid requirements confirmed",
+    },
+    middle: {
+      focus: "Configure and test aid processes",
+      activities: [
+        "Configure applicable financial aid workflows.",
+        "Test award processing and student record interactions.",
+        "Validate reporting outputs and operational exceptions.",
+      ],
+      outcome: "Financial aid workflows tested",
+    },
+    end: {
+      focus: "Confirm financial aid readiness",
+      activities: [
+        "Complete representative disbursement and processing tests.",
+        "Resolve outstanding financial aid issues.",
+        "Obtain departmental acceptance of critical workflows.",
+      ],
+      outcome: "Financial aid processes validated",
+    },
+  },
+
+  records: {
+    start: {
+      focus: "Define student administration workflows",
+      activities: [
+        "Review admissions, registration and student record requirements.",
+        "Document academic structures, terms and programme rules.",
+        "Confirm configuration priorities with registrar teams.",
+      ],
+      outcome: "Student administration requirements documented",
+    },
+    middle: {
+      focus: "Configure student record processes",
+      activities: [
+        "Configure student records and registration workflows.",
+        "Test enrolment, course and academic record transactions.",
+        "Resolve configuration issues with departmental users.",
+      ],
+      outcome: "Core student workflows configured and tested",
+    },
+    end: {
+      focus: "Validate student administration",
+      activities: [
+        "Complete registration and student record acceptance testing.",
+        "Review outstanding data and workflow exceptions.",
+        "Confirm registrar readiness for operational transition.",
+      ],
+      outcome: "Student administration workflows accepted",
+    },
+  },
+
+  training: {
+    start: {
+      focus: "Prepare testing and training",
+      activities: [
+        "Define user acceptance testing scenarios.",
+        "Identify user groups and departmental training requirements.",
+        "Prepare training materials and testing environments.",
+      ],
+      outcome: "Testing and training plans prepared",
+    },
+    middle: {
+      focus: "Complete departmental testing",
+      activities: [
+        "Run end-to-end tests across applicable departments.",
+        "Record defects and coordinate issue resolution.",
+        "Deliver role-based training and review user feedback.",
+      ],
+      outcome: "Departmental testing and training progressed",
+    },
+    end: {
+      focus: "Confirm operational readiness",
+      activities: [
+        "Retest critical issues and verify corrective actions.",
+        "Complete priority user training.",
+        "Review testing outcomes and obtain readiness approvals.",
+      ],
+      outcome: "Testing and training readiness confirmed",
+    },
+  },
+
+  cutover: {
+    start: {
+      focus: "Prepare the go-live transition",
+      activities: [
+        "Confirm cutover sequence, responsibilities and dependencies.",
+        "Review contingency and rollback arrangements.",
+        "Conduct transition rehearsals and confirm outstanding issues.",
+      ],
+      outcome: "Cutover plan and readiness criteria reviewed",
+    },
+    middle: {
+      focus: "Coordinate final preparations",
+      activities: [
+        "Complete remaining transition rehearsals.",
+        "Validate production access, support coverage and communications.",
+        "Review outstanding defects and operational risks.",
+      ],
+      outcome: "Final transition preparations completed",
+    },
+    end: {
+      focus: "Confirm the go-live decision",
+      activities: [
+        "Review final readiness evidence and critical dependencies.",
+        "Obtain the agreed go/no-go decision.",
+        "Confirm production support and post-launch issue management.",
+      ],
+      outcome: "Go-live readiness decision documented",
+    },
+  },
+};
+
+
 type OwnershipTask = {
   id: string;
   text: string;
@@ -352,8 +608,37 @@ function Logo({ src, inverse = false }: { src: string; inverse?: boolean }) {
     {failed && <span className="jr-wordmark"><span className="jr-butterfly">✦</span> jenzabar</span>}
   </span>;
 }
-function SectionHeading({ number, eyebrow, title, detail }: { number: string; eyebrow: string; title: string; detail?: string }) {
-  return <div className="jr-section-head"><div><span className="jr-kicker">{number} / {eyebrow}</span><h2>{title}</h2></div>{detail && <p>{detail}</p>}</div>;
+function SectionHeading({
+  number,
+  eyebrow,
+  title,
+  detail,
+  eyebrowColor,
+}: {
+  number: string;
+  eyebrow: string;
+  title: string;
+  detail?: string;
+  eyebrowColor?: string;
+}) {
+  return (
+    <div className="jr-section-head">
+      <div>
+        <span
+          className="jr-kicker"
+          style={
+            eyebrowColor
+              ? { color: eyebrowColor, fontSize: "12px" }
+              : undefined
+          }
+        >
+          {number} / {eyebrow}
+        </span>
+        <h2>{title}</h2>
+      </div>
+      {detail && <p>{detail}</p>}
+    </div>
+  );
 }
 function InputNum({ label, value, onChange, min=0, max=999999, help }: { label: string; value: number; onChange: (n: number) => void; min?: number; max?: number; help?: string }) {
   return <label className="jr-field"><span>{label}{help && <small title={help}> <CircleHelp size={13}/></small>}</span><input type="number" min={min} max={max} value={value} onChange={e => onChange(Math.max(min, Math.min(max, Number(e.target.value) || 0)))} /></label>;
@@ -381,6 +666,8 @@ export default function JenzabarImplementationRealityMap({
   const [ownership, setOwnership] = useState<Record<string, Owner>>(Object.fromEntries(DEFAULT_TASKS.map(t => [t.id, t.owner])));
   const [activePhase, setActivePhase] = useState<PhaseKey>("data");
   const [tab, setTab] = useState<Tab>("timeline");
+  const [selectedMonth, setSelectedMonth] =
+  useState<number | null>(null);
   const [selectedLoad, setSelectedLoad] = useState<Selection>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [deckSlide, setDeckSlide] = useState(0);
@@ -489,6 +776,40 @@ const skipInspectAfterDrag = useRef(false);
   const goLive = months[months.length - 1] ?? asMonth(config.startMonth);
   const targetDelta = monthDiff(goLive, asMonth(config.targetMonth));
   const active = phases.find(p => p.key === activePhase) ?? phases[0];
+
+  const getPhaseMonthDetail = (
+  phase: PlannedPhase,
+  monthIndex: number
+) => {
+  const elapsed = monthIndex - phase.start;
+  const duration = Math.max(1, phase.duration);
+
+  const progress =
+    duration === 1
+      ? 1
+      : elapsed / (duration - 1);
+
+  let stage: keyof PhaseActivityPlan;
+
+if (duration === 1) {
+  stage = "end";
+} else if (elapsed === 0) {
+  stage = "start";
+} else if (elapsed === duration - 1) {
+  stage = "end";
+} else {
+  stage = "middle";
+}
+  return {
+    stage,
+    ...PHASE_ACTIVITIES[phase.key][stage],
+    currentMonth: elapsed + 1,
+    totalPhaseMonths: duration,
+    progress: Math.round(
+      ((elapsed + 1) / duration) * 100
+    ),
+  };
+};
   const activeLoad = selectedLoad ? { month: months[selectedLoad.month], role: ROLE.find(r => r.key === selectedLoad.role)!, hours: grid.find(r => r.key === selectedLoad.role)?.loads[selectedLoad.month] ?? 0, cap: capacity[selectedLoad.role] } : null;
   const note = useCallback((msg: string) => {
     setWarnToast(msg);
@@ -2024,7 +2345,13 @@ Identify critical academic dates that could affect implementation.
     </section>
 
     <section className="jr-section jr-section-muted" id="map"><div className="jr-wrap">
-      <SectionHeading number="02" eyebrow="YOUR JENZABAR IMPLEMENTATION PLAN" title="Review your estimated Jenzabar One implementation timeline." detail="See how your implementation could progress from initial planning through go-live. Click any phase to inspect its scope and change timing."/>
+      <SectionHeading
+        number="02"
+        eyebrow="YOUR JENZABAR IMPLEMENTATION PLAN"
+        eyebrowColor="#76c0c2"
+        title="Review your estimated Jenzabar One implementation timeline."
+        detail="See how your implementation could progress from initial planning through go-live. Click any phase to inspect its scope and change timing."
+      />
      
      
      
@@ -2039,22 +2366,43 @@ Identify critical academic dates that could affect implementation.
         </div>
 
         <div>
-          <span>
-            INTERNAL STAFF EFFORT
-            <HelpDot text="Sum of estimated monthly project hours across all functional teams, derived from illustrative phase baselines. This is an editable planning estimate, not a Jenzabar commitment or benchmark." />
-          </span>
+<span>
+  INTERNAL STAFF EFFORT
+  <HelpDot
+    text={`Based on your selected implementation modules, institution size, integrations and data complexity, we estimate ${fmt(totalHours)} staff hours across the project. Your team has ${fmt(
+      Object.values(capacity).reduce((sum, h) => sum + h, 0) * totalMonths
+    )} hours available over ${totalMonths} months. This is ${
+      totalHours >
+      Object.values(capacity).reduce((sum, h) => sum + h, 0) * totalMonths
+        ? `${fmt(
+            totalHours -
+              Object.values(capacity).reduce((sum, h) => sum + h, 0) * totalMonths
+          )} hours above`
+        : `${fmt(
+            Object.values(capacity).reduce((sum, h) => sum + h, 0) * totalMonths -
+              totalHours
+          )} hours below`
+    } your total available capacity. Individual departments may still face monthly shortfalls.`}
+  />
+</span>
           <strong>{fmt(totalHours)} hrs</strong>
           <small>Indicative, not contractual</small>
         </div>
 
-        <div>
-          <span>
-            PEAK TEAM DEMAND
-            <HelpDot text="The single month with the highest combined staffing load across every functional team. Use this to check whether your busiest month collides with academic operations." />
-          </span>
-          <strong>{monthTitle(peakMonth)}</strong>
-          <small>{fmt(Math.max(...aggregate))} combined hours</small>
-        </div>
+   <div>
+  <span>
+    PEAK TEAM DEMAND
+    <HelpDot
+      text={`Based on your selected modules, implementation phases and staffing requirements, ${monthLong(peakMonth)} has the highest estimated workload at ${fmt(Math.max(...aggregate))} hours. Your teams have ${fmt(Object.values(capacity).reduce((sum, h) => sum + h, 0))} hours available that month. ${
+        Math.max(...aggregate) > Object.values(capacity).reduce((sum, h) => sum + h, 0)
+          ? `Demand exceeds available capacity by ${fmt(Math.max(...aggregate) - Object.values(capacity).reduce((sum, h) => sum + h, 0))} hours.`
+          : `Available capacity exceeds estimated demand by ${fmt(Object.values(capacity).reduce((sum, h) => sum + h, 0) - Math.max(...aggregate))} hours.`
+      } Review individual departments in the staffing heatmap to identify potential resource conflicts.`}
+    />
+  </span>
+  <strong>{monthTitle(peakMonth)}</strong>
+  <small>{fmt(Math.max(...aggregate))} combined hours</small>
+</div>
 
         <div className={`jr-target-box ${targetDelta<0?"late":""}`}>
           <span>
@@ -2068,10 +2416,35 @@ Identify critical academic dates that could affect implementation.
 
 
       <div className="jr-map-card" data-reveal>
-        <div className="jr-map-top"><div><span className="jr-status"><span/> LIVE SCENARIO</span><h3>Your implementation timeline</h3><p>Plan start {monthLong(asMonth(config.startMonth))} · {config.modules.length} selected workstreams</p></div><div className="jr-map-controls"><Segmented value={tab} onChange={setTab} values={[{value:"timeline",label:"Timeline"},{value:"phases",label:"Phases"},{value:"months",label:"Month detail"}]}/><button className="jr-square-btn" aria-label="Reset phase adjustments" title="Reset phase adjustments" onClick={()=>setPhaseEdits({})}><RotateCcw size={15}/></button></div></div>
+        <div className="jr-map-top">
+  <div>
+    <span className="jr-status">
+      <span /> LIVE SCENARIO
+    </span>
+
+    <h3>Your implementation timeline</h3>
+
+    <p>
+      Plan start {monthLong(asMonth(config.startMonth))}
+      {" · "}
+      {config.modules.length} selected workstreams
+    </p>
+  </div>
+
+  <div className="jr-map-controls">
+    <button
+      type="button"
+      className="jr-square-btn"
+      aria-label="Reset phase adjustments"
+      title="Reset phase adjustments"
+      onClick={() => setPhaseEdits({})}
+    >
+      <RotateCcw size={15} />
+    </button>
+  </div>
+</div>
  
-{tab === "timeline" && (
-  <div className="jr-scroll">
+<div className="jr-scroll">
     <div
       className="jr-gantt"
       style={
@@ -2089,30 +2462,49 @@ Identify critical academic dates that could affect implementation.
       {/* =====================================
           MONTH HEADERS
       ===================================== */}
+<div className="jr-gantt-monthhead">
+  {months.map((date, index) => {
+    const requiredHours = aggregate[index] ?? 0;
 
-      <div className="jr-gantt-monthhead">
-        {months.map((date, index) => (
-          <span
-            key={index}
-            className={
-              date.getMonth() === 0
-                ? "yearstart"
-                : ""
-            }
-          >
-            <b>
-              {date.toLocaleDateString("en-US", {
-                month: "short",
-              })}
-            </b>
+    const availableHours = Object.values(capacity).reduce(
+      (sum, hours) => sum + hours,
+      0
+    );
 
-            {date.getMonth() === 0 && (
-              <small>{date.getFullYear()}</small>
-            )}
-          </span>
-        ))}
-      </div>
+    const isOverCapacity = requiredHours > availableHours;
+    const isPeakMonth = index === peakIndex;
 
+    return (
+      <span
+        key={index}
+        className={[
+          "jr-month-header",
+          date.getMonth() === 0 ? "yearstart" : "",
+          isPeakMonth ? "peak" : "",
+          isOverCapacity ? "over-capacity" : "",
+        ].filter(Boolean).join(" ")}
+        title={`${monthLong(date)}: ${fmt(requiredHours)} hours required; ${fmt(availableHours)} hours available`}
+      >
+        <b>
+          {date.toLocaleDateString("en-US", {
+            month: "short",
+          })}
+        </b>
+
+        {date.getMonth() === 0 && (
+          <small className="jr-month-year">
+            {date.getFullYear()}
+          </small>
+        )}
+
+        <strong className="jr-month-hours">
+          {fmt(requiredHours)}
+          <span> hrs</span>
+        </strong>
+      </span>
+    );
+  })}
+</div>
       {/* =====================================
           INTERACTIVE PROJECT PHASES
       ===================================== */}
@@ -2324,333 +2716,20 @@ Identify critical academic dates that could affect implementation.
               ))}
           </div>
         ))}
-      </div>
+         </div>
     </div>
   </div>
-)}
 
 
-
-
-        {tab === "phases" && (
-  <div className="jr-phase-grid">
-    {phases.map((p) => (
-      <button
-        key={p.key}
-        type="button"
-        className={`jr-phase-tile ${
-          activePhase === p.key ? "selected" : ""
-        }`}
-        onClick={() => inspectPhase(p.key)}
-      >
-        <span
-          className={`jr-mini-dot ${cls(p.owner)}`}
-        />
-
-        <strong>{p.name}</strong>
-
-        <small>
-          {monthTitle(months[p.start])}
-          {" – "}
-          {monthTitle(months[p.end - 1])}
-        </small>
-
-        <span>{p.deliverable}</span>
-
-        <ArrowUpRight size={16} />
-      </button>
-    ))}
-  </div>
-)}
-        {tab==="months" && <div className="jr-month-cards">{months.map((d,i)=><button key={i} type="button" onClick={()=>{const p=phases.find(p=>i>=p.start&&i<p.end);if(p)setActivePhase(p.key);setTab("timeline");}}><strong>{monthLong(d)}</strong><span>{phases.filter(p=>i>=p.start&&i<p.end).length} active phases</span><small>{fmt(aggregate[i])} staff-hours</small>{riskByMonth.has(i)&&<b><ShieldAlert size={12}/> {riskByMonth.get(i)!.map(r=>r.label).join(" · ")}</b>}</button>)}</div>}
+  
         <div className="jr-map-bottom"><div className="jr-legend"><span><i className="vendor"/> Jenzabar-led*</span><span><i className="campus"/> Institution-led*</span><span><i className="shared"/> Shared*</span><span><i className="risky"/> Campus-sensitive month</span></div><div className="jr-map-note">*Indicative owner, subject to agreement.</div></div>
       </div>
  
     </div></section>
 
 <div className="jr-workforce-suite">
-  {/* ====================================
-      03 / STAFFING LOAD
-  ==================================== */}
 
-  <section
-    className="jr-section jr-staffing-section"
-    id="staffing"
-  >
-    <div className="jr-wrap">
-      <SectionHeading
-        number="03"
-        eyebrow="STAFFING LOAD"
-        title="Know who you need, and when."
-        detail="See the expected effort of every functional lead. Adjust monthly availability in your profile to reveal where delivery competes with day-to-day operations."
-      />
-
-      <div className="jr-staff-layout" data-reveal>
-        {/* STAFFING HEATMAP */}
-
-        <div className="jr-staff-main">
-          <div className="jr-staff-top">
-            <div>
-              <strong>Internal staffing demand</strong>
-              <span>
-                Click any cell to inspect estimated
-                hours and capacity.
-              </span>
-            </div>
-
-            <div
-              className="jr-staff-scale"
-              aria-label="Workload intensity legend"
-            >
-              <span>
-                <i className="low" /> Lower
-              </span>
-              <span>
-                <i className="high" /> Higher
-              </span>
-              <span>
-                <i className="over" /> Over capacity
-              </span>
-            </div>
-          </div>
-
-          <div className="jr-scroll jr-staff-scroll">
-            <div
-              className="jr-heatmap"
-              style={
-                {
-                  "--jr-months": totalMonths,
-                } as CSSProperties
-              }
-            >
-              <div className="jr-heat-left jr-heat-header">
-                FUNCTIONAL TEAM
-              </div>
-
-              {/* MONTH HEADERS */}
-
-              <div className="jr-heat-months">
-                {months.map((date, index) => (
-                  <span
-                    key={index}
-                    title={monthLong(date)}
-                  >
-                    {date.getMonth() === 0 && (
-                      <small>
-                        {date.getFullYear()}
-                      </small>
-                    )}
-
-                    <b>
-                      {date.toLocaleDateString(
-                        "en-US",
-                        { month: "short" }
-                      )}
-                    </b>
-                  </span>
-                ))}
-              </div>
-
-              {/* LIVE TEAM WORKLOAD */}
-
-              {grid.map((role) => (
-                <div
-                  className="jr-heat-row"
-                  key={role.key}
-                >
-                  <div
-                    className="jr-heat-left"
-                    title={role.description}
-                  >
-                    {role.name}
-                  </div>
-
-                  <div className="jr-heat-cells">
-                    {role.loads.map(
-                      (hours, monthIndex) => {
-                        const available = Math.max(
-                          1,
-                          capacity[role.key]
-                        );
-
-                        const pct =
-                          hours / available;
-
-                        const level =
-                          pct > 1
-                            ? "over"
-                            : pct > 0.8
-                            ? "veryhigh"
-                            : pct > 0.6
-                            ? "high"
-                            : pct > 0.35
-                            ? "med"
-                            : "low";
-
-                        const isSelected =
-                          selectedLoad?.role === role.key &&
-                          selectedLoad.month === monthIndex;
-
-                        return (
-                          <button
-                            type="button"
-                            key={monthIndex}
-                            className={`jr-heat-cell ${level} ${
-                              isSelected ? "selected" : ""
-                            }`}
-                            aria-pressed={isSelected}
-                            aria-label={`${role.name}, ${monthLong(
-                              months[monthIndex]
-                            )}: ${hours} required hours, ${
-                              capacity[role.key]
-                            } available hours`}
-                            title={`${role.name}: ${hours} required hours / ${
-                              capacity[role.key]
-                            } available in ${monthLong(
-                              months[monthIndex]
-                            )}`}
-                            onClick={() =>
-                              setSelectedLoad({
-                                role: role.key,
-                                month: monthIndex,
-                              })
-                            }
-                          >
-                            <span>{hours}</span>
-                          </button>
-                        );
-                      }
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* RIGHT-HAND KPI CARDS */}
-
-        <aside className="jr-staff-aside">
-          <div className="jr-staff-card">
-            <Users
-              size={22}
-              strokeWidth={1.7}
-            />
-
-            <span>PEAK STAFFING DEMAND</span>
-
-            <strong>
-              {monthLong(peakMonth)}
-            </strong>
-
-            <p>
-              {fmt(aggregate[peakIndex] ?? 0)} combined
-              project hours across six functional teams.
-            </p>
-          </div>
-
-          <div className="jr-staff-card jr-staff-card-soft">
-            <Gauge
-              size={22}
-              strokeWidth={1.7}
-            />
-
-            <span>CAPACITY CHECK</span>
-
-            <strong>
-              {overloaded.length} role-month conflicts
-            </strong>
-
-            <p>
-              {overloaded.length
-                ? "Demand exceeds declared monthly programme availability in at least one department."
-                : "No team exceeds its declared monthly programme availability in this illustrative model."}
-            </p>
-
-            <button
-              type="button"
-              onClick={() => {
-                setStep(4);
-                goTo("builder");
-              }}
-            >
-              Edit available hours
-              <ArrowRight size={15} />
-            </button>
-          </div>
-        </aside>
-      </div>
-
-      {/* CLICKABLE HEATMAP DETAIL */}
-
-      {activeLoad && (
-        <div className="jr-load-detail">
-          <div>
-            <span className="jr-kicker">
-              SELECTED MONTH / TEAM
-            </span>
-
-            <h3>
-              {activeLoad.role.name} ·{" "}
-              {monthLong(activeLoad.month)}
-            </h3>
-
-            <p>
-              {activeLoad.role.description}
-            </p>
-          </div>
-
-          <div className="jr-load-numbers">
-            <strong>
-              {fmt(activeLoad.hours)}
-              <small>required hrs</small>
-            </strong>
-
-            <strong>
-              {fmt(activeLoad.cap)}
-              <small>available hrs</small>
-            </strong>
-
-            <strong
-              className={
-                activeLoad.hours > activeLoad.cap
-                  ? "jr-red"
-                  : ""
-              }
-            >
-              {activeLoad.cap
-                ? Math.round(
-                    (100 * activeLoad.hours) /
-                      activeLoad.cap
-                  )
-                : activeLoad.hours > 0
-                ? "∞"
-                : 0}
-              %
-              <small>utilisation</small>
-            </strong>
-          </div>
-
-          <button
-            type="button"
-            aria-label="Close team detail"
-            onClick={() => setSelectedLoad(null)}
-          >
-            <X size={18} />
-          </button>
-        </div>
-      )}
-
-      <p className="jr-method-note">
-        <CircleHelp size={15} />
-        Hours use editable illustrative phase effort,
-        scaled to student population, integrations and
-        data complexity. They are not Jenzabar's
-        published staffing benchmarks.
-      </p>
-    </div>
-  </section>
-
+  
   {/* ====================================
       04 / OWNERSHIP & RISK
   ==================================== */}
@@ -2661,10 +2740,10 @@ Identify critical academic dates that could affect implementation.
   >
     <div className="jr-wrap">
       <SectionHeading
-        number="04"
+        number="03"
         eyebrow="OWNERSHIP & RISK"
-        title="No surprises about who owns what."
-        detail="Agree responsibility before kickoff and identify academic calendar dates that affect sequencing, testing and go-live decisions."
+        title="Establish clear responsibilities before implementation begins."
+        detail="Review which activities Jenzabar would lead, what your institution needs to manage and where both teams will work together."
       />
 
       <div className="jr-ownership-grid" data-reveal>
@@ -2699,7 +2778,7 @@ Identify critical academic dates that could affect implementation.
                 <div className="jr-owner-col-head">
                   {owner === "jenzabar" ? (
                     <span className="jr-owner-brand">
-                      <Logo src={logoSrc} />
+                      <Logo src="/images/jenzabarlogo.svg" />
                     </span>
                   ) : (
                     <span className="jr-owner-mark">
@@ -2841,8 +2920,7 @@ Identify critical academic dates that could affect implementation.
               </h3>
 
               <p>
-                Generated from the academic calendar
-                you entered.
+                Generated from the academic calendar you entered.
               </p>
             </div>
 
@@ -3327,97 +3405,358 @@ Identify critical academic dates that could affect implementation.
       </div>
     )}
 
-    {phaseModalOpen && active && (
-      <div
-        className="jr-phase-overlay"
-        onMouseDown={(event) => {
-          if (event.target === event.currentTarget) {
-            setPhaseModalOpen(false);
-          }
-        }}
+
+{phaseModalOpen && active && (
+  <div
+    className="jr-phase-overlay"
+    onMouseDown={(event) => {
+      if (event.target === event.currentTarget) {
+        setPhaseModalOpen(false);
+      }
+    }}
+  >
+    <div
+      className="jr-phase-modal jr-phase-modal-upgraded"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${active.name} implementation plan`}
+    >
+      <button
+        type="button"
+        className="jr-phase-close"
+        aria-label="Close phase details"
+        onClick={() => setPhaseModalOpen(false)}
       >
-        <div
-          className="jr-phase-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-label={`${active.name} project phase`}
-        >
-          <button
-            type="button"
-            className="jr-phase-close"
-            aria-label="Close phase details"
-            onClick={() => setPhaseModalOpen(false)}
-          >
-            <X size={20} />
-          </button>
+        <X size={19} />
+      </button>
 
-          <div className="jr-phase-inspector">
-            <div className="jr-inspector-head">
-              <div>
-                <span className="jr-kicker">SELECTED PROJECT PHASE</span>
-                <h3>{active.name}</h3>
-                <p>{active.desc}</p>
-              </div>
+      {/* HEADER */}
 
-              <span className={`jr-owner-tag ${cls(active.owner)}`}>
-                {chooseLabel(active.owner)}
+      <div className="jr-pm-header">
+        <span className="jr-pm-eyebrow">
+          IMPLEMENTATION PHASE DETAILS
+        </span>
+
+        <h3>{active.name}</h3>
+
+        <p>{active.desc}</p>
+
+        <div className="jr-pm-meta">
+          <span className={`jr-owner-tag ${cls(active.owner)}`}>
+            {chooseLabel(active.owner)}
+          </span>
+
+          <span>
+            <CalendarDays size={14} />
+            {monthLong(shift(config.startMonth, active.start))}
+            {" – "}
+            {monthLong(
+              shift(config.startMonth, active.end - 1)
+            )}
+          </span>
+
+          <span>
+            {active.duration}{" "}
+            {active.duration === 1 ? "month" : "months"}
+          </span>
+        </div>
+      </div>
+
+      {/* PHASE SUMMARY */}
+
+      <div className="jr-pm-summary">
+        <div>
+          <span>PHASE DURATION</span>
+          <strong>{active.duration} months</strong>
+        </div>
+
+        <div>
+          <span>ESTIMATED PHASE EFFORT</span>
+          <strong>
+            {fmt(
+              Array.from(
+                { length: active.duration },
+                (_, index) => active.start + index
+              ).reduce(
+                (sum, monthIndex) =>
+                  sum +
+                  ROLE.reduce(
+                    (roleSum, role) =>
+                      roleSum +
+                      calcLoad(
+                        config,
+                        [active],
+                        role.key,
+                        monthIndex
+                      ),
+                    0
+                  ),
+                0
+              )
+            )}{" "}
+            hrs
+          </strong>
+        </div>
+
+        <div>
+          <span>EXPECTED DELIVERABLE</span>
+          <strong>{active.deliverable}</strong>
+        </div>
+      </div>
+
+      {/* MONTH-BY-MONTH PLAN */}
+
+      <div className="jr-pm-body">
+        <div className="jr-pm-section-heading">
+          <div>
+            <span className="jr-pm-eyebrow">
+              MONTH-BY-MONTH DELIVERY PLAN
+            </span>
+
+            <h4>What happens during this phase</h4>
+
+            <p>
+              Review the planned activities, staffing
+              requirements and expected outcomes for
+              each month.
+            </p>
+          </div>
+
+          <span className="jr-pm-count">
+            {active.duration}{" "}
+            {active.duration === 1 ? "month" : "months"}
+          </span>
+        </div>
+
+        <div className="jr-pm-month-list">
+          {Array.from(
+            { length: active.duration },
+            (_, index) => {
+              const monthIndex = active.start + index;
+
+              const date = shift(
+                config.startMonth,
+                monthIndex
+              );
+
+              const detail = getPhaseMonthDetail(
+                active,
+                monthIndex
+              );
+
+              const roleDemand = ROLE.map((role) => ({
+                ...role,
+                hours: calcLoad(
+                  config,
+                  [active],
+                  role.key,
+                  monthIndex
+                ),
+              }));
+
+              const phaseHours = roleDemand.reduce(
+                (sum, role) => sum + role.hours,
+                0
+              );
+
+              const monthRisks = risks.filter(
+                (risk) => risk.index === monthIndex
+              );
+
+              return (
+                <div
+                  className="jr-pm-month"
+                  key={`${active.key}-${monthIndex}`}
+                >
+                  <div className="jr-pm-month-rail">
+                    <span className="jr-pm-month-number">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    {index < active.duration - 1 && (
+                      <span className="jr-pm-rail-line" />
+                    )}
+                  </div>
+
+                  <div className="jr-pm-month-card">
+                    <div className="jr-pm-month-top">
+                      <div>
+                        <span className="jr-pm-month-date">
+                          {monthLong(date)}
+                        </span>
+
+                        <h5>{detail.focus}</h5>
+                      </div>
+
+                      <div className="jr-pm-hours">
+                        <strong>{fmt(phaseHours)} hrs</strong>
+                        <span>Estimated phase effort</span>
+                      </div>
+                    </div>
+
+                    <div className="jr-pm-activities">
+                      <span className="jr-pm-small-heading">
+                        PLANNED ACTIVITIES
+                      </span>
+
+                      {detail.activities.map(
+                        (activity, activityIndex) => (
+                          <div key={activityIndex}>
+                            <span className="jr-pm-task-marker">
+                              {String(activityIndex + 1).padStart(
+                                2,
+                                "0"
+                              )}
+                            </span>
+                            <p>{activity}</p>
+                          </div>
+                        )
+                      )}
+                    </div>
+
+                    <div className="jr-pm-month-outcome">
+                      <div>
+                        <span>EXPECTED OUTCOME</span>
+                        <strong>{detail.outcome}</strong>
+                      </div>
+                    </div>
+
+                    <div className="jr-pm-role-effort">
+                      <span className="jr-pm-small-heading">
+                        ESTIMATED STAFF HOURS BY TEAM
+                      </span>
+
+                      <div className="jr-pm-roles">
+                        {roleDemand
+                          .filter((role) => role.hours > 0)
+                          .map((role) => (
+                            <div key={role.key}>
+                              <span>{role.name}</span>
+                              <strong>
+                                {fmt(role.hours)} hrs
+                              </strong>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+
+                    {monthRisks.length > 0 && (
+                      <div className="jr-pm-risk">
+                        <ShieldAlert size={16} />
+
+                        <div>
+                          <strong>
+                            Campus scheduling considerations
+                          </strong>
+
+                          {monthRisks.map((risk) => (
+                            <p key={risk.id}>
+                              {risk.label}: {risk.detail}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            }
+          )}
+        </div>
+      </div>
+
+      {/* SCHEDULE CONTROLS */}
+
+      <div className="jr-pm-controls">
+        <div className="jr-pm-controls-heading">
+          <h4>Adjust the implementation schedule</h4>
+          <p>
+            Update the phase timing to explore how
+            changes affect your implementation plan.
+          </p>
+        </div>
+
+        <div className="jr-pm-control-grid">
+          <div className="jr-pm-control">
+            <div>
+              <strong>Phase start</strong>
+              <span>
+                {monthLong(
+                  shift(config.startMonth, active.start)
+                )}
               </span>
             </div>
 
-            <div className="jr-inspector-footer">
-              <div className="jr-inspector-date">
-                <CalendarDays size={17} />
-                <span>
-                  {monthLong(months[active.start])} – {monthLong(months[active.end - 1])}
-                </span>
-              </div>
+            <div className="jr-pm-stepper">
+              <button
+                type="button"
+                aria-label="Move phase one month earlier"
+                disabled={active.start === 0}
+                onClick={() =>
+                  changePhase(active.key, "start", -1)
+                }
+              >
+                <Minus size={15} />
+              </button>
 
-              <div>
-                <small>Deliverable</small>
-                <strong>{active.deliverable}</strong>
-              </div>
+              <button
+                type="button"
+                aria-label="Move phase one month later"
+                onClick={() =>
+                  changePhase(active.key, "start", 1)
+                }
+              >
+                <Plus size={15} />
+              </button>
+            </div>
+          </div>
 
-              <div className="jr-adjust">
-                <span>Shift start</span>
-                <button
-                  type="button"
-                  aria-label="Move start earlier"
-                  onClick={() => changePhase(active.key, "start", -1)}
-                >
-                  <Minus size={14} />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Move start later"
-                  onClick={() => changePhase(active.key, "start", 1)}
-                >
-                  <Plus size={14} />
-                </button>
-              </div>
+          <div className="jr-pm-control">
+            <div>
+              <strong>Phase duration</strong>
+              <span>
+                {active.duration}{" "}
+                {active.duration === 1
+                  ? "month"
+                  : "months"}
+              </span>
+            </div>
 
-              <div className="jr-adjust">
-                <span>Phase duration</span>
-                <button
-                  type="button"
-                  aria-label="Shorten phase"
-                  onClick={() => changePhase(active.key, "duration", -1)}
-                >
-                  <Minus size={14} />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Lengthen phase"
-                  onClick={() => changePhase(active.key, "duration", 1)}
-                >
-                  <Plus size={14} />
-                </button>
-              </div>
+            <div className="jr-pm-stepper">
+              <button
+                type="button"
+                aria-label="Shorten phase by one month"
+                disabled={active.duration <= 1}
+                onClick={() =>
+                  changePhase(active.key, "duration", -1)
+                }
+              >
+                <Minus size={15} />
+              </button>
+
+              <button
+                type="button"
+                aria-label="Extend phase by one month"
+                onClick={() =>
+                  changePhase(active.key, "duration", 1)
+                }
+              >
+                <Plus size={15} />
+              </button>
             </div>
           </div>
         </div>
-      </div>
-    )}
 
+        <p className="jr-pm-disclaimer">
+          Activities, staff hours and ownership are
+          illustrative planning assumptions. Review the
+          proposed scope and schedule with Jenzabar before
+          treating this as an agreed delivery plan.
+        </p>
+      </div>
+    </div>
+  </div>
+)}
     {/* ============================================
         EXPANDED PRESENTATION EDITOR
     ============================================ */}
@@ -5863,7 +6202,7 @@ const styles = `
 }
 
 #ownership {
-  padding: 44px 0 105px;
+  padding: 80px 0 95px;
 }
 
 /* MATCH BASELINE BUILDER TYPOGRAPHY */
@@ -5915,337 +6254,11 @@ const styles = `
   font-size: 16px;
   font-weight: 500;
   line-height: 1.7;
-  max-width: 440px;
+   max-width: 520px;
 }
 
-/* ==========================================
-   STAFFING HEATMAP LAYOUT
-   ========================================== */
 
-#staffing .jr-staff-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 252px;
-  gap: 15px;
-  align-items: stretch;
-}
 
-#staffing .jr-staff-main,
-#staffing .jr-staff-card,
-#ownership .jr-owners-panel,
-#ownership .jr-risk-panel {
-  border: 1px solid #e1e9e8;
-  border-radius: 11px;
-  background: #ffffff;
-  box-shadow: 0 6px 24px rgba(5, 38, 33, 0.025);
-}
-
-#staffing .jr-staff-main {
-  min-width: 0;
-  padding: 20px 20px 17px;
-}
-
-#staffing .jr-staff-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 19px;
-}
-
-#staffing .jr-staff-top strong {
-  font-size: 16px;
-  color: #011522;
-  font-weight: 800;
-}
-
-#staffing .jr-staff-top > div:first-child > span {
-  margin-top: 6px;
-  color: #011522;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
-/* LEGEND */
-
-#staffing .jr-staff-scale {
-  display: flex !important;
-  align-items: center;
-  gap: 13px;
-  white-space: nowrap;
-  margin: 0;
-  padding-top: 1px;
-}
-
-#staffing .jr-staff-scale > span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  color: #011522;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-#staffing .jr-staff-scale i {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-#staffing .jr-staff-scale i.low {
-  background: #e8f5ee;
-}
-
-#staffing .jr-staff-scale i.high {
-  background: #8bceb0;
-}
-
-#staffing .jr-staff-scale i.over {
-  background: #0b6b53;
-}
-
-/* MONTH GRID */
-
-#staffing .jr-staff-scroll {
-  overflow-x: auto;
-}
-
-#staffing .jr-heatmap {
-  min-width: max(
-    775px,
-    calc(175px + var(--jr-months) * 46px)
-  );
-
-  display: grid;
-  grid-template-columns: 175px minmax(0, 1fr);
-  gap: 3px;
-}
-
-#staffing .jr-heat-left {
-  font-size: 13px;
-  font-weight: 750;
-  color: #011522;
-  align-self: center;
-  padding: 0 6px;
-  white-space: nowrap;
-}
-
-#staffing .jr-heat-header {
-  color: #011522;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.065em;
-  align-self: end;
-  padding-bottom: 9px;
-}
-
-#staffing .jr-heat-months {
-  display: grid;
-  grid-template-columns:
-    repeat(var(--jr-months), minmax(0, 1fr));
-  gap: 3px;
-}
-
-#staffing .jr-heat-months > span {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  min-height: 36px;
-  gap: 0;
-}
-
-#staffing .jr-heat-months b {
-  font-size: 12px;
-  font-weight: 750;
-  color: #011522;
-}
-
-#staffing .jr-heat-months small {
-  font-size: 11px;
-  color: #086c58;
-  font-weight: 800;
-}
-
-#staffing .jr-heat-row {
-  display: contents;
-}
-
-#staffing .jr-heat-cells {
-  display: grid;
-  grid-template-columns:
-    repeat(var(--jr-months), minmax(0, 1fr));
-  gap: 3px;
-  padding: 1px 0;
-}
-
-/* GREEN-ONLY INTENSITY SCALE */
-
-#staffing .jr-heat-cell {
-  height: 34px;
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  border-radius: 4px;
-
-  display: grid;
-  place-items: center;
-  min-width: 0;
-
-  transition:
-    filter 0.15s ease,
-    transform 0.15s ease,
-    outline-color 0.15s ease;
-}
-
-#staffing .jr-heat-cell span {
-  opacity: 1;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-#staffing .jr-heat-cell.low {
-  background: #edf7f1;
-  color: #1c594b;
-}
-
-#staffing .jr-heat-cell.med {
-  background: #d3eee0;
-  color: #195544;
-}
-
-#staffing .jr-heat-cell.high {
-  background: #a1dbc0;
-  color: #0c4b39;
-}
-
-#staffing .jr-heat-cell.veryhigh {
-  background: #61ae8e;
-  color: #ffffff;
-}
-
-#staffing .jr-heat-cell.over {
-  background: #0b6b53;
-  color: #ffffff;
-}
-
-#staffing .jr-heat-cell:hover {
-  filter: brightness(0.92);
-  transform: translateY(-1px);
-}
-
-#staffing .jr-heat-cell.selected {
-  outline: 2px solid #073c32;
-  outline-offset: 1px;
-  position: relative;
-  z-index: 1;
-}
-
-/* ==========================================
-   RIGHT KPI CARDS
-   ========================================== */
-
-#staffing .jr-staff-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-
-#staffing .jr-staff-card {
-  display: flex;
-  flex: 1;
-  align-items: flex-start;
-  flex-direction: column;
-  padding: 21px 20px;
-}
-
-#staffing .jr-staff-card > svg {
-  color: #078164;
-  margin-bottom: 11px;
-}
-
-#staffing .jr-staff-card > span {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.11em;
-  color: #011522;
-}
-
-#staffing .jr-staff-card > strong {
-  font-family: Inter, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  font-size: clamp(24px, 2.1vw, 30px);
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: -0.05em;
-  color: #011522;
-  margin: 12px 0 10px;
-}
-
-#staffing .jr-staff-card p {
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.6;
-  color: #011522;
-}
-
-#staffing .jr-staff-card-soft {
-  background: #f8fbf9;
-}
-
-#staffing .jr-staff-card button {
-  margin-top: auto;
-  padding-top: 16px;
-  color: #086c58;
-  font-size: 13px;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
-  font-weight: 800;
-}
-
-/* SELECTED HEATMAP DETAIL */
-
-#staffing .jr-load-detail {
-  background: #f6faf8;
-  border: 1px solid #dceae3;
-  border-radius: 9px;
-  margin-top: 14px;
-}
-
-#staffing .jr-load-detail h3 {
-  font-family: Inter, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 19px;
-  font-weight: 720;
-  letter-spacing: -0.035em;
-}
-
-#staffing .jr-load-numbers strong {
-  font-size: 21px;
-  color: #0c4435;
-}
-
-#staffing .jr-load-numbers .jr-red {
-  color: #085b46;
-}
-
-#staffing .jr-method-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  margin-top: 13px;
-  color: #011522;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-#staffing .jr-method-note svg {
-  color: #11856e;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
 
 /* ==========================================
    OWNERSHIP + RISK
@@ -6254,7 +6267,7 @@ const styles = `
 #ownership .jr-ownership-grid {
   display: grid;
   grid-template-columns:
-    minmax(0, 1.55fr) minmax(325px, 0.85fr);
+    minmax(0, 1.45fr) minmax(380px, 0.95fr);
   gap: 15px;
   align-items: stretch;
 }
@@ -6291,6 +6304,15 @@ const styles = `
   margin-bottom: 17px;
 }
 
+#ownership .jr-risk-panel-head > div {
+  flex: 1;
+  min-width: 0;
+}
+
+#ownership .jr-risk-panel-head p {
+  white-space: nowrap;
+}
+
 /* OWNERSHIP EDIT AND CALENDAR BUTTONS */
 
 #ownership .jr-ownership-toggle,
@@ -6298,7 +6320,7 @@ const styles = `
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 
   background: #f8fcf9;
@@ -6306,10 +6328,10 @@ const styles = `
   border: 1px solid #d3e6dd;
   border-radius: 6px;
 
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
-  min-height: 36px;
-  padding: 8px 12px;
+  min-height: 32px;
+  padding: 6px 10px;
   margin: 0;
 }
 
@@ -6341,8 +6363,22 @@ const styles = `
   min-height: 45px;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 5px;
   margin-bottom: 15px;
+}
+
+#ownership .jr-owner-col-head > strong {
+  margin-left: 0;
+}
+
+/* Pull the Jenzabar column's heading closer to its logo */
+
+#ownership .jr-ownership-col.vendor .jr-owner-col-head {
+  gap: 0;
+}
+
+#ownership .jr-ownership-col.vendor .jr-owner-brand {
+  margin-right: -49px;
 }
 
 #ownership .jr-owner-col-head strong {
@@ -6355,7 +6391,7 @@ const styles = `
 /* JENZABAR LOGO */
 
 #ownership .jr-owner-brand {
-  flex: 0 0 73px;
+  flex: 0 0 auto;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -6363,8 +6399,8 @@ const styles = `
 
 #ownership .jr-owner-brand .jr-logo {
   display: flex;
-  width: 73px;
-  height: 28px;
+  width: 88px;
+  height: 22px;
   min-width: 0;
   overflow: visible;
 }
@@ -10916,6 +10952,1401 @@ const styles = `
 }
 
 /* KEEP YOUR EXISTING PRINT RULES */
+
+/* ==========================================
+   PREMIUM GANTT CHART — READABILITY UPDATE
+   ========================================== */
+
+/* 1. Increase timeline row height */
+#map .jr-gantt-track {
+  height: 56px;
+}
+
+/* 2. Centre project phase labels */
+#map .jr-gantt-label {
+  min-height: 56px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+/* 3. Increase green timeline bar height */
+#map .jr-gantt-bar {
+  top: 15px;
+  height: 26px;
+  min-height: 26px;
+
+  border-radius: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+/* 4. Make the duration labels readable */
+#map .jr-gantt-bar span {
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+}
+
+/* 5. Preserve selected bar emphasis */
+#map .jr-gantt-bar.selected {
+  outline: 2px solid #8ccdb6;
+  outline-offset: 2px;
+}
+
+/* 6. Keep labels readable on lighter bars */
+#map .jr-gantt-bar.campus span {
+  color: #06372d;
+  text-shadow: none;
+}
+
+/* ==========================================
+   GANTT CHART — MONTHLY STAFF HOURS
+   ========================================== */
+
+/* Taller header to fit months and hours */
+#map .jr-gantt-labelhead,
+#map .jr-gantt-monthhead {
+  min-height: 78px;
+}
+
+/* Stack month and estimated hours */
+#map .jr-gantt-monthhead > .jr-month-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 15px 2px 8px;
+  background: transparent;
+}
+
+/* Month name */
+#map .jr-gantt-monthhead .jr-month-header > b {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0;
+  color: #d4e7df;
+}
+
+/* Year label, above January */
+#map .jr-gantt-monthhead .jr-month-year {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: 750;
+  color: #5bdfb5;
+}
+
+/* Monthly estimated hours */
+#map .jr-gantt-monthhead .jr-month-hours {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  color: #60dfba;
+  letter-spacing: -0.02em;
+}
+
+/* Smaller unit */
+#map .jr-gantt-monthhead .jr-month-hours span {
+  font-size: 9px;
+  font-weight: 600;
+}
+
+/* Peak demand month */
+#map .jr-gantt-monthhead .jr-month-header.peak {
+  background: rgba(47, 190, 148, 0.13);
+  box-shadow: inset 0 2px 0 #2fd1a1;
+}
+
+#map .jr-gantt-monthhead .jr-month-header.peak .jr-month-hours {
+  color: #ffffff;
+}
+
+/* Months exceeding combined staff capacity */
+#map .jr-gantt-monthhead .jr-month-header.over-capacity .jr-month-hours {
+  color: #ffbb85;
+}
+
+/* Peak month takes priority when also over capacity */
+#map .jr-gantt-monthhead .jr-month-header.peak.over-capacity {
+  background: rgba(255, 177, 112, 0.12);
+  box-shadow: inset 0 2px 0 #ffbb85;
+}
+
+/* Keep the hours readable on smaller screens */
+@media (max-width: 768px) {
+  #map .jr-gantt-monthhead .jr-month-hours {
+    font-size: 11px;
+  }
+
+  #map .jr-gantt-monthhead .jr-month-header > b {
+    font-size: 10px;
+  }
+}
+
+
+/* MONTH DETAIL — INTERACTIVE BREAKDOWN */
+
+#map .jr-month-detail-view {
+  padding-bottom: 24px;
+}
+
+#map .jr-month-card {
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+
+#map .jr-month-card.active {
+  background: #103b35;
+  border-color: #36c9a2;
+}
+
+#map .jr-month-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+#map .jr-month-peak {
+  font-size: 9px;
+  font-weight: 750;
+  color: #ffbf85;
+  text-transform: uppercase;
+}
+
+#map .jr-month-card-hours {
+  color: #f5fcf8;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.03em;
+}
+
+#map .jr-month-card-hours span {
+  color: #91b5aa;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+#map .jr-month-card-action {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  color: #49d7ac !important;
+  font-size: 10px !important;
+  font-weight: 700;
+}
+
+/* Expanded detail panel */
+
+#map .jr-month-breakdown {
+  margin: 0 23px;
+  padding: 26px;
+  border: 1px solid #28534a;
+  border-radius: 8px;
+  background: #092625;
+}
+
+#map .jr-month-breakdown-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+#map .jr-breakdown-kicker {
+  color: #4ed9af;
+  font-size: 10px;
+  letter-spacing: .12em;
+  font-weight: 800;
+}
+
+#map .jr-month-breakdown h4 {
+  margin: 9px 0 5px;
+  color: #fff;
+  font-size: 24px;
+}
+
+#map .jr-month-breakdown-head p,
+#map .jr-breakdown-note {
+  color: #a0bdb4;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+#map .jr-breakdown-close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid #31544c;
+  border-radius: 5px;
+  color: #bad4ca;
+  cursor: pointer;
+}
+
+/* Summary metrics */
+
+#map .jr-breakdown-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 24px 0 28px;
+}
+
+#map .jr-breakdown-summary > div {
+  padding: 17px;
+  background: #103532;
+  border: 1px solid #255048;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#map .jr-breakdown-summary span {
+  font-size: 11px;
+  color: #a1bdb4;
+}
+
+#map .jr-breakdown-summary strong {
+  font-size: 21px;
+  font-weight: 750;
+  color: #fff;
+}
+
+/* Department workload */
+
+#map .jr-breakdown-section-title,
+#map .jr-breakdown-role-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+#map .jr-month-breakdown h5 {
+  font-size: 14px;
+  font-weight: 750;
+  color: #f3fbf7;
+}
+
+#map .jr-breakdown-section-title > span {
+  color: #94b4a9;
+  font-size: 11px;
+}
+
+#map .jr-breakdown-roles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 30px;
+  margin-top: 23px;
+}
+
+#map .jr-breakdown-role-top {
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #d7e9e2;
+}
+
+#map .jr-breakdown-role-top strong {
+  color: #fff;
+  font-size: 12px;
+}
+
+#map .jr-breakdown-progress {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #254640;
+}
+
+#map .jr-breakdown-progress > div {
+  height: 100%;
+  background: #38c99e;
+  border-radius: inherit;
+  transition: width .2s ease;
+}
+
+#map .jr-breakdown-progress > div.over {
+  background: #efab72;
+}
+
+#map .jr-breakdown-summary .jr-negative,
+#map .jr-breakdown-role-top .jr-negative {
+  color: #ffbf85;
+}
+
+#map .jr-breakdown-shortfall {
+  display: block;
+  color: #ffbf85;
+  margin-top: 7px;
+  font-size: 10px;
+}
+
+/* Active phases */
+
+#map .jr-breakdown-phases {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid #285047;
+}
+
+#map .jr-breakdown-phases > div {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+
+#map .jr-breakdown-phases > div > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border: 1px solid #28534b;
+  border-radius: 5px;
+  color: #cce4da;
+  font-size: 11px;
+}
+
+#map .jr-breakdown-note {
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid #24473e;
+}
+
+@media (max-width: 700px) {
+  #map .jr-month-breakdown {
+    margin: 0 13px;
+    padding: 18px;
+  }
+
+  #map .jr-breakdown-summary {
+    grid-template-columns: 1fr;
+  }
+
+  #map .jr-breakdown-roles {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/* MONTHLY IMPLEMENTATION ACTIVITIES */
+
+#map .jr-month-activities {
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1px solid #285047;
+}
+
+#map .jr-month-activities-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+#map .jr-month-activities-heading h5 {
+  margin: 8px 0;
+  font-size: 19px;
+  font-weight: 750;
+  color: #ffffff;
+}
+
+#map .jr-month-activities-heading p {
+  color: #a3bfb4;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+#map .jr-activities-count {
+  font-size: 11px;
+  color: #a5c4b8;
+  white-space: nowrap;
+}
+
+#map .jr-month-activities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#map .jr-month-activity {
+  display: flex;
+  gap: 15px;
+  padding: 22px;
+  background: #0d2c29;
+  border: 1px solid #285047;
+  border-radius: 8px;
+}
+
+#map .jr-month-activity-number {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: #174339;
+  border-radius: 5px;
+  color: #55dfaf;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+#map .jr-month-activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+#map .jr-month-activity-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+#map .jr-month-activity-top h6 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 750;
+  color: #ffffff;
+}
+
+#map .jr-month-activity-stage {
+  font-size: 12px;
+  color: #55d8ac;
+}
+
+#map .jr-month-phase-position {
+  color: #abc5ba;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+#map .jr-month-phase-progress {
+  height: 4px;
+  background: #285047;
+  border-radius: 6px;
+  margin: 18px 0 20px;
+  overflow: hidden;
+}
+
+#map .jr-month-phase-progress > div {
+  height: 100%;
+  background: #3dcca2;
+  border-radius: inherit;
+}
+
+#map .jr-month-activity-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#map .jr-month-activity-tasks > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #d2e5dc;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+#map .jr-month-activity-tasks svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: #4ed7a9;
+}
+
+#map .jr-month-activity-outcome {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #285047;
+}
+
+#map .jr-month-activity-outcome > span {
+  color: #82a99b;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .08em;
+}
+
+#map .jr-month-activity-outcome strong {
+  color: #e9f7ef;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+@media (max-width: 700px) {
+  #map .jr-month-activities-heading,
+  #map .jr-month-activity-top {
+    flex-wrap: wrap;
+  }
+
+  #map .jr-month-activity {
+    padding: 16px;
+    gap: 10px;
+  }
+}
+
+/* ==========================================
+   PREMIUM IMPLEMENTATION PHASE MODAL
+   ========================================== */
+
+.jr-phase-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(0, 15, 16, 0.86);
+  backdrop-filter: blur(8px);
+}
+
+.jr-phase-modal.jr-phase-modal-upgraded {
+  position: relative;
+  width: min(1040px, 100%);
+  max-width: 1040px;
+  max-height: min(90vh, 1000px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  background: #071f20;
+  color: #edf8f3;
+  border: 1px solid #28504a;
+  border-radius: 12px;
+  box-shadow: 0 35px 110px rgba(0, 0, 0, .4);
+  scrollbar-width: thin;
+  scrollbar-color: #315a51 #071f20;
+}
+
+/* Modal close */
+
+.jr-phase-modal-upgraded .jr-phase-close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: #133633;
+  border: 1px solid #31554c;
+  color: #e8f6ef;
+  cursor: pointer;
+}
+
+/* Header */
+
+.jr-pm-header {
+  padding: 42px 45px 30px;
+  border-bottom: 1px solid #25463f;
+}
+
+.jr-pm-eyebrow {
+  color: #4cdbad;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+
+.jr-pm-header h3 {
+  color: #ffffff;
+  font-family: inherit;
+  font-size: clamp(28px, 3vw, 37px);
+  font-weight: 750;
+  letter-spacing: -.045em;
+  line-height: 1.15;
+  margin: 12px 50px 12px 0;
+}
+
+.jr-pm-header > p {
+  color: #acc8bd;
+  max-width: 740px;
+  line-height: 1.7;
+  font-size: 13px;
+}
+
+.jr-pm-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 13px;
+  margin-top: 22px;
+}
+
+.jr-pm-meta > span:not(.jr-owner-tag) {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border: 1px solid #295047;
+  border-radius: 5px;
+  color: #d3e7dd;
+  font-size: 11px;
+}
+
+/* Three-column summary */
+
+.jr-pm-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.6fr;
+  border-bottom: 1px solid #25463f;
+  background: #0b2928;
+}
+
+.jr-pm-summary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 24px 32px;
+  border-right: 1px solid #25463f;
+}
+
+.jr-pm-summary > div:last-child {
+  border-right: 0;
+}
+
+.jr-pm-summary span {
+  font-size: 9px;
+  color: #8faea2;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+.jr-pm-summary strong {
+  color: #ffffff;
+  font-size: 19px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.jr-pm-summary > div:last-child strong {
+  font-size: 13px;
+}
+
+/* Monthly plan */
+
+.jr-pm-body {
+  padding: 36px 45px 40px;
+}
+
+.jr-pm-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.jr-pm-section-heading h4,
+.jr-pm-controls-heading h4 {
+  color: #ffffff;
+  font-size: 23px;
+  letter-spacing: -.03em;
+  margin: 9px 0;
+}
+
+.jr-pm-section-heading p,
+.jr-pm-controls-heading p {
+  color: #9fbaaf;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.jr-pm-count {
+  font-size: 11px;
+  color: #a8c5ba;
+  white-space: nowrap;
+}
+
+.jr-pm-month-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.jr-pm-month {
+  display: grid;
+  grid-template-columns: 37px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.jr-pm-month-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.jr-pm-month-number {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  background: #164b3e;
+  border: 1px solid #2b7a61;
+  color: #75e5bc;
+  font-size: 11px;
+  font-weight: 800;
+  border-radius: 6px;
+}
+
+.jr-pm-rail-line {
+  flex: 1;
+  min-height: 24px;
+  width: 1px;
+  background: #31564c;
+}
+
+.jr-pm-month-card {
+  margin-bottom: 18px;
+  border: 1px solid #2b4a44;
+  border-radius: 8px;
+  background: #0d2928;
+  overflow: hidden;
+}
+
+.jr-pm-month-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 25px;
+  border-bottom: 1px solid #2b4a44;
+}
+
+.jr-pm-month-date {
+  color: #4fdbad;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.jr-pm-month-top h5 {
+  margin: 7px 0 0;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.jr-pm-hours {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  white-space: nowrap;
+}
+
+.jr-pm-hours strong {
+  color: #ffffff;
+  font-size: 22px;
+}
+
+.jr-pm-hours span {
+  color: #9ab5a9;
+  font-size: 10px;
+}
+
+/* Activities */
+
+.jr-pm-activities {
+  padding: 22px 25px 15px;
+}
+
+.jr-pm-small-heading {
+  display: block;
+  color: #83a99b;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  margin-bottom: 15px;
+}
+
+.jr-pm-activities > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-bottom: 14px;
+}
+
+.jr-pm-task-marker {
+  color: #56d7aa;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.jr-pm-activities p {
+  color: #d6e6df;
+  font-size: 12px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Expected outcome */
+
+.jr-pm-month-outcome {
+  margin: 0 25px;
+  padding: 18px 0;
+  border-top: 1px solid #28483f;
+}
+
+.jr-pm-month-outcome > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.jr-pm-month-outcome span {
+  font-size: 9px;
+  color: #88aa9d;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.jr-pm-month-outcome strong {
+  font-size: 12px;
+  color: #e8f8ef;
+  font-weight: 650;
+}
+
+/* Staffing */
+
+.jr-pm-role-effort {
+  padding: 20px 25px;
+  background: #11332f;
+  border-top: 1px solid #2b5047;
+}
+
+.jr-pm-roles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px 20px;
+}
+
+.jr-pm-roles > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  font-size: 11px;
+}
+
+.jr-pm-roles span {
+  color: #acc9bd;
+}
+
+.jr-pm-roles strong {
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* Academic risk */
+
+.jr-pm-risk {
+  display: flex;
+  gap: 12px;
+  padding: 17px 25px;
+  background: rgba(194, 120, 57, .10);
+  border-top: 1px solid rgba(215, 151, 78, .22);
+}
+
+.jr-pm-risk > svg {
+  flex-shrink: 0;
+  color: #eeb173;
+}
+
+.jr-pm-risk strong {
+  color: #f1c18d;
+  font-size: 12px;
+}
+
+.jr-pm-risk p {
+  color: #d6b99a;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 5px;
+}
+
+/* Schedule controls */
+
+.jr-pm-controls {
+  padding: 32px 45px 38px;
+  background: #0a2625;
+  border-top: 1px solid #285048;
+}
+
+.jr-pm-control-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+  margin-top: 22px;
+}
+
+.jr-pm-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #103532;
+  border: 1px solid #2b5149;
+  border-radius: 7px;
+  padding: 17px;
+}
+
+.jr-pm-control > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.jr-pm-control strong {
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.jr-pm-control span {
+  color: #9ebdb0;
+  font-size: 11px;
+}
+
+.jr-pm-stepper {
+  display: flex;
+  gap: 7px;
+}
+
+.jr-pm-stepper button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #36645a;
+  border-radius: 5px;
+  color: #d9f3e7;
+  background: #18453b;
+  cursor: pointer;
+}
+
+.jr-pm-stepper button:hover:not(:disabled) {
+  background: #22614e;
+}
+
+.jr-pm-stepper button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+.jr-pm-disclaimer {
+  margin-top: 22px;
+  color: #8eaea1;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* Responsive */
+
+@media (max-width: 700px) {
+  .jr-phase-overlay {
+    padding: 12px;
+  }
+
+  .jr-phase-modal.jr-phase-modal-upgraded {
+    max-height: 94vh;
+  }
+
+  .jr-pm-header,
+  .jr-pm-body,
+  .jr-pm-controls {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .jr-pm-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .jr-pm-summary > div {
+    border-right: 0;
+    border-bottom: 1px solid #25463f;
+    padding: 16px 20px;
+  }
+
+  .jr-pm-month {
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .jr-pm-month-number {
+    width: 24px;
+    height: 24px;
+    font-size: 9px;
+  }
+
+  .jr-pm-month-top {
+    flex-wrap: wrap;
+    padding: 18px;
+  }
+
+  .jr-pm-hours {
+    align-items: flex-start;
+  }
+
+  .jr-pm-activities {
+    padding: 18px;
+  }
+
+  .jr-pm-month-outcome {
+    margin: 0 18px;
+  }
+
+  .jr-pm-role-effort,
+  .jr-pm-risk {
+    padding: 18px;
+  }
+
+  .jr-pm-roles,
+  .jr-pm-control-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jr-pm-section-heading {
+    flex-wrap: wrap;
+  }
+}
+  
+/* ==========================================
+   DEPARTMENTAL CAPACITY REVIEW
+   ========================================== */
+
+#staffing .jr-capacity-review {
+  margin-top: 16px;
+  background: #f7faf8;
+  border: 1px solid #dce9e2;
+  border-radius: 9px;
+  padding: 26px;
+  color: #09232b;
+}
+
+/* Header */
+
+#staffing .jr-capacity-review-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 23px;
+}
+
+#staffing .jr-capacity-eyebrow {
+  display: block;
+  color: #16836d;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .1em;
+}
+
+#staffing .jr-capacity-review-header h3 {
+  margin: 9px 0 5px;
+  color: #081f2a;
+  font-family: inherit;
+  font-size: 25px;
+  font-weight: 750;
+  letter-spacing: -.04em;
+}
+
+#staffing .jr-capacity-review-header p {
+  margin: 0;
+  color: #6d8077;
+  font-size: 12px;
+}
+
+#staffing .jr-capacity-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#staffing .jr-capacity-status {
+  padding: 8px 11px;
+  border-radius: 5px;
+  background: #e4f2e9;
+  color: #14765b;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+#staffing .jr-capacity-status.over {
+  background: #fff0e1;
+  color: #a26027;
+}
+
+#staffing .jr-capacity-close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #d4e3db;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #57756b;
+  cursor: pointer;
+}
+
+/* Summary metrics */
+
+#staffing .jr-capacity-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 11px;
+}
+
+#staffing .jr-capacity-metrics > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e0eae4;
+  border-radius: 7px;
+}
+
+#staffing .jr-capacity-metrics span {
+  color: #74877c;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+
+#staffing .jr-capacity-metrics strong {
+  color: #0b252d;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -.04em;
+}
+
+#staffing .jr-capacity-metrics strong.over {
+  color: #b16a32;
+}
+
+#staffing .jr-capacity-metrics small {
+  color: #74877c;
+  font-size: 11px;
+}
+
+/* Utilisation progress */
+
+#staffing .jr-capacity-progress-section {
+  margin-top: 24px;
+}
+
+#staffing .jr-capacity-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 11px;
+}
+
+#staffing .jr-capacity-progress-header strong {
+  color: #18372e;
+  font-size: 12px;
+}
+
+#staffing .jr-capacity-progress-header span {
+  color: #60776b;
+  font-size: 11px;
+}
+
+#staffing .jr-capacity-progress-track {
+  width: 100%;
+  height: 9px;
+  background: #dcece2;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+#staffing .jr-capacity-progress-track > div {
+  height: 100%;
+  background: #169777;
+  border-radius: inherit;
+  transition: width .2s ease;
+}
+
+#staffing .jr-capacity-progress-track > div.over {
+  background: #dda16d;
+}
+
+#staffing .jr-capacity-message {
+  margin: 11px 0 0;
+  color: #61796c;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+#staffing .jr-capacity-message.over {
+  color: #9a5d2a;
+}
+
+/* Implementation work */
+
+#staffing .jr-capacity-work-section {
+  margin-top: 25px;
+  padding-top: 23px;
+  border-top: 1px solid #dae7de;
+}
+
+#staffing .jr-capacity-work-header h4 {
+  margin: 8px 0;
+  color: #102a30;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -.03em;
+}
+
+#staffing .jr-capacity-work-header p {
+  color: #60776d;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+#staffing .jr-capacity-work-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+  margin-top: 18px;
+}
+
+#staffing .jr-capacity-work-item {
+  padding: 17px;
+  background: #ffffff;
+  border: 1px solid #dde8e2;
+  border-radius: 7px;
+}
+
+#staffing .jr-capacity-work-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+#staffing .jr-capacity-work-top > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#staffing .jr-capacity-work-top strong {
+  color: #10352d;
+  font-size: 13px;
+}
+
+#staffing .jr-capacity-work-top span {
+  color: #16836d;
+  font-size: 11px;
+}
+
+#staffing .jr-capacity-phase-hours {
+  color: #153b31 !important;
+  font-size: 12px !important;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#staffing .jr-capacity-work-item p {
+  color: #61776c;
+  margin: 12px 0;
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+#staffing .jr-capacity-work-item small {
+  color: #84958a;
+  font-size: 10px;
+}
+
+#staffing .jr-capacity-empty {
+  grid-column: 1 / -1;
+  color: #61776c;
+  font-size: 12px;
+}
+
+/* Footnote */
+
+#staffing .jr-capacity-footer {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding-top: 20px;
+  margin-top: 22px;
+  border-top: 1px solid #dae7de;
+}
+
+#staffing .jr-capacity-footer svg {
+  flex-shrink: 0;
+  color: #16836d;
+}
+
+#staffing .jr-capacity-footer p {
+  color: #6a8073;
+  font-size: 11px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  #staffing .jr-capacity-review {
+    padding: 17px;
+  }
+
+  #staffing .jr-capacity-review-header {
+    flex-wrap: wrap;
+  }
+
+  #staffing .jr-capacity-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  #staffing .jr-capacity-work-list {
+    grid-template-columns: 1fr;
+  }
+}
 
 @media print{
    .jr-hero,.jr-builder,.jr-brief-actions,.jr-faq,.jr-final,.jr-map-controls,.jr-inspector-footer .jr-adjust{display:none!important}.jr-section{padding:15px 0}.jr-wrap{width:100%}.jr-map-card,.jr-owners-panel,.jr-risk-panel,.jr-staff-main{box-shadow:none;break-inside:avoid}.jr-gantt,.jr-heatmap{zoom:.8}}
