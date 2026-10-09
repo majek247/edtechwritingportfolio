@@ -13,7 +13,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties }
 import {
   ArrowRight, ArrowLeft, ArrowUpRight, CalendarDays, Check, CheckCircle2,
   ChevronDown, ChevronLeft, ChevronRight, CircleHelp, ClipboardList,
-  Copy, FileDown, FileText, Gauge, GraduationCap,
+  FileDown, FileText, Gauge, GraduationCap, MessageCircle,
   Landmark, Layers3, LayoutDashboard, Minus, Plus, 
   RotateCcw, ShieldAlert, SlidersHorizontal, Users, X,
 } from "lucide-react";
@@ -538,13 +538,32 @@ const OWNERS: Array<{ value: Owner; label: string }> = [
   { value: "shared", label: "Shared (proposed)" },
   { value: "institution", label: "Institution-led (proposed)" },
 ];
+
 const FAQs = [
-  ["How reliable is the implementation timeline?", "The timeline is an indicative planning model, not a Jenzabar implementation commitment. Its value is making scope, capacity, dependencies and academic calendar constraints visible early. Detailed dates require technical discovery and agreement with Jenzabar."],
-  ["How are the internal staffing hours calculated?", "This concept uses editable illustrative effort estimates for each role and phase. They scale with institution size, scope and data complexity, and are distributed across active months. Use your own department-level estimates to validate the workload before sharing the plan."],
-  ["What happens if registration or financial aid conflicts with a project phase?", "The calendar highlights overlapping sensitive months. Move a phase forward or back in the timeline, review the corresponding staffing implications and check whether cutover would create unacceptable operating risk."],
-  ["Can we change which team owns each task?", "Yes. The ownership matrix is editable, and your selections are carried into the executive summary and PowerPoint export. All default allocations are proposed placeholders, not statements of Jenzabar's contractual obligations."],
-  ["Can a smaller college use this with a lean IT team?", "Yes. Change enrollment, scope, integrations and role-specific available hours. The staffing heatmap will identify where the indicative demand exceeds the hours you have assigned to the programme."],
-  ["Does this replace discovery with Jenzabar?", "No. It helps prepare for a more productive planning conversation. Before treating the result as a delivery plan, validate the actual implementation methodology, contractual scope, integration dependencies, dates and resourcing with Jenzabar."],
+  [
+    "What if our institution needs more than the estimated implementation window?",
+    "Then the schedule needs to change. An 11-month estimate is useful for planning, but it shouldn't become a deadline everyone has to work backwards from. If your institution has several legacy systems, incomplete records or departments that can only contribute a few hours each month, the work may take longer. I'd use the timeline to identify which phases need more time and which can run alongside each other. The final schedule should reflect what your teams and Jenzabar can realistically deliver."
+  ],
+  [
+    "Can we implement Jenzabar One in stages rather than all at once?",
+    "That's worth discussing, especially if you're replacing several systems. Moving student records, finance and financial aid at the same time creates a different workload from introducing those capabilities in separate phases. A staged approach may spread the pressure on your teams, although it can also mean running old and new systems together for longer. The planner lets you change module scope and phase timing, but it doesn't determine the best rollout strategy. Jenzabar would need to confirm which sequence is technically and operationally practical."
+  ],
+  [
+    "What happens to our existing student and financial records?",
+    "They need to be assessed, prepared, converted and checked before the institution can rely on them in the new system. The difficult part is often deciding which historical records are needed, where the source data is inconsistent and who is responsible for correcting it. I'd want the registrar, finance and IT teams involved early rather than treating migration as a technical exercise. The planner accounts for indicative migration effort, but the actual workload depends on what a review of your existing data reveals."
+  ],
+  [
+    "How much will the implementation cost beyond the software?",
+    "The internal staffing estimate gives you one part of that picture, but it isn't a financial budget. You'll also need to establish Jenzabar's implementation fees, integration costs, any external technical support, training requirements and the cost of operating existing systems during transition. Those amounts depend on the agreed scope and commercial terms. Before requesting approval, I'd separate the vendor investment from the internal resources your institution will need to commit. That gives Finance a clearer basis for assessing the full project cost."
+  ],
+  [
+    "Will implementation disrupt registration, financial aid or other campus operations?",
+    "It shouldn't be assumed that every implementation activity can run safely during normal campus operations. Registration, financial aid disbursement and fiscal close are periods when even a relatively small systems change can create unnecessary pressure. The planner flags these months so you can review where project activity overlaps with operational deadlines. That doesn't automatically mean all work must stop. It means the affected departments need to agree what can proceed, what requires additional controls and what should be rescheduled."
+  ],
+  [
+    "What should we do once we've generated our implementation plan?",
+    "I'd start by reviewing the estimates with the people who would actually deliver the work. Ask IT to check the integrations, the registrar to assess migration and registration requirements, and Finance to review resource availability and financial dependencies. Then take the proposed scope, timeline and outstanding questions to Jenzabar. The downloadable PowerPoint gives you a consistent document for those conversations. Once the assumptions have been validated, you can work towards an agreed implementation schedule, responsibilities and budget."
+  ],
 ];
 
 const fmt = (n: number) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(Math.round(n));
@@ -899,7 +918,7 @@ if (duration === 1) {
       `${scopedTasks.length} responsibilities applicable to the selected scope`,
       ...responsibilityLines,
       "",
-      "IMPORTANT: Independent planning concept by GrowUp. All estimates and proposed responsibilities are illustrative. Validate all assumptions and contractual allocations with Jenzabar.",
+      "IMPORTANT: All estimates and proposed responsibilities are illustrative. Validate all assumptions and contractual allocations with Jenzabar.",
     ].join("\n");
   }, [
     config,
@@ -919,13 +938,13 @@ if (duration === 1) {
 
   const briefDefaults = [
     {
-      title: "A clearer path to Jenzabar One.",
+      title: "Your Jenzabar One Implementation Overview",
       subtitle: `${fmt(config.size)} students · ${totalMonths} modelled months`,
       body:
         "An initial implementation view for institutional leadership. Review the proposed timing, staff commitments, campus constraints and ownership decisions before confirming a plan.",
     },
     {
-      title: "How the implementation could unfold.",
+      title: "Implementation Phases and Key Milestones",
       subtitle: `${totalMonths} project months · ${monthLong(
         asMonth(config.startMonth)
       )} kickoff`,
@@ -933,25 +952,25 @@ if (duration === 1) {
         "Review the proposed phase sequence, dependencies and go-live date before agreeing the delivery plan.",
     },
     {
-      title: "Where your team will be needed.",
+      title: "Projected Staffing Demand by Department",
       subtitle: `${fmt(totalHours)} internal hours · ${overloaded.length} potential capacity conflicts`,
       body:
         "Understand when each functional team is needed and where project responsibilities may exceed available capacity.",
     },
     {
-      title: "Protect the dates campus cannot move.",
+      title: "Critical Academic Calendar Constraints",
       subtitle: `${risks.length} campus-sensitive windows`,
       body:
         "Protect registration, financial aid and fiscal-close activity when sequencing implementation and go-live decisions.",
     },
     {
-      title: "Agree who will deliver the work.",
+      title: "Proposed Implementation Responsibilities",
       subtitle: `${scopedTasks.length} proposed responsibilities`,
       body:
         "Agree the division of responsibilities between Jenzabar, your institution and shared project teams.",
     },
     {
-      title: "What to validate before committing.",
+      title: "Final Implementation Considerations",
       subtitle: "Validate before approval",
       body: [
         "Confirm implementation scope and dependencies",
@@ -1066,6 +1085,167 @@ if (duration === 1) {
       note(
         "Copy unavailable. You can use the PowerPoint or browser print option."
       );
+    }
+  };
+
+  // Export the full phase-by-phase, month-by-month plan as a .txt file.
+  // Includes everything: phase summary, activities per month, staff hours
+  // per role, expected outcomes, and campus risk windows.
+  const exportDetailedPlan = () => {
+    try {
+      const lines: string[] = [];
+
+      lines.push("JENZABAR IMPLEMENTATION PLAN: DETAILED DELIVERY ROADMAP");
+      lines.push("");
+      lines.push("─────────────────────────────────────────────────────────────");
+      lines.push("INSTITUTION PROFILE");
+      lines.push("─────────────────────────────────────────────────────────────");
+      lines.push(`Institution size:       ${fmt(config.size)} students`);
+      lines.push(`Institution type:       ${config.institutionType}`);
+      lines.push(`Current SIS:            ${config.sis}`);
+      lines.push(`Current ERP:            ${config.erp}`);
+      lines.push(`Implementation kickoff: ${monthLong(asMonth(config.startMonth))}`);
+      lines.push(`Target go-live:         ${monthLong(asMonth(config.targetMonth))}`);
+      lines.push(`Modelled go-live:       ${monthLong(goLive)}`);
+      lines.push(`Total programme window: ${totalMonths} months`);
+      lines.push(`Internal effort:        ${fmt(totalHours)} estimated staff-hours`);
+      lines.push(`Peak workload:          ${monthLong(peakMonth)}`);
+      lines.push(`Selected modules:       ${config.modules.length ? config.modules.map((k) => MODS.find((m) => m.key === k)?.name).filter(Boolean).join(", ") : "None selected"}`);
+      lines.push(`Integrations:           ${config.integrations}`);
+      lines.push(`Data complexity:        ${config.dataComplexity}`);
+      lines.push("");
+
+      // PHASE-BY-PHASE, MONTH-BY-MONTH
+      lines.push("═════════════════════════════════════════════════════════════");
+      lines.push("PHASE-BY-PHASE, MONTH-BY-MONTH DELIVERY PLAN");
+      lines.push("═════════════════════════════════════════════════════════════");
+
+      phases.forEach((phase) => {
+        lines.push("");
+        lines.push("─────────────────────────────────────────────────────────────");
+        lines.push(`PHASE: ${phase.name.toUpperCase()}`);
+        lines.push("─────────────────────────────────────────────────────────────");
+        lines.push(`Owner:       ${chooseLabel(phase.owner)}`);
+        lines.push(`Description: ${phase.desc}`);
+        lines.push(`Deliverable: ${phase.deliverable}`);
+        lines.push(`Start:       ${monthLong(shift(config.startMonth, phase.start))}`);
+        lines.push(`End:         ${monthLong(shift(config.startMonth, phase.end - 1))}`);
+        lines.push(`Duration:    ${phase.duration} ${phase.duration === 1 ? "month" : "months"}`);
+        lines.push("");
+
+        for (let i = 0; i < phase.duration; i++) {
+          const monthIndex = phase.start + i;
+          const date = shift(config.startMonth, monthIndex);
+          const detail = getPhaseMonthDetail(phase, monthIndex);
+
+          const roleDemand = ROLE.map((role) => ({
+            name: role.name,
+            hours: calcLoad(config, [phase], role.key, monthIndex),
+          })).filter((r) => r.hours > 0);
+
+          const phaseHours = roleDemand.reduce((sum, r) => sum + r.hours, 0);
+
+          const monthRisks = risks.filter((r) => r.index === monthIndex);
+
+          lines.push(`  ▸ ${monthLong(date).toUpperCase()}`);
+          lines.push(`    Focus:    ${detail.focus}`);
+          lines.push(`    Effort:   ${fmt(phaseHours)} hrs`);
+          lines.push(`    Activities:`);
+          detail.activities.forEach((activity) => {
+            lines.push(`      · ${activity}`);
+          });
+          lines.push(`    Expected outcome: ${detail.outcome}`);
+          if (roleDemand.length) {
+            lines.push(`    Staff hours by team:`);
+            roleDemand.forEach((r) => {
+              lines.push(`      · ${r.name}: ${fmt(r.hours)} hrs`);
+            });
+          }
+          if (monthRisks.length) {
+            lines.push(`    Campus scheduling considerations:`);
+            monthRisks.forEach((risk) => {
+              lines.push(`      ⚠ ${risk.label} — ${risk.detail}`);
+            });
+          }
+          lines.push("");
+        }
+      });
+
+      // RESPONSIBILITY MATRIX
+      lines.push("═════════════════════════════════════════════════════════════");
+      lines.push("PROPOSED RESPONSIBILITY MATRIX");
+      lines.push("═════════════════════════════════════════════════════════════");
+
+      const owners: Owner[] = ["jenzabar", "shared", "institution"];
+
+      owners.forEach((owner) => {
+        const tasks = scopedTasks.filter(
+          (task) => (ownership[task.id] ?? task.owner) === owner
+        );
+
+        lines.push("");
+        lines.push(
+          owner === "jenzabar"
+            ? "JENZABAR-LED*"
+            : owner === "shared"
+            ? "SHARED*"
+            : "INSTITUTION-LED*"
+        );
+        lines.push(`(${tasks.length} proposed responsibilities)`);
+
+        tasks.forEach((task) => {
+          lines.push(`  · ${task.text}`);
+        });
+      });
+
+      lines.push("");
+      lines.push("* Ownership assignments are illustrative and editable.");
+      lines.push("  Confirm each team's responsibilities with Jenzabar before implementation.");
+      lines.push("");
+
+      // RISK WINDOWS
+      if (risks.length) {
+        lines.push("═════════════════════════════════════════════════════════════");
+        lines.push("CAMPUS-CRITICAL RISK WINDOWS");
+        lines.push("═════════════════════════════════════════════════════════════");
+
+        risks.forEach((risk) => {
+          lines.push("");
+          lines.push(`  ⚠ ${risk.label} · ${monthLong(months[risk.index])} [${risk.level}]`);
+          lines.push(`    ${risk.detail}`);
+        });
+
+        lines.push("");
+      }
+
+      lines.push("═════════════════════════════════════════════════════════════");
+      lines.push("IMPORTANT: All estimates");
+      lines.push("and proposed responsibilities are illustrative. Validate all");
+      lines.push("assumptions and contractual allocations with Jenzabar before");
+      lines.push("treating this as an agreed delivery plan.");
+      lines.push("═════════════════════════════════════════════════════════════");
+
+      // Build the file and trigger a real download
+      const blob = new Blob([lines.join("\n")], {
+        type: "text/plain;charset=utf-8",
+      });
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "Jenzabar-Detailed-Implementation-Roadmap.txt";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+
+      note("Detailed roadmap downloaded.");
+    } catch (error) {
+      console.error(error);
+      note("Could not generate the detailed roadmap.");
     }
   };
 
@@ -1224,7 +1404,7 @@ if (duration === 1) {
         // Footer left
         txt(
           slide,
-          "Independent planning concept by GrowUp. Not an official Jenzabar document.",
+          "IMPORTANT: All estimates and proposed responsibilities are illustrative. Validate all assumptions and contractual allocations with Jenzabar.",
           0.7, 7.02, 9, 0.18,
           { fontSize: 7, color: "687975" }
         );
@@ -1832,7 +2012,7 @@ if (duration === 1) {
     <section className="jr-hero">
       <div className="jr-wrap jr-hero-grid">
         <div className="jr-hero-copy" data-reveal>
-<span className="jr-kicker jr-kicker-light" style={{ color: "#76c0c2", fontSize: "12px" }}>JENZABAR IMPLEMENTATION PLANNER</span>
+<span className="jr-kicker jr-kicker-light" style={{ color: "#167273", fontSize: "12px" }}>JENZABAR IMPLEMENTATION PLANNER</span>
      
      
           <h1>
@@ -1843,7 +2023,7 @@ if (duration === 1) {
          <p style={{ color: "#fafafa", fontSize: "18px", letterSpacing: "0.01em" }}>
   Build a realistic implementation plan for your institution. Understand the timeline, staff involvement, key milestones and potential disruptions before committing resources.
 </p>
- <div className="jr-hero-actions"><button type="button" className="jr-btn jr-btn-mint" style={{ background: "#167273", borderColor: "#167273", color: "#ffffff" }} onClick={()=>goTo("builder")}>Build your implementation map <ArrowRight size={17}/></button><button type="button" className="jr-btn jr-btn-outline" onClick={()=>goTo("map")}>See example plan</button></div>
+ <div className="jr-hero-actions"><button type="button" className="jr-btn jr-btn-mint" onClick={()=>goTo("builder")}>Build your implementation map <ArrowRight size={17}/></button><button type="button" className="jr-btn jr-btn-outline" onClick={()=>goTo("map")}>See example plan</button></div>
           <div className="jr-hero-foot"><CheckCircle2 size={15}/> A practical planning model, not a vendor implementation promise.</div>
         </div>
         <div className="jr-hero-visual" data-reveal>
@@ -1930,9 +2110,18 @@ Tell us about your systems, academic calendar and available resources so we can 
         onClick={() => setStep(number)}
         aria-current={active ? "step" : undefined}
       >
-        <span className="jr-step-number">
-          {String(number).padStart(2, "0")}
-        </span>
+    <span
+  className={`jr-step-number ${
+    completed ? "is-complete" : active ? "is-active" : "is-pending"
+  }`}
+  aria-hidden="true"
+>
+  {completed ? (
+    <Check size={18} strokeWidth={2.7} />
+  ) : (
+    String(number).padStart(2, "0")
+  )}
+</span>
 
 
         <span className="jr-step-copy">
@@ -2402,7 +2591,7 @@ Identify critical academic dates that could affect implementation.
       <SectionHeading
         number="02"
         eyebrow="YOUR JENZABAR IMPLEMENTATION PLAN"
-        eyebrowColor="#76c0c2"
+        eyebrowColor="#167273"
         title="Review your estimated Jenzabar One implementation timeline."
         detail="See how your implementation could progress from initial planning through go-live. Click any phase to inspect its scope and change timing."
       />
@@ -2775,8 +2964,6 @@ Identify critical academic dates that could affect implementation.
   </div>
 
 
-  
-        <div className="jr-map-bottom"><div className="jr-legend"><span><i className="vendor"/> Jenzabar-led*</span><span><i className="campus"/> Institution-led*</span><span><i className="shared"/> Shared*</span><span><i className="risky"/> Campus-sensitive month</span></div><div className="jr-map-note">*Indicative owner, subject to agreement.</div></div>
       </div>
  
     </div></section>
@@ -3047,19 +3234,17 @@ Identify critical academic dates that could affect implementation.
   <div className="jr-wrap jr-brief-grid">
     <div className="jr-brief-copy">
       <span className="jr-kicker jr-kicker-light">
-        05 / LEADERSHIP READOUT
+04 / EXECUTIVE REVIEW
       </span>
 
-      <h2>
-        Turn the plan into a
+          <h2>
+        Download your implementation plan
         <br />
-        board-ready decision.
+        for leadership review.
       </h2>
 
       <p>
-        Generate a tailored implementation brief with your current timeline,
-        projected staffing load, risk windows and proposed ownership.
-        Give Finance and IT a common starting point.
+Bring your implementation estimates, resource requirements and key delivery considerations into an editable PowerPoint for internal stakeholder review.
       </p>
 
       <div className="jr-brief-actions">
@@ -3077,17 +3262,14 @@ Identify critical academic dates that could affect implementation.
 
         <button
           type="button"
-          className="jr-brief-copy-btn"
-          onClick={copy}
+          className="jr-btn jr-btn-outline-brief"
+          onClick={exportDetailedPlan}
         >
-          {copyState ? <Check size={16} /> : <Copy size={16} />}
-          {copyState ? "Copied" : "Copy key assumptions"}
+          Download detailed plan
         </button>
       </div>
 
-      <p className="jr-brief-disclaimer">
-        Illustrative planning brief. Review dates, resources and responsibilities before approval.
-      </p>
+
     </div>
 
     <div
@@ -3393,51 +3575,184 @@ Identify critical academic dates that could affect implementation.
   </div>
 </section>
 
-    <section className="jr-faq jr-section" id="faq"><div className="jr-wrap jr-faq-layout"><div><span className="jr-kicker">FREQUENTLY ASKED QUESTIONS</span><h2>Questions your CFO<br/>and IT team will ask.</h2><p>Use these answers to challenge the assumptions before taking the model into a project planning meeting.</p><a href={demoHref} className="jr-inline-link" target="_blank" rel="noreferrer">Discuss implementation with Jenzabar <ArrowUpRight size={16}/></a></div><div className="jr-faq-list">{FAQs.map(([q,a],i)=><div key={i} className="jr-faq-item"><button type="button" aria-expanded={openFaq===i} onClick={()=>setOpenFaq(openFaq===i?null:i)}><span><small>{String(i+1).padStart(2,"0")}</small>{q}</span>{openFaq===i?<Minus size={17}/>:<Plus size={17}/>}</button>{openFaq===i&&<p>{a}</p>}</div>)}</div></div></section>
+<section className="jr-faq jr-section" id="faq">
+  <div className="jr-wrap jr-faq-layout">
 
+    {/* LEFT: FAQ INTRODUCTION */}
+
+    <div className="jr-faq-intro">
+      <span className="jr-kicker">
+        FREQUENTLY ASKED QUESTIONS
+      </span>
+
+      <h2>
+        What to know before finalising your plan.
+      </h2>
+
+      <p>
+        Understand how the estimates are calculated,
+        which assumptions you can adjust and what
+        still needs to be confirmed with Jenzabar
+        before implementation begins.
+      </p>
+
+      {/* CONTACT CARD */}
+
+      <div className="jr-faq-contact">
+        <div className="jr-faq-contact-icon">
+          <MessageCircle size={23} strokeWidth={1.8} />
+        </div>
+
+        <div className="jr-faq-contact-content">
+          <h3>Still have questions?</h3>
+
+          <p>
+            Discuss your institution's requirements
+            with the Jenzabar team.
+          </p>
+
+          <a
+            href={demoHref}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Speak with Jenzabar
+            <ArrowRight size={17} />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {/* RIGHT: ACCORDION */}
+
+    <div className="jr-faq-list">
+      {FAQs.map(([q, a], i) => {
+        const isOpen = openFaq === i;
+
+        return (
+          <div
+            key={i}
+            className={`jr-faq-item ${
+              isOpen ? "is-open" : ""
+            }`}
+          >
+            <button
+              type="button"
+              aria-expanded={isOpen}
+              onClick={() =>
+                setOpenFaq(isOpen ? null : i)
+              }
+            >
+              <span className="jr-faq-question">
+                <small className="jr-faq-number">
+                  {String(i + 1).padStart(2, "0")}
+                </small>
+
+                <span className="jr-faq-question-text">
+                  {q}
+                </span>
+              </span>
+
+              <span className="jr-faq-toggle">
+                {isOpen ? (
+                  <Minus size={19} strokeWidth={1.8} />
+                ) : (
+                  <Plus size={19} strokeWidth={1.8} />
+                )}
+              </span>
+            </button>
+
+            {isOpen && (
+              <div className="jr-faq-answer">
+                <p>{a}</p>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
 
 <section className="jr-final">
-  <div className="jr-wrap jr-final-inner">
-    {/* FINAL CTA COPY */}
+  <div className="jr-final-decoration jr-final-decoration-one" />
+  <div className="jr-final-decoration jr-final-decoration-two" />
 
-    <div className="jr-final-copy">
-      <span className="jr-kicker jr-kicker-light">
+  <div className="jr-wrap jr-final-inner">
+
+    {/* LEFT: MESSAGE */}
+
+      <div className="jr-final-copy">
+      <span className="jr-kicker jr-kicker-light" style={{ color: "#167273" }}>
         NEXT STEP
       </span>
 
       <h2>
-        Plan the change before
-        <br />
-        you commit to it.
+        Review your plan <br/>with Jenzabar.
       </h2>
 
       <p>
-        Bring a personalised JENZABAR IMPLEMENTATION PLAN
-        to your first serious scoping discussion.
+Confirm your proposed timeline, staffing requirements and implementation scope with the Jenzabar team.
       </p>
     </div>
 
-    {/* FINAL CTA ACTIONS */}
+    {/* RIGHT: ACTIONS AND SUPPORTING DETAILS */}
 
-    <div className="jr-final-actions">
-      <a
-        href={demoHref}
-        target="_blank"
-        rel="noreferrer"
-        className="jr-btn jr-btn-mint"
-      >
-        Talk through your roadmap
-        <ArrowRight size={18} />
-      </a>
+    <div className="jr-final-right">
 
-      <button
-        className="jr-btn jr-btn-outline"
-        type="button"
-        onClick={() => goTo("builder")}
-      >
-        Revise your plan
-        <SlidersHorizontal size={16} />
-      </button>
+      <div className="jr-final-actions">
+        <a
+          href={demoHref}
+          target="_blank"
+          rel="noreferrer"
+          className="jr-btn jr-btn-mint"
+        >
+          Talk through your roadmap
+          <ArrowRight size={19} />
+        </a>
+
+        <button
+          type="button"
+          className="jr-btn jr-btn-outline"
+          onClick={exportDetailedPlan}
+        >
+          Download your plan
+          <FileDown size={19} />
+        </button>
+      </div>
+
+      <div className="jr-final-benefits">
+        <div className="jr-final-benefit">
+          <CalendarDays size={22} strokeWidth={1.5} />
+
+          <span>
+            Discuss your timeline
+            <br />
+            and key milestones
+          </span>
+        </div>
+
+        <div className="jr-final-benefit">
+          <Users size={22} strokeWidth={1.5} />
+
+          <span>
+            Validate resourcing
+            <br />
+            and responsibilities
+          </span>
+        </div>
+
+        <div className="jr-final-benefit">
+          <FileText size={22} strokeWidth={1.5} />
+
+          <span>
+            Review assumptions
+            <br />
+            and next steps
+          </span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -4175,10 +4490,7 @@ Identify critical academic dates that could affect implementation.
                 )}
 
                 <footer className="jr-deck-large-footer">
-                  <span>
-                    Independent planning concept by GrowUp.
-                    Not an official Jenzabar document.
-                  </span>
+            
 
                   <strong>
                     {String(deckSlide + 1).padStart(
@@ -4339,10 +4651,13 @@ Identify critical academic dates that could affect implementation.
             <button
               type="button"
               className="jr-deck-modal-done"
-              onClick={() => setDeckModalOpen(false)}
+              onClick={exportEditedBrief}
+              disabled={exporting}
             >
-              Done editing
-              <Check size={15} />
+              {exporting
+                ? "Generating slides…"
+                : "Generate implementation brief"}
+              <FileDown size={15} />
             </button>
           </footer>
         </div>
@@ -4499,15 +4814,76 @@ const styles = `
 
 .jr-step.done {
   border-left-color: transparent;
+  background: transparent;
 }
 
+.jr-step.done .jr-step-copy strong {
+  color: #087b70;
+}
+
+.jr-step.done:hover {
+  background: #f3faf7;
+}
+
+/* SIDEBAR STEP INDICATORS */
+
 .jr-step-number {
-  font-size: 17px;
-  font-weight: 780;
-  color: #43566d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+
+  border-radius: 50%;
+  border: 1px solid #d5e5df;
+  background: transparent;
+
+  font-size: 12px;
+  font-weight: 800;
+  color: #55756a;
+  letter-spacing: 0;
+
   padding: 0;
-  min-width: 0;
-  letter-spacing: -0.015em;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Not yet completed */
+
+.jr-step-number.is-pending {
+  background: transparent;
+  border-color: #d8e5e0;
+  color: #55756a;
+}
+
+/* Currently selected step */
+
+.jr-step-number.is-active {
+  background: #087b70;
+  border-color: #087b70;
+  color: #ffffff;
+}
+
+/* Completed step */
+
+.jr-step-number.is-complete {
+  background: #087b70;
+  border-color: #087b70;
+  color: #ffffff;
+}
+
+/* White checkmark */
+
+.jr-step-number.is-complete svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  stroke: #ffffff;
 }
 
 .jr-step-copy {
@@ -5532,16 +5908,16 @@ const styles = `
   background: rgba(226, 147, 64, 0.10);
 }
 
-/* ACTIVE / SELECTED PHASE */
+ /* ACTIVE / SELECTED PHASE */
 
 #map .jr-gantt-row.selected .jr-gantt-label {
   background: #10342f;
-  color: #63e7be;
-  box-shadow: inset 3px 0 0 #35d5a5;
+  color: #167273;
+  box-shadow: inset 3px 0 0 #167273;
 }
 
 #map .jr-gantt-row.selected .jr-gantt-track {
-  background: rgba(26, 127, 103, 0.17);
+  background: rgba(22, 114, 115, 0.15);
 }
 
 /* 06 — THIN PREMIUM TIMELINE BARS */
@@ -5554,11 +5930,7 @@ const styles = `
   border: 0;
   border-radius: 4px;
 
-  background: linear-gradient(
-    90deg,
-    #22af88 0%,
-    #36c69a 100%
-  );
+  background: #167273;
 
   color: #ffffff;
 
@@ -5576,33 +5948,20 @@ const styles = `
 /* Shared workstreams */
 
 #map .jr-gantt-bar.shared {
-  background: linear-gradient(
-    90deg,
-    #229f81,
-    #48caa1
-  );
+  background: #167273;
 }
 
 /* Jenzabar-led workstreams */
 
 #map .jr-gantt-bar.vendor {
-  background: linear-gradient(
-    90deg,
-    #117d68,
-    #269f85
-  );
+  background: #167273;
 }
 
 /* Institution-led workstreams */
 
 #map .jr-gantt-bar.campus {
-  background: linear-gradient(
-    90deg,
-    #79ae9e,
-    #a3d3bb
-  );
-
-  color: #06372d;
+  background: #167273;
+  color: #ffffff;
 }
 
 /* Small duration labels */
@@ -5630,7 +5989,7 @@ const styles = `
 
 #map .jr-gantt-bar:hover {
   filter: brightness(1.17);
-  box-shadow: 0 2px 9px rgba(42, 220, 164, 0.18);
+  box-shadow: 0 2px 9px rgba(22, 114, 115, 0.35);
 }
 
 #map .jr-gantt-bar:active {
@@ -6835,26 +7194,59 @@ const styles = `
   flex-wrap: wrap;
 }
 
+#brief .jr-brief-actions .jr-btn-outline-brief {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(182, 229, 210, 0.28);
+  border-radius: 7px;
+  min-height: 52px;
+  padding: 0 22px;
+  background: transparent;
+  color: #d3ece0;
+  font-family: Inter, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: -0.012em;
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+#brief .jr-brief-actions .jr-btn-outline-brief:hover {
+  background: rgba(179, 231, 207, 0.08);
+  border-color: rgba(182, 229, 210, 0.55);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
 #brief .jr-brief-actions .jr-btn-mint {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  border: 1px solid #b7efda;
+  border: 1px solid #167273;
   border-radius: 7px;
-  min-height: 47px;
-  padding: 0 17px;
-  background: #a7e8d1;
-  color: #05342d;
+  min-height: 52px;
+  padding: 0 24px;
+  background: #167273;
+  color: #ffffff;
   font-family: Inter, -apple-system,
     BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 730;
   box-shadow: 0 8px 24px rgba(0,0,0,0.14);
 }
 
 #brief .jr-brief-actions .jr-btn-mint:hover {
-  background: #c2f5e1;
+  background: #1a8a8b;
+  border-color: #1a8a8b;
 }
 
 #brief .jr-brief-copy-btn {
@@ -8474,24 +8866,37 @@ const styles = `
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: 8px;
 
   min-height: 40px;
   padding: 0 22px;
 
-  background: #b0e9d0;
-  color: #082f28;
+  background: #167273;
+  color: #ffffff;
 
-  border: 1px solid #b0e9d0;
+  border: 1px solid #167273;
   border-radius: 6px;
 
   font-size: 12px;
   font-weight: 750;
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.jr .jr-deck-modal-done:hover {
-  background: #c6f5df;
-  border-color: #c6f5df;
+.jr .jr-deck-modal-done:hover:not(:disabled) {
+  background: #1a8a8b;
+  border-color: #1a8a8b;
+  transform: translateY(-2px);
+}
+
+.jr .jr-deck-modal-done:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
 }
 
 /* OPTIONAL EXPORT BUTTON */
@@ -9202,7 +9607,7 @@ const styles = `
 
 #brief .jr-brief-copy .jr-kicker {
   display: block;
-  color: #57d8b0;
+  color: #167273;
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.18em;
@@ -9875,9 +10280,7 @@ const styles = `
   background: #aee6d2;
   border: 1px solid #aee6d2;
   border-radius: 7px;
-
-  color: #011522 !important;
-
+color: #ffffff !important;
   font-size: 13px;
   font-weight: 750;
   letter-spacing: -0.015em;
@@ -9903,7 +10306,7 @@ const styles = `
 .jr .jr-final .jr-btn-mint:hover {
   background: #c4f2e0;
   border-color: #c4f2e0;
-  color: #011522 !important;
+color: #ffffff !important;
   transform: translateY(-1px);
 }
 
@@ -10160,11 +10563,11 @@ const styles = `
   min-height: 50px;
   padding: 0 21px;
 
-  background: #aee6d2;
-  border: 1px solid #aee6d2;
+  background: #167273;
+  border: 1px solid #167273;
   border-radius: 7px;
 
-  color: #011522 !important;
+  color: #ffffff !important;
 
   font-size: 13px;
   font-weight: 750;
@@ -10174,20 +10577,23 @@ const styles = `
 
   transition:
     background 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .jr .jr-hero .jr-btn-mint svg {
-  color: #fafafa !important;
-  stroke: #fafafa !important;
+  color: currentColor !important;
+  stroke: currentColor !important;
 }
 
 .jr .jr-hero .jr-btn-mint:hover {
-  background: #25adad;
-  border-color: #25adad;
+  background: #1a8a8b;
+  border-color: #1a8a8b;
 
-  color: #fafafa !important;
-  transform: none;
+  color: #ffffff !important;
+
+  transform: translateY(-2px);
 }
 
 /* SECONDARY BUTTON */
@@ -10992,6 +11398,8 @@ const styles = `
 
   border-radius: 5px;
 
+  background: #167273;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11017,11 +11425,7 @@ const styles = `
   outline-offset: 2px;
 }
 
-/* 6. Keep labels readable on lighter bars */
-#map .jr-gantt-bar.campus span {
-  color: #06372d;
-  text-shadow: none;
-}
+ 
 
 /* ==========================================
    GANTT CHART — MONTHLY STAFF HOURS
@@ -12381,7 +12785,7 @@ const styles = `
 .jr .jr-deck-large-footer span,.jr .jr-deck-large-footer strong{color:#687975}
 .jr .jr-deck-large-narrative{color:#526966!important;border-top:1px solid #dbe5df}
 .jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading{position:relative;z-index:2;width:60%;margin-bottom:0}
-.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading h2{font-size:clamp(33px,3.9vw,57px);max-width:550px}
+.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading h2{font-size:clamp(22px,2.2vw,35px);max-width:820px;line-height:1.15}
 .jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading p{max-width:465px;font-size:15px}
 .jr .jr-executive-cover{display:grid;grid-template-columns:1fr .84fr;gap:30px;flex:1;min-height:220px;margin-top:-10px}
 .jr .jr-cover-intro{display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:15px}
@@ -12428,10 +12832,10 @@ const styles = `
 .jr .jr-deck-large-slide{padding:29px 37px 22px;box-shadow:0 12px 36px rgba(0,0,0,.13);border-radius:7px;background:#fcfbf7}
 .jr .jr-deck-large-masthead{padding-bottom:11px}
 .jr .jr-deck-large-heading{padding:13px 0 12px;max-width:100%}
-.jr .jr-deck-large-heading h2{font-size:clamp(28px,2.65vw,39px);line-height:1.12;letter-spacing:-.045em;max-width:780px;margin:9px 0}
+.jr .jr-deck-large-heading h2{font-size:clamp(28px,2.65vw,39px);line-height:1.12;letter-spacing:-.045em;max-width:100%;margin:9px 0}
 .jr .jr-deck-large-heading p{font-size:12px;line-height:1.5}
 .jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading{width:100%;position:static;padding-bottom:4px}
-.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading h2{font-size:clamp(31px,3.2vw,45px);max-width:800px}
+.jr .jr-deck-large-slide:has(.jr-executive-cover) .jr-deck-large-heading h2{font-size:clamp(22px,2.2vw,35px);max-width:820px;line-height:1.15}
 .jr .jr-executive-cover{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:34px;min-height:0;margin-top:4px;align-items:stretch}
 .jr .jr-cover-visual{margin:0;transform:none;box-shadow:none;background:#f0f4ef;padding:15px 17px 12px;align-self:stretch;border-radius:6px}
 .jr .jr-cover-intro{justify-content:center;padding:0}
@@ -12509,5 +12913,615 @@ const styles = `
 #ownership .jr-owner-brand .jr-logo .jr-wordmark { display: none; }
 #ownership .jr-ownership-col.vendor .jr-owner-brand { margin-right: 0; }
 #ownership .jr-ownership-col.vendor .jr-owner-col-head { gap: 9px; }
+
+/* Keep step circles consistent at smaller widths */
+
+@media (max-width: 1100px) {
+  .jr-step-number {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 760px) {
+  .jr-step-number {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 11px;
+  }
+
+  .jr-step-number.is-complete svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+
+/* ==========================================
+   PREMIUM FAQ — NEW DESIGN
+   ========================================== */
+
+.jr #faq {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  padding: 112px 0 122px;
+  color: #10252f;
+}
+
+/* Layout */
+
+.jr #faq .jr-faq-layout {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.85fr)
+    minmax(0, 1.55fr);
+  gap: clamp(55px, 7vw, 110px);
+  align-items: start;
+}
+
+/* Left column */
+
+.jr #faq .jr-faq-intro {
+  min-width: 0;
+}
+
+.jr #faq .jr-faq-intro .jr-kicker {
+  display: block;
+  color: #087b70;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.jr #faq .jr-faq-intro h2 {
+  margin: 0 0 24px;
+  max-width: 620px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(37px, 3.25vw, 52px);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: #082b2e;
+}
+
+.jr #faq .jr-faq-intro > p {
+  margin: 0;
+  max-width: 390px;
+
+  font-size: 15px;
+  line-height: 1.85;
+  font-weight: 400;
+  color: #52646a;
+}
+
+/* FAQ contact card */
+
+.jr #faq .jr-faq-contact {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+
+  margin-top: 44px;
+  padding: 24px;
+
+  background: #f4f8f6;
+  border: none;
+  border-radius: 4px;
+
+  max-width: 420px;
+}
+
+.jr #faq .jr-faq-contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 51px;
+  height: 51px;
+  border-radius: 50%;
+
+  background: #d8f2e9;
+  color: #087b70;
+}
+
+.jr #faq .jr-faq-contact-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.jr #faq .jr-faq-contact h3 {
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+  color: #0b2930;
+  margin: 1px 0 7px;
+}
+
+.jr #faq .jr-faq-contact p {
+  margin: 0 0 15px;
+  color: #011522;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.jr #faq .jr-faq-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+
+  color: #087b70;
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+
+  transition: gap 0.2s ease;
+}
+
+.jr #faq .jr-faq-contact a:hover {
+  gap: 14px;
+}
+
+
+
+
+
+/* FAQ list */
+
+.jr #faq .jr-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  border: none;
+}
+
+/* Individual FAQ cards */
+
+.jr #faq .jr-faq-item,
+.jr #faq .jr-faq-item:first-child {
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #e0e9e5;
+  border-radius: 11px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.jr #faq .jr-faq-item:hover {
+  border-color: #c3ded3;
+}
+
+.jr #faq .jr-faq-item.is-open {
+  background: #fbfdfc;
+  border-color: #c5e1d6;
+  box-shadow: 0 4px 16px rgba(4, 27, 28, 0.025);
+}
+
+/* Question button */
+
+.jr #faq .jr-faq-item > button,
+.jr #faq .jr-faq-item > button[aria-expanded="true"] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 24px;
+  padding: 20px 26px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  text-align: left;
+  cursor: pointer;
+  color: #102b34;
+  transition: background 0.18s ease;
+}
+
+.jr #faq .jr-faq-item > button:hover {
+  background: #f6faf8;
+}
+
+/* Number + question: this is the ONLY part that grows */
+
+.jr #faq .jr-faq-item > button > .jr-faq-question {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.jr #faq .jr-faq-item > button .jr-faq-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  min-width: 37px;
+  border-radius: 50%;
+  background: #e0f4ed;
+  color: #0d514a;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.jr #faq .jr-faq-item > button .jr-faq-question-text {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.022em;
+  line-height: 1.4;
+  color: #0b2b32;
+}
+
+.jr #faq .jr-faq-item.is-open .jr-faq-question-text {
+  color: #082b2e;
+}
+
+/* Toggle: fixed width, never grows */
+
+.jr #faq .jr-faq-item > button > .jr-faq-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  color: #087b70;
+}
+
+/* Expanded answer */
+
+.jr #faq .jr-faq-answer {
+  margin: 0 26px 24px 83px;
+}
+
+.jr #faq .jr-faq-answer p {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #011522;
+  max-width: none;
+}
+
+.jr #faq .jr-faq-item > button:focus-visible {
+  outline: 2px solid #087b70;
+  outline-offset: -3px;
+}
+/* ==========================================
+   PREMIUM FINAL CTA
+   ========================================== */
+
+.jr .jr-final {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  background: #041b1c;
+  color: #ffffff;
+
+  padding: 94px 0 100px;
+  border: none;
+}
+
+/* Background decorative shapes */
+
+.jr .jr-final-decoration {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+
+  border: 1px solid rgba(95, 212, 189, 0.12);
+  border-radius: 32%;
+  transform: rotate(-28deg);
+}
+
+.jr .jr-final-decoration-one {
+  width: 460px;
+  height: 460px;
+  right: -270px;
+  top: -260px;
+
+  background: rgba(17, 113, 104, 0.12);
+}
+
+.jr .jr-final-decoration-two {
+  width: 490px;
+  height: 490px;
+  right: -240px;
+  bottom: -390px;
+
+  background: rgba(23, 137, 121, 0.1);
+}
+
+/* Main grid */
+
+.jr .jr-final-inner {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns:
+    minmax(0, 0.95fr)
+    minmax(0, 1.05fr);
+
+  align-items: center;
+  gap: clamp(35px, 5vw, 90px);
+}
+
+/* Left content */
+
+.jr .jr-final-copy {
+  max-width: 570px;
+}
+
+.jr .jr-final .jr-kicker {
+  display: block;
+  margin-bottom: 23px;
+
+  color: #71dfbe;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+}
+
+.jr .jr-final h2 {
+  margin: 0 0 22px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(37px, 3.2vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+
+  color: #ffffff;
+}
+
+.jr .jr-final p {
+  margin: 0;
+  max-width: 510px;
+
+  font-size: 16px;
+  line-height: 1.85;
+  color: #fafafa;
+}
+
+/* Right column */
+
+.jr .jr-final-right {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+
+/* Action buttons */
+
+.jr .jr-final-actions {
+  display: grid;
+  grid-template-columns: 1fr 0.88fr;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.jr .jr-final-actions .jr-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+
+  min-height: 57px;
+  width: 100%;
+
+  padding: 15px 19px;
+  border-radius: 7px;
+
+  font-size: 13px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.jr .jr-final .jr-btn-mint {
+  background: #167273;
+  color: #ffffff;
+  border: 1px solid #167273;
+}
+
+.jr .jr-final .jr-btn-mint svg {
+  color: #ffffff;
+  stroke: #ffffff;
+}
+
+.jr .jr-final .jr-btn-mint:hover {
+  background: #1a8a8b;
+  border-color: #1a8a8b;
+  transform: translateY(-2px);
+}
+
+.jr .jr-final .jr-btn-outline {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(213, 241, 233, 0.48);
+}
+
+.jr .jr-final .jr-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(213, 241, 233, 0.8);
+  transform: translateY(-2px);
+}
+
+/* Bottom supporting benefits */
+
+.jr .jr-final-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+
+  padding-top: 27px;
+  border-top: 1px solid rgba(193, 229, 217, 0.19);
+}
+
+.jr .jr-final-benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 4px 15px 4px 0;
+}
+
+.jr .jr-final-benefit + .jr-final-benefit {
+  border-left: 1px solid rgba(193, 229, 217, 0.15);
+  padding-left: 15px;
+}
+
+.jr .jr-final-benefit svg {
+  flex-shrink: 0;
+  color: #bceadb;
+  margin-top: 3px;
+}
+
+.jr .jr-final-benefit span {
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: #c3d8d2;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 1100px) {
+  .jr #faq .jr-faq-layout {
+    gap: 40px;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+
+  .jr #faq .jr-faq-question-text {
+    font-size: 15px;
+  }
+
+  .jr .jr-final-inner {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .jr .jr-final-right {
+    max-width: 680px;
+  }
+}
+
+@media (max-width: 760px) {
+  .jr #faq {
+    padding: 75px 0 85px;
+  }
+
+  .jr #faq .jr-faq-layout {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .jr #faq .jr-faq-intro h2 {
+    font-size: 39px;
+  }
+
+  .jr #faq .jr-faq-contact {
+    margin-top: 28px;
+  }
+
+  .jr #faq .jr-faq-item > button {
+    padding: 16px;
+  }
+
+  .jr #faq .jr-faq-question {
+    gap: 12px;
+  }
+
+  .jr #faq .jr-faq-question-text {
+    font-size: 15px;
+  }
+
+  .jr #faq .jr-faq-number,
+  .jr #faq .jr-faq-item button small {
+    width: 33px;
+    height: 33px;
+    min-width: 33px;
+  }
+
+  .jr #faq .jr-faq-answer {
+    margin: 0 17px 20px 61px;
+  }
+
+  .jr .jr-final {
+    padding: 76px 0 82px;
+  }
+
+  .jr .jr-final-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .jr .jr-final h2 {
+    font-size: 38px;
+  }
+
+  .jr .jr-final-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .jr .jr-final-benefits {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+
+  .jr .jr-final-benefit,
+  .jr .jr-final-benefit + .jr-final-benefit {
+    padding: 0;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .jr #faq .jr-faq-intro h2,
+  .jr .jr-final h2 {
+    font-size: 33px;
+  }
+
+  .jr #faq .jr-faq-contact {
+    padding: 18px;
+  }
+
+  .jr #faq .jr-faq-answer {
+    margin-left: 18px;
+  }
+}
 
 `;
