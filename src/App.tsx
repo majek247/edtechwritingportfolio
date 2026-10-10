@@ -7,7 +7,6 @@ import Home from "./pages/Home";
 import NorthstarReskillingArticle from "./pages/articles/NorthstarReskillingArticle";
 import BestMathsInterventionProgrammes2026 from "./pages/articles/BestMathsInterventionProgrammes2026";
 import JenzabarImplementationRealityMap from "./pages/articles/JenzabarImplementationRealityMap";
-import MakiBusinessCase from "./pages/articles/MakiBusinessCase";
 
 
 
@@ -55,21 +54,7 @@ export default function App() {
           }
         />
 
-        <Route
-          path="/articles/maki-business-case"
-          element={
-            <>
-              <Seo
-               title="EdTech Article Writing Sample | Northstar Reskilling"
-               description="A story-led EdTech writing sample from GrowUp, following one fictional employee through hiring, onboarding, performance, retention and exit to show where AI helps, where it needs a human, and who owns the decision."
-                path="/articles/maki-business-case"
-              />
-              <MakiBusinessCase />
-            </>
-          }
-        />
-
-
+      
   
 
         <Route

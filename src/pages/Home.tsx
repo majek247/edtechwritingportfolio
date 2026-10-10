@@ -21,6 +21,7 @@ const ROUTES = {
   makiCase: "/articles/maki-business-case",
   benefits: "/articles/best-global-employee-benefits-platform",
   aiLifecycle: "/articles/ai-employee-lifecycle",
+  jenzabar: "/articles/jenzabar-implementation-reality-map",
 };
 
 
@@ -29,25 +30,25 @@ const steps = [
     n: "01",
     icon: "search",
     t: "Map the buying and approval process",
-    d: "We look at how HR, finance, IT, procurement and leadership evaluate the category, then identify where content can remove friction and strengthen important commercial conversations.",
+    d: "We look at how educators, academic leaders, IT, finance and procurement evaluate technology, then identify the questions, objections and approval requirements that content needs to address throughout the buying process.",
   },
   {
     n: "02",
     icon: "doc",
     t: "Build the evidence with your experts",
-    d: "We work with product, compliance, customer and leadership teams to capture the detail, proof and perspective needed to create content that stands up to enterprise scrutiny.",
+    d: "We work with product, curriculum, customer success and implementation teams to capture the technical detail, learning outcomes, customer evidence and practical experience needed to make complex EdTech content credible.",
   },
   {
     n: "03",
     icon: "pencil",
     t: "Create content for complex decisions",
-    d: "We turn that evidence into buyer guides, commercial pages, thought leadership and sales-support content that helps multiple stakeholders understand, evaluate and justify the decision.",
+    d: "We turn that evidence into buyer guides, platform comparisons, implementation planners and sales-support materials that help buyers assess the technology, understand what's involved and make the case for investment.",
   },
   {
     n: "04",
     icon: "chart",
     t: "Connect content back to pipeline",
-    d: "We track how content contributes across the buying journey, from early research through opportunity and revenue, then use those signals to guide what we create next.",
+    d: "We track how content contributes across the buying journey, from organic discovery and product evaluation to demo requests, pilots and sales opportunities, then use those insights to prioritise what we create next.",
   },
 ];
 
@@ -155,11 +156,11 @@ const mockShell =
 
 function MockOpportunities() {
   const rows = [
-    ["Executive case", 92, "Priority"],
-    ["Vendor evaluation", 86, "Priority"],
+    ["Learning outcomes", 92, "Priority"],
+    ["Product evaluation", 86, "Priority"],
     ["Security & IT", 72, "High"],
-    ["Implementation", 64, "High"],
-    ["Commercial proof", 58, "High"],
+    ["Implementation & adoption", 64, "High"],
+    ["Budget & procurement", 58, "High"],
   ] as const;
 
   return (
@@ -171,7 +172,7 @@ function MockOpportunities() {
       <div className="space-y-2.5">
         {rows.map(([l, w, lvl]) => (
           <div key={l} className="flex items-center gap-2 text-[10px] text-[#d5e2de]">
-            <span className="w-[96px] shrink-0">{l}</span>
+            <span className="w-[112px] shrink-0 leading-3">{l}</span>
 
             <span className="h-[5px] flex-1 rounded-full bg-white/10">
               <span
@@ -195,11 +196,11 @@ function MockOpportunities() {
 
 function MockSources() {
   const items = [
-    ["Product & SME interviews", "#5b8def"],
-    ["Customer evidence", "#4d9bff"],
-    ["Regulatory sources", "#6f7dff"],
-    ["Sales call insights", "#d46bd0"],
-    ["Market evidence", "#5aa8ff"],
+    ["Product & curriculum experts", "#5b8def"],
+    ["Customer and educator interviews", "#4d9bff"],
+    ["Learning outcomes & efficacy data", "#6f7dff"],
+    ["Security & compliance documentation", "#d46bd0"],
+    ["Sales and implementation insights", "#5aa8ff"],
   ];
   return (
     <div className="space-y-1.5">
@@ -289,36 +290,32 @@ const mocks = [
 
 const faqItems = [
   {
-    q: "What HR tech subjects do you cover?",
-    a: "We cover recruitment technology, talent acquisition, employee benefits, payroll, workforce management, learning, performance, people analytics and adjacent HR software categories. Before writing, we build enough context around the product, market and buyer to understand what matters and where the real complexity sits.",
+    q: "What EdTech subjects do you cover?",
+    a: "We write about K–12 education technology, maths intervention, assessment platforms, learning management systems, higher education ERP, student information systems, corporate learning and skills development. We also cover the technical and operational subjects surrounding these products, including implementation, integrations, data protection and measuring learning outcomes.",
   },
   {
-    q: "Can you help decide which HR tech topics to write about?",
-    a: "Yes. We prioritise topics against buyer questions, commercial relevance, product priorities, search demand and the conversations your sales team is already having. The aim is to build a focused content plan around the areas most likely to support discovery, evaluation and demand.",
+    q: "Can you help us decide which EdTech topics to write about?",
+    a: "Yes. We look at what your prospective customers are searching for, the questions coming up during sales conversations and the areas where your product has a clear advantage. For a maths platform, that might mean intervention comparisons and evidence of pupil progress. For a university ERP, it could mean implementation planning, integrations and procurement requirements.",
   },
   {
-    q: "Is your HR tech content optimised for SEO?",
-    a: "Yes, where search is relevant. We research intent, competing pages, keyword language, internal-link opportunities and the depth required to compete. But SEO does not dictate the piece. The content still needs a clear angle, useful evidence and enough substance to be genuinely helpful.",
+    q: "How do you handle claims about learning outcomes?",
+    a: "We check the evidence before turning a learning outcome into a marketing claim. That means reviewing published evaluations, research methods, sample sizes and what the findings actually support. We distinguish independent research from vendor case studies and customer-reported results, so the content gives school leaders and education buyers a fair picture of what the product can deliver.",
   },
   {
-    q: "Do you write under our brand, or ghostwrite for executives?",
-    a: "We do both. Brand-led content is written to match your positioning, tone and existing voice. For executive ghostwriting, we go deeper into point of view, experience, language and argument so the final piece sounds like the person behind it.",
+    q: "Can you write about complex EdTech products?",
+    a: "Yes. Some EdTech products are straightforward classroom tools. Others involve student information systems, learning platforms, integrations, data migration, access controls and institution-wide implementation. We work through the technical documentation and speak with the people responsible for the product so we can explain how it works without oversimplifying important details or making unsupported claims.",
   },
   {
-    q: "Can you work with our in-house HR tech experts?",
-    a: "Yes. We regularly work with product, sales, customer success, implementation and subject-matter experts to strengthen accuracy and bring first-hand insight into the content. We use focused interviews to get to the useful detail quickly, then turn it into clear arguments and examples.",
+    q: "Can you work with our curriculum and product experts?",
+    a: "Yes. We work with curriculum specialists, educators, product managers, implementation teams and customer-facing staff to get the detail needed for each piece. We use focused interviews and existing documentation to understand the product, its limitations and how customers use it. Your experts review the important claims without having to write the content themselves.",
   },
   {
-    q: "What types of HR tech content do you create?",
-    a: "We create buyer guides, comparison pieces, customer stories, thought leadership, commercial landing pages, research-led articles, business cases and other content designed around the buying journey. The format depends on the job the piece needs to do, not a fixed editorial template.",
+    q: "What types of EdTech content do you create?",
+    a: "We create buyer guides, platform comparisons, research-led articles, customer stories, commercial landing pages, implementation guides and sales enablement materials. We can also scope interactive resources, such as implementation planners and business case tools. The format depends on whether the buyer needs to discover a solution, compare products, assess implementation or get internal approval.",
   },
   {
-    q: "How long does an HR tech article take?",
-    a: "Most long-form pieces take around one to two weeks from approved brief to final draft. Timing depends on research depth, product complexity and the number of reviewers involved. We agree the process upfront so feedback stays focused and the work keeps moving.",
-  },
-  {
-    q: "What do you need from us to get started?",
-    a: "We typically need your product material, positioning, existing content and any useful customer or sales insight. If the topic needs specialist input, we may also speak with the relevant expert. From there, we define the audience, angle, evidence base and review process before drafting begins.",
+    q: "How long does a project take, and what do you need?",
+    a: "Most standard long-form articles take around one to two weeks from an approved brief, depending on research and review requirements. We usually start with your product documentation, positioning, target audience and relevant sales or customer insights. More involved projects, including interactive planners and sales enablement tools, are scoped separately around the functionality, research and design required.",
   },
 ];
 
@@ -369,17 +366,17 @@ useEffect(() => {
 
         <div className="mx-auto grid w-[min(1340px,calc(100%-96px))] items-center gap-6 pb-16 lg:grid-cols-[.92fr_1.08fr] lg:pb-20">
           <div className="relative z-10">
-            <p className="hero-anim mb-6 text-[11px] font-semibold uppercase tracking-[.22em] text-[#1F9FA1]">
-              HR tech writing samples
+                    <p className="hero-anim mb-6 text-[11px] font-semibold uppercase tracking-[.22em] text-[#1F9FA1]">
+              EdTech writing samples
             </p>
 
-                      <h1 style={{ animationDelay: "120ms" }} className="hero-anim max-w-[720px] font-serif text-[50px] font-normal leading-[.98] tracking-[-.045em] text-[#f6f2e8] md:text-[64px]">
-              HR content built to<br className="hidden md:block" />{" "}
+                      <h1 style={{ animationDelay: "120ms" }} className="hero-anim max-w-[720px] font-serif text-[50px] font-normal leading-[.98] tracking-[-.045em] text-[#f6f2e8] md:text-[58px]">
+              EdTech content built to<br className="hidden md:block" />{" "}
               <span className="text-[#1F9FA1]">drive pipeline growth.</span>
             </h1>
 
             <p className="mt-7 max-w-[520px] text-[17px] leading-7 text-[#c4d3cf]">
-      In-depth writing samples showing how we turn complex HR and people tech topics into search visibility, sales conversations and measurable pipeline for B2B SaaS brands.
+      See the kind of work we create for EdTech brands, from detailed buyer guides to interactive sales tools that help buyers understand the product, evaluate options and move closer to a decision.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -416,161 +413,196 @@ useEffect(() => {
 
       {/* SELECTED WORK */}
       <section id="work" className="bg-[#f6f2e9] text-[#082722]">
-        <div className="mx-auto w-[min(1340px,calc(100%-96px))] py-20 lg:py-24">
+        <div className="mx-auto w-[min(1400px,calc(100%-48px))] pt-16 pb-16 md:w-[min(1400px,calc(100%-96px))] lg:pt-20 lg:pb-20">
           <div className="grid gap-8 lg:grid-cols-1">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[.19em] text-[#17796e]">
                 Featured articles
               </p>
               <h2 className="mt-4 max-w-[1250px] font-serif text-[43px] font-normal leading-[1.03] tracking-[-.045em] md:text-[58px]">
-                Explore our HR tech writing samples.
+                Explore our EdTech writing samples.
               </h2>
               <p className="mt-8 max-w-[900px] text-[18px] leading-7 text-[#011522]">
-                From enterprise HR transformation to benefits platforms and the future of work, these articles show how we turn complex topics into clear, credible and commercially valuable content.
+                From school classroom tools to higher education ERP and enterprise learning platforms, these articles show how we turn complex education topics into clear, credible and commercially valuable content.
               </p>
             </div>
 
           </div>
 
-                 {/* FEATURED CASE STUDY — MAKI */}
+                 {/* FEATURED CASE STUDY — JENZABAR */}
           <Link
-            to={ROUTES.makiCase}
+            to={ROUTES.jenzabar}
             reloadDocument
-            className="group relative mt-10 block overflow-hidden rounded-[24px] border border-[#0a443c]/15 bg-[#06332f] shadow-[0_20px_60px_rgba(4,27,28,.10)]"
+            className="group relative mt-6 block overflow-hidden rounded-[16px] border border-[#0a443c]/15 bg-[#06332f] shadow-[0_20px_60px_rgba(4,27,28,.10)]"
           >
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(4,31,29,.98)_0%,rgba(4,31,29,.94)_38%,rgba(4,31,29,.55)_62%,rgba(4,31,29,.05)_100%)]" />
 
-            <div className="relative z-10 grid min-h-[400px] lg:grid-cols-[1.02fr_.98fr]">
-               <div className="flex flex-col justify-center p-8 md:p-10 lg:p-12">
+            <div className="relative z-10 grid min-h-[360px] lg:grid-cols-[1.02fr_.98fr]">
+              <div className="flex flex-col justify-center p-8 md:p-10 lg:p-12">
                 <div>
                   <p className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[.16em] text-[#1F9FA1]">
                     <span className="text-[#1F9FA1]">01</span>
-                    Business case · Enterprise HR
+                    Higher Ed
                   </p>
 
                   <h3 className="mt-5 max-w-[620px] font-serif text-[38px] font-normal leading-[1.02] tracking-[-.04em] text-[#f5f1e8] md:text-[49px]">
-                    Pitching Maki to Your VP:<br/> A Business Case Builder<br/> for HR Teams.
+                    Jenzabar Implementation<br/> Business Case
                   </h3>
 
-                  <p className="mt-5 max-w-[550px] text-[17px] leading-6 text-[#fafafa]">
-Instead of explaining Maki at a surface level, we structured the piece around internal buy-in, using customer evidence, commercial logic and an interactive calculator to make the case more tangible.
+                  <p className="mt-5 max-w-[750px] text-[17px] leading-6 text-[#fafafa]">
+                    Implementation is a big part of the buying decision for higher education ERP. So we built Jenzabar an interactive planning tool that helps institutions work through timelines, staff capacity and potential disruptions, with an executive-ready presentation they can take into internal approval meetings.
                   </p>
 
-                  <span className="mt-7 inline-flex min-h-11 items-center gap-8 rounded-full bg-[#167273] px-6 text-[14px] font-semibold text-white transition-all duration-300 group-hover:gap-10 group-hover:bg-[#1d8f90]">
-                    Explore the business case <Arrow />
-                  </span>
+                  <div className="mt-7 flex flex-wrap items-center gap-3">
+                    <span className="inline-flex min-h-11 items-center gap-8 rounded-full bg-[#167273] px-6 text-[14px] font-semibold text-white transition-all duration-300 group-hover:gap-10 group-hover:bg-[#1d8f90]">
+                   View implementation roadmap <Arrow />
+                    </span>
+                  </div>
                 </div>
-
- 
               </div>
 
-              <div className="relative hidden min-h-[400px] lg:block">
+              <div className="relative hidden min-h-[360px] overflow-hidden lg:block">
                 <div
                   aria-hidden="true"
-                  className="absolute bottom-[42px] right-[84px] h-[290px] w-[290px] rounded-full border border-[#66d7cc]/20"
+                  className="absolute bottom-[42px] right-[122px] h-[240px] w-[240px] rounded-full border border-[#66d7cc]/20"
                 />
                 <div
                   aria-hidden="true"
-                  className="absolute bottom-[76px] right-[116px] h-[225px] w-[225px] rounded-full border border-dashed border-[#66d7cc]/20"
+                  className="absolute bottom-[72px] right-[152px] h-[180px] w-[180px] rounded-full border border-dashed border-[#66d7cc]/20"
                 />
 
                 <img
-                  src="/images/maki-exec-summary.png"
-                  alt="Maki executive summary dashboard showing estimated annual impact of £10.7M, faster time-to-hire, lower hiring costs and stronger candidate experience."
-                  className="absolute right-[8%] top-1/2 z-10 h-[100%] w-auto max-w-none -translate-y-1/2 object-contain drop-shadow-[0_30px_48px_rgba(0,0,0,.30)] transition duration-700 group-hover:scale-[1.015]"
+                  src="/images/jenzabar-edtech-sample.png"
+                  alt="Jenzabar One implementation planner showing timeline, staffing, risks, milestones and resources across a 9 to 12 month rollout."
+                  className="absolute right-[4%] top-1/2 z-10 h-[88%] w-auto max-w-none -translate-y-1/2 object-contain object-right drop-shadow-[0_30px_48px_rgba(0,0,0,.30)] transition duration-700 group-hover:scale-[1.015]"
                 />
               </div>
             </div>
           </Link>
 
 
+{/* TWO SUPPORTING PIECES */}
+<div className="mt-4 grid gap-5 lg:grid-cols-2">
 
-          {/* TWO SUPPORTING PIECES */}
-          <div className="mt-5 grid gap-5 lg:grid-cols-2">
-            {/* BENEFITS PLATFORMS */}
-            <Link
-              to={ROUTES.benefits}
-              reloadDocument
-              className="group relative overflow-hidden rounded-[20px] border border-[#123f38]/10 bg-[#f1ede1] shadow-[0_10px_35px_rgba(4,27,28,.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(4,27,28,.09)]"
-            >
-              <div className="grid min-h-[350px] lg:grid-cols-[1.04fr_.96fr]">
-                {/* COPY */}
-                <div className="relative z-10 flex flex-col justify-between p-7 md:p-8 lg:pr-3">
-                  <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[.17em] text-[#257970]">
-                      02 · HR tech · Buyer guide
-                    </p>
+  {/* 02 — UK SCHOOLS */}
+  <Link
+    to="/articles/best-maths-intervention-programmes"
+    reloadDocument
+    className="group relative isolate block overflow-hidden rounded-[18px] border border-[#123f38]/15 bg-transparent shadow-[0_10px_35px_rgba(4,27,28,.035)] transition-all duration-300 hover:-translate-y-1 hover:border-[#167273]/30 hover:shadow-[0_20px_50px_rgba(4,27,28,.10)]"
+  >
+    {/* Oversized background number */}
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute right-7 top-8 z-0 select-none font-serif text-[125px] font-normal leading-none tracking-[-.09em] text-[#ccebe1]/75 md:text-[145px]"
+    >
+      02
+    </span>
 
-                    <h3 className="mt-4 max-w-[360px] font-serif text-[29px] font-normal leading-[1.04] tracking-[-.035em] text-[#082722] md:text-[32px]">
-                      7 Best Global Employee Benefits Platforms for 2026
-                    </h3>
 
-                    <p className="mt-4 max-w-[340px] text-[14px] leading-[1.7] text-[#011522]">
-                      A practical comparison of seven platforms covering global administration, local flexibility, employee experience, payroll controls and reporting, with real-world use cases to help teams evaluate vendors.
-                    </p>
-                  </div>
 
-                  <span className="mt-7 inline-flex min-h-10 w-fit items-center gap-3 rounded-full bg-[#167273] px-5 text-[12px] font-semibold text-white transition-all duration-300 group-hover:gap-5 group-hover:bg-[#1d8f90]">
-                    Read the article <Arrow />
-                  </span>
-                </div>
+    {/* Card content */}
+    <div className="relative z-10 flex min-h-[300px] flex-col p-7 md:p-8">
 
-                {/* IMAGE */}
-                <div className="relative flex min-h-[300px] items-center justify-center p-4 lg:min-h-[350px] lg:p-2">
-                  <img
-                    src="/images/benbenefitsdashboard.png"
-                    alt="Global benefits overview dashboard showing total employees and countries covered."
-                    className="relative block w-[108%] max-w-[390px] object-contain transition duration-700 group-hover:scale-[1.02]"
-                  />
-                </div>
-              </div>
-            </Link>
+      <div>
+        <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#008c85]">
+          02 · UK Schools
+        </p>
 
-            {/* AI EMPLOYEE LIFECYCLE */}
-            <Link
-              to={ROUTES.aiLifecycle}
-              reloadDocument
-              className="group relative overflow-hidden rounded-[20px] border border-[#123f38]/10 bg-[#f1ede1] shadow-[0_10px_35px_rgba(4,27,28,.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(4,27,28,.09)]"
-            >
-              <div className="grid min-h-[350px] lg:grid-cols-[1.04fr_.96fr]">
-                {/* COPY */}
-                <div className="relative z-10 flex flex-col justify-between p-7 md:p-8 lg:pr-3">
-                  <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[.17em] text-[#257970]">
-                      03 · HR strategy · Industry insight
-                    </p>
+        <h3 className="mt-4 max-w-[520px] font-serif text-[29px] font-normal leading-[1.04] tracking-[-.038em] text-[#011522] md:text-[32px]">
+          6 Best Maths Intervention Programmes for UK Schools in 2026
+        </h3>
 
-                    <h3 className="mt-4 max-w-[365px] font-serif text-[29px] font-normal leading-[1.04] tracking-[-.035em] text-[#082722] md:text-[32px]">
-                      How AI Is Changing the Employee Lifecycle in 2026
-                    </h3>
+        <p className="mt-3 max-w-[480px] text-[16px] leading-[1.55] text-[#011522]">
+          Compare six maths intervention programmes, from one-to-one
+          tutoring to adaptive learning, with a practical look at
+          staff workload, costs and pupil progress.
+        </p>
 
-                    <p className="mt-4 max-w-[345px] text-[14px] leading-[1.7] text-[#011522]">
-Follow one employee through recruitment, onboarding, performance, development and exit to see where AI is shaping the employee experience and what that means for HR and people leaders.
-                    </p>
-                  </div>
+        <p className="mt-3 text-[13px] leading-5 text-[#526269]">
+          By GrowUp <span className="mx-1">|</span> For Third Space Learning
+          <span className="mx-1">|</span> Updated October 2026
+        </p>
+      </div>
 
-                  <span className="mt-7 inline-flex min-h-10 w-fit items-center gap-3 rounded-full bg-[#167273] px-5 text-[12px] font-semibold text-white transition-all duration-300 group-hover:gap-5 group-hover:bg-[#1d8f90]">
-                    Read the article <Arrow />
-                  </span>
-                </div>
+      {/* Bottom actions */}
+      <div className="mt-auto flex items-end justify-between gap-4 pt-5">
 
-                {/* IMAGE */}
-                <div className="relative flex min-h-[300px] items-center justify-center p-4 lg:min-h-[350px] lg:p-2">
-                  <img
-                    src="/images/maya-employee-lifecyle-dashboard.png"
-                    alt="Employee lifecycle dashboard showing performance and development metrics with AI across each stage."
-                    className="relative block w-[94%] max-w-[360px] object-contain transition duration-700 group-hover:scale-[1.02]"
-                  />
-                </div>
-              </div>
-            </Link>
-          </div>
+        <span className="inline-flex min-h-[42px] w-fit items-center gap-4 rounded-full bg-[#167273] px-6 text-[12px] font-semibold text-white transition-all duration-300 group-hover:gap-6 group-hover:bg-[#1d8f90]">
+       Read the artice
+          <Arrow />
+        </span>
+
+
+      </div>
+    </div>
+  </Link>
+
+
+  {/* 03 — ENTERPRISE LEARNING */}
+  <Link
+    to="/articles/northstar-reskilling"
+    reloadDocument
+    className="group relative isolate block overflow-hidden rounded-[18px] border border-[#123f38]/15 bg-transparent shadow-[0_10px_35px_rgba(4,27,28,.035)] transition-all duration-300 hover:-translate-y-1 hover:border-[#167273]/30 hover:shadow-[0_20px_50px_rgba(4,27,28,.10)]"
+  >
+    {/* Oversized background number */}
+    <span
+      aria-hidden="true"
+      className="pointer-events-none absolute right-7 top-8 z-0 select-none font-serif text-[125px] font-normal leading-none tracking-[-.09em] text-[#ccebe1]/75 md:text-[145px]"
+    >
+      03
+    </span>
+
+  
+
+    {/* Card content */}
+    <div className="relative z-10 flex min-h-[300px] flex-col p-7 md:p-8">
+
+      <div>
+        <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#008c85]">
+          03 · Enterprise Learning
+        </p>
+
+        <h3 className="mt-4 max-w-[505px] font-serif text-[29px] font-normal leading-[1.04] tracking-[-.038em] text-[#011522] md:text-[32px]">
+          How to Build a Skills-Based Learning Programme for 5,000 Employees
+        </h3>
+
+        <p className="mt-3 max-w-[490px] text-[16px] leading-[1.55] text-[#011522]">
+          Learn how to build and manage a skills-based learning
+          programme for 5,000 employees using Northstar, from
+          identifying skills gaps to tracking progress and
+          reporting business impact.
+        </p>
+
+        <p className="mt-3 text-[13px] leading-5 text-[#526269]">
+          GrowUp Editorial
+          <span className="mx-1.5">|</span>
+          8 min read
+          <span className="mx-1.5">|</span>
+          October 2026
+        </p>
+      </div>
+
+      {/* Bottom actions */}
+      <div className="mt-auto flex items-end justify-between gap-4 pt-5">
+
+        <span className="inline-flex min-h-[42px] w-fit items-center gap-4 rounded-full bg-[#167273] px-6 text-[12px] font-semibold text-white transition-all duration-300 group-hover:gap-6 group-hover:bg-[#1d8f90]">
+          Read the guide
+          <Arrow />
+        </span>
+
+
+      </div>
+    </div>
+  </Link>
+
+</div>
+
         </div>
       </section>
 
 {/* APPROACH */}
 <section id="approach" className="bg-[#041b1c]">
-  <div className="mx-auto w-[min(1340px,calc(100%-96px))] py-20 lg:py-24">
+  <div className="mx-auto w-[min(1400px,calc(100%-48px))] pt-20 pb-16 md:w-[min(1400px,calc(100%-96px))] lg:pt-20 lg:pb-20">
     <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
       <div>
         <p className="text-[11px] font-bold uppercase tracking-[.22em] text-[#1F9FA1]">
@@ -587,9 +619,7 @@ Follow one employee through recruitment, onboarding, performance, development an
       </div>
 
       <p className="max-w-[590px] text-[18px] leading-8 text-[#c4d3cf] lg:border-l lg:border-white/10 lg:pl-10">
-        We build around how enterprise HR technology is actually bought:
-        multiple stakeholders, longer evaluation cycles, internal scrutiny
-        and the evidence teams need to secure approval.
+ We build around how education technology is evaluated and bought: multiple stakeholders, budget approvals, IT requirements, implementation concerns and the evidence schools, universities and enterprise learning teams need before making a decision.
       </p>
     </div>
 
@@ -652,7 +682,7 @@ Follow one employee through recruitment, onboarding, performance, development an
           </h2>
           <p className="mx-auto mt-5 max-w-[640px] text-[18px] leading-7 text-[#011522]">
             Choose a single article or an ongoing monthly programme. Both include
-            research, strategic input and content written by HR tech specialists.
+            research, strategic input and content written by EdTech specialists.
           </p>
         </div>
 
@@ -679,9 +709,9 @@ Follow one employee through recruitment, onboarding, performance, development an
             </p>
             <ul className="mt-5 flex-1">
               {[
-                "4 articles or customer stories each month",
+                "4 buyer guides, comparisons or long-form articles each month",
                 "Monthly topic plan and keyword research",
-                "Expert review on every piece",
+                "Educator and subject-expert review on every piece",
                 "Custom visuals for every piece",
                 "Monthly report on pipeline impact, rankings and traffic",
                 "Priority turnaround",
@@ -725,7 +755,7 @@ Follow one employee through recruitment, onboarding, performance, development an
             </div>
 
             <p className="mt-5 text-[14px] leading-6 text-[#011522]">
-              In-depth, research-led articles, buyer guides and specialist HR tech content.
+              In-depth, research-led articles and buyer guides for schools, higher education and learning platforms.
             </p>
 
                        <ul className="mt-5 flex-1">
@@ -778,16 +808,17 @@ Follow one employee through recruitment, onboarding, performance, development an
               FAQ
             </p>
 
-            <h2 className="mt-5 max-w-[520px] font-serif text-[46px] font-normal leading-[.98] tracking-[-.045em] text-[#f6f2e8] md:text-[61px]">
-              Questions about our{" "}
-              <span className="text-[#1F9FA1]">HR tech writing</span>{" "}
-              services.
-            </h2>
+<h2 className="mt-5 max-w-[520px] font-serif text-[46px] font-normal leading-[.98] tracking-[-.045em] text-[#f6f2e8] md:text-[61px]">
+  Questions about our{" "}
+  <span className="text-[#1F9FA1]">EdTech writing</span>{" "}
+  services.
+</h2>
 
-            <p className="mt-7 max-w-[470px] text-[17px] leading-7 text-[#c4d3cf]">
-              Everything you need to know about how we research, write and
-              produce specialist fintech content.
-            </p>
+<p className="mt-7 max-w-[470px] text-[17px] leading-7 text-[#c4d3cf]">
+  Learn how we research complex EdTech products, work with your
+  experts and create content that supports search, sales and
+  buying decisions.
+</p>
 
       
           </div>
