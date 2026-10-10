@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import { Seo } from "./components/Seo";
 import Home from "./pages/Home";
 import NorthstarReskillingArticle from "./pages/articles/NorthstarReskillingArticle";
-import BestGlobalEmployeeBenefitsPlatforms2026 from "./pages/articles/BestGlobalEmployeeBenefitsPlatforms2026";
+import BestMathsInterventionProgrammes2026 from "./pages/articles/BestMathsInterventionProgrammes2026";
 import JenzabarImplementationRealityMap from "./pages/articles/JenzabarImplementationRealityMap";
 import MakiBusinessCase from "./pages/articles/MakiBusinessCase";
 
@@ -73,15 +73,15 @@ export default function App() {
   
 
         <Route
-          path="/articles/best-global-employee-benefits-platform"
+          path="/articles/best-maths-intervention-programmes"
           element={
             <>
-              <Seo
-                title="HR Tech Writing Sample: 7 Best Global Employee Benefits Platforms | GrowUp"
-                description="An HR tech writing sample by GrowUp: a practical comparison of seven global employee benefits platforms across administration, local flexibility, payroll controls and reporting, written as an example of content for Ben."
-                path="/articles/best-global-employee-benefits-platform"
-              />
-              <BestGlobalEmployeeBenefitsPlatforms2026 />
+           <Seo
+  title="EdTech Writing Sample: 7 Best Maths Intervention Programmes for UK Schools in 2026 | GrowUp"
+  description="An EdTech writing sample by GrowUp: a practical comparison of seven maths intervention programmes for UK schools, covering diagnosis, delivery, staffing, progress reporting and total cost."
+  path="/articles/best-maths-intervention-programmes"
+/>
+              <BestMathsInterventionProgrammes2026 />
             </>
           }
         />

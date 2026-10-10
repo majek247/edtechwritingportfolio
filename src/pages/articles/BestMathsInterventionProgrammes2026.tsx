@@ -2,24 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const sources = [
-  ["Ben: global enterprise benefits platform", "https://www.thanksben.com/"],
-  ["Ben: global benefits management", "https://www.thanksben.com/benefits-management"],
-  ["Ben: how the platform works", "https://www.thanksben.com/how-it-works"],
-  ["Benifex: OneHub platform", "https://benifex.com/onehub/"],
-  ["Benifex: benefits features", "https://benifex.com/benefits-features"],
-  ["Benifex: customer stories", "https://benifex.com/case-study"],
-  ["Darwin by Mercer Marsh Benefits", "https://www.marsh.com/en/services/employee-health-benefits/expertise/darwin.html"],
-  ["Darwin employee benefits software", "https://www.mercer.com/solutions/health-and-benefits/employee-benefits-technology-platforms/darwin-employee-benefits-software/"],
-  ["Alight Worklife platform", "https://www.alight.com/platform/alight-worklife"],
-  ["Alight benefits administration", "https://www.alight.com/solutions/health-benefits/benefits-administration"],
-  ["Forma: flexible employee benefits", "https://www.joinforma.com/"],
-  ["Forma: 2026 global lifestyle benefits research", "https://www.joinforma.com/resources/lifestyle-spending-accounts-benchmark-report"],
-  ["Benepass: flexible benefits", "https://getbenepass.com/benefits"],
-  ["Benepass: platform features", "https://getbenepass.com/features"],
-  ["Reward Gateway | Edenred: employee engagement platform", "https://www.rewardgateway.com/"],
-  ["Reward Gateway | Edenred: global platform", "https://www.rewardgateway.com/au/platform/global"],
-] as const;
+const sources = [["Third Space Learning: maths intervention programmes", "https://thirdspacelearning.com/tutoring/maths-intervention-programmes/"], ["Third Space Learning: published school pricing", "https://thirdspacelearning.com/pricing/"], ["Third Space Learning: school case studies", "https://thirdspacelearning.com/"], ["Maths-Whizz: platform", "https://whizz.com/"], ["Eedi: diagnostic maths learning", "https://eedi.com/"], ["Catch Up Numeracy: programme", "https://www.catchup.org/"], ["123maths: schools", "https://123maths.co.uk/how-it-works/schools/"], ["Ark Mathematics Mastery: EEF evaluation", "https://educationendowmentfoundation.org.uk/projects-and-evaluation/projects/mathematics-mastery/"], ["NumBots: maths fluency", "https://numbots.com/"]] as const;
 
 type Vendor = {
   id: string;
@@ -33,13 +16,15 @@ type Vendor = {
   features: [string, string][];
   pros: [string, string][];
   cons: [string, string][];
-  pricing: string;
+   pricing: string;
+  pricingUrl?: string;
   review: {
     quote?: string;
     person?: string;
     role?: string;
     source: number;
     body: string;
+    reviewUrl?: string;
   };
   verdict: string;
   refs: number[];
@@ -53,364 +38,429 @@ type Vendor = {
 
 const vendors: Vendor[] = [
   {
-    id: "ben",
-    name: "Ben",
-    tag: "Global benefits operations, employee experience and insights",
-    best: "Global enterprises trying to run benefits across multiple countries without giving up local flexibility or maintaining separate operating processes in every market.",
-    summary: "Combines benefits administration, employee experience and global benefits data in one operating layer, with support across 140+ countries.",
-    priceShort: "Request a quote",
-    watch: "Ask Ben to show how your actual provider mix would work country by country. I would want to see a mid-month eligibility change, the payroll hand-off and global spend reporting live rather than assume those workflows are automated everywhere.",
-    intro: [
-      "Let me save you the eyebrow raise: <strong>yes, Ben is sitting at number one in a guide on Ben’s own blog.</strong>",
-      "The reason I am comfortable leaving it there is that the argument for Ben is not “it has more benefits” or “the employee app looks nicer.” Plenty of platforms can make both of those claims.",
-      "The stronger case is operational.",
-      "Ben is designed around the problem most global Reward teams eventually run into: benefits may look centralised on an org chart while the actual work is scattered across local providers, payroll files, eligibility rules, spreadsheets and people who know how a particular country works because they have been fixing it manually for six years.",
-      "Ben’s pitch is essentially: put more of that operating model in one place."
-    ],
-     features: [
-      ["Global benefits administration", "Eligibility, enrolment, employee changes, provider reconciliation, payroll deductions and audit history can be managed through one operating model across entities and markets."],
-      ["Local policy control", "Country, entity and employee-group rules can vary without forcing regional teams into separate systems or weakening central governance over the wider programme."],
-      ["Benefits intelligence", "Spend, take-up and utilisation can be analysed across markets, plans and employee segments, giving Reward and Finance a clearer view of programme cost and performance."],
-      ["AI-assisted controls", "AI helps catch bad data, payroll mismatches and compliance issues before they turn into another manual fix for the Reward or HR team."],
-    ],
-       pros: [
-      ["Cleaner operating model", "Ben can replace a lot of the fragmented admin that builds up when each market develops its own processes, owners and workarounds over time."],
-      ["Stronger central oversight", "Reward teams get a clearer view of what is happening across countries without needing to pull updates from local teams every time leadership asks for an answer."],
-      ["Better change handling", "The platform fits organisations where entities, employee groups and benefit structures change regularly and the existing setup is becoming difficult to govern."],
-    ],
-    cons: [
-      ["Market depth varies", "Coverage across 140+ countries does not mean every provider, payroll process or statutory requirement has the same depth. Test your hardest markets first."],
-      ["Built for complexity", "Ben makes most sense when there is real cross-border complexity to remove. Smaller teams with a simpler benefits setup may not get enough value from the operating model."],
-    ],
-    pricing: "We offer Pro and Premium plans, with pricing based on your organisation’s size, markets, benefits setup and implementation requirements. Your quote can include custom integrations, reporting, support, implementation and any additional services needed across your markets.",
-    review: {
-      source: 1,
-      person: "Ben customer evidence",
-      role: "Vendor-published",
-      body: "We are already running the kind of setups enterprise Reward teams worry about in procurement. Pleo uses Ben to manage 20+ benefits across more than 28 countries. Sigma Connected has 28 benefits running across 28+ markets, and Fastmarkets rolled out across eight countries after moving away from a legacy setup where even small changes could take weeks."
-    },
-    verdict: "Ben is the one I would start with when the problem is not simply ‘employees need a nicer benefits portal’ but ‘our global programme is held together by spreadsheets, tickets and local workarounds’. The value case is strongest when administration, employee experience and reporting all need fixing together.",
-    refs: [1, 2, 3],
-    image: "/images/benefits-utilisation.webp",
-    quote: "Ben helped create and manage our perfect platform, and provided such amazing support.",
-    quotePerson: "Mark Cowen",
-    quoteRole: "Head of Colleague Experience, Sigma Connected",
-  },
-  {
-    id: "benifex",
-    name: "Benifex",
-    tag: "Mature global benefits, reward and employee experience",
-    best: "Large multinationals that want one broad benefits and reward environment covering traditional benefits, wellbeing, recognition, discounts and employee communications.",
-    summary: "OneHub brings multiple parts of the employee benefits and reward experience together, with extensive configuration for large global organisations.",
-    priceShort: "Request a quote",
-    watch: "Be clear on which OneHub modules you genuinely need, what local configuration sits with your team and what still depends on Benifex services. A broad platform is useful, but only if the operating model does not become harder to manage.",
-    intro: [
-      "Benifex is the platform I would put on the shortlist when the brief sounds something like: “we need one global experience, but please do not break what already works locally.”",
-      "That tension runs through most multinational benefits programmes.",
-      "You want enough consistency that employees recognise the same company wherever they work, but not so much that local Reward teams lose the ability to run benefits that actually make sense in their market.",
-      "OneHub is built around that compromise.",
-      "It covers core benefits alongside total reward, wallet allowances, recognition, wellbeing and discounts.  "
-    ],
-       features: [
-      ["Global benefits administration", "OneHub supports benefits management from onboarding and enrolment through to communications, administration, provider reporting and payroll outputs across international populations."],
-      ["Local programme flexibility", "Different countries can retain their own benefits, providers and workflows while employees still access them through a more consistent global experience."],
-      ["Total reward and insights", "Employees can see the wider value of their reward package, while HR teams get real-time visibility into spend, budgeting, engagement and take-up across markets."],
-      ["Broader employee experience", "Benefits can sit alongside wallet allowances, recognition, discounts, wellbeing and mobile access, which gives enterprises the option to consolidate more of the employee experience into one place."],
-    ],
-    pros: [
-      ["Proven multinational scale", "The customer base includes Microsoft, Salesforce, Snowflake, Baker Hughes, Liberty Global and other organisations dealing with genuinely complex global rollouts rather than simple multi-country expansion."],
-      ["Strong rollout model", "The platform suits organisations that need to standardise gradually. Microsoft, for example, launched first across eight countries and 13,500 employees and dependants, with more countries planned."],
-      ["Broader consolidation potential", "If benefits, total reward, recognition and wellbeing currently live in separate systems, OneHub gives you a realistic route to reducing the number of employee destinations without making every module mandatory."],
-    ],
-    cons: [
-      ["Scope can sprawl", "OneHub covers a lot of ground. If the buying process is not tightly defined, it is easy to end up evaluating benefits, wallet, wellbeing, recognition and communications all at once instead of fixing the workflows that matter most."],
-      ["Service boundaries matter", "Benifex combines technology with administration, communications, support and consulting services. Make sure you are clear on what your internal team will own, what Benifex will run and how that changes by market."],
-    ],
-    pricing: "There is no public standard price for the full OneHub platform. Enterprise pricing depends on employee numbers, countries, modules and the level of administration or support included. OneHub Wallet is publicly listed from £2 PEPM, excluding certain transaction and FX costs.",
-    review: {
-      source: 6,
-      person: "Snowflake and Salesforce",
-      role: "Vendor-published customer stories",
-      body: "The strongest proof is the breadth of the global rollouts. Microsoft launched OneHub across eight countries and 13,500 employees and dependants in its first wave, while Snowflake uses the platform across a workforce operating in more than 20 countries. "
-    },
-    verdict: "Benifex is a serious option for multinational employers that want a mature, broad employee benefits ecosystem rather than a narrow point solution. I would shortlist it when benefits, reward, wellbeing and employee experience are all part of the same transformation programme.",
-    refs: [4, 5, 6],
-    image: "/images/benefix.webp",
-    quote: "Benifex has made our international benefit dreams come true!",
-    quotePerson: "Samantha Sergent",
-    quoteRole: "Director of International Benefits, Microsoft",
-  },
-  {
-    id: "darwin",
-    name: "Darwin",
-    tag: "Global benefits technology with Mercer Marsh Benefits expertise",
-    best: "Multinationals that want established global benefits technology and prefer to combine the platform with benefits consulting, broking and wider advisory support.",
-    summary: "Covers enrolment, benefits administration, total reward, automation, governance and global reporting within the wider Mercer Marsh Benefits ecosystem.",
-    priceShort: "Request a quote",
-    watch: "Ask where Darwin ends and the surrounding service model begins. I would want a very clear view of what your internal team can configure directly, what requires Mercer Marsh Benefits support and how quickly changes can be made across markets.",
-  intro: [
-      "Darwin’s main advantage is that the technology does not sit on its own. The platform covers employee access, benefits administration and analytics, while Mercer Marsh Benefits can support the wider work around provider strategy, broking, programme design and cost management.",
-      "That makes it a strong fit for large employers where the benefits problem extends beyond enrolment or employee experience. If the transformation involves multiple markets, local teams and centralised administration, Darwin gives you both the platform and the surrounding expertise."
+    id: "third-space",
+    name: "Third Space Learning (Skye)",
+    tag: "Spoken one-to-one AI maths intervention",
+    best: "Schools with more pupils needing individual maths support than their current teaching assistants and intervention timetable can realistically accommodate.",
+    summary: "Pupils speak with Skye, an AI maths tutor, during individual lessons. It checks understanding, listens to their answers and uses hints and step-by-step explanations when they get stuck.",
+    priceShort: "From £3,500/year, with unlimited pupils and sessions.",
+    watch: "Schools still need devices, headsets and an adult supervising in-school sessions.",
+      intro: [
+      "I think the most interesting thing about Skye is that it tries to solve a problem schools have been dealing with for years.",
+      "We know that children who are falling behind often benefit from having someone work through the maths with them individually. Someone who can see where they’re getting confused, explain the method and give them another chance to try.",
+      "The problem is that most schools can’t offer that level of attention to everyone who needs it.",
+      "And that’s where Third Space Learning comes in.",
+      "Skye is a spoken AI maths tutor, so instead of sitting in front of another set of practice questions, pupils work through lessons by talking to it. If they make a mistake, the tutor can offer a hint, break the problem into smaller steps or explain the method.",
+      "I also like that the lessons are written by maths teachers rather than generated from scratch by the AI. There’s a defined curriculum behind the conversations, with content for Years 3–6, Year 7 and GCSE.",
     ],
     features: [
-      ["Benefits administration", "Enrolment, eligibility, life events, payroll data and provider processes can be automated across different employee populations and markets."],
-      ["HR and payroll connectivity", "Darwin connects benefits data with HR, payroll and third-party systems, reducing the amount of manual data movement between them."],
-      ["Benefits analytics", "Global and local data can be analysed together, helping Reward teams compare spend, take-up and programme performance across markets."],
-      ["Governance and auditability", "Automated transfers, audit history and enterprise security controls help reduce the risks that come with manual data handling."],
+      ["Targeted gap assessment", "Skye uses diagnostic assessments to work out which maths skills pupils need help with, making it easier to target intervention without repeating lessons they already understand."],
+      ["Conversational maths tutoring", "Pupils can work through questions aloud and get spoken explanations, hints and follow-up questions when they get stuck, rather than simply being shown the correct answer."],
+      ["Flexible intervention delivery", "Schools can schedule regular tutoring or add extra sessions when needed, with several pupils receiving individual support at the same time without needing a separate tutor for each child."],
+      ["Pupil progress tracking", "Teachers can see which topics pupils have covered, where they’re making progress and what they’re still struggling with, without having to record every session themselves."],
     ],
     pros: [
-      ["Strong enterprise pedigree", "Darwin is already used by eight of the world’s ten largest technology companies, so there is meaningful evidence of the platform operating inside large, complex organisations."],
-      ["Advisory sits nearby", "The Mercer Marsh Benefits relationship can be useful when the transformation involves provider strategy, scheme design and cost management as well as technology."],
-      ["Supports centralisation", "Darwin is well suited to organisations moving benefits administration into a global or regional shared-service model rather than leaving every market to run separately."],
+      ["More individual support", "Schools can offer regular one-to-one maths tutoring to more pupils without having to find additional teaching assistants or external tutors for every session."],
+      ["Help beyond marking answers", "Pupils can talk through their thinking and get further explanations when they make mistakes, which is useful for children who need more guidance than another set of practice questions."],
+      ["More flexibility with sessions", "Schools can increase tutoring for pupils who need more time or practice without paying for additional lessons, since unlimited sessions are included in the annual subscription."],
     ],
     cons: [
-      ["Ownership needs clarity", "The combined technology and advisory model can be a strength, but I would still make the operating boundary explicit: what your team can manage directly, what Mercer runs and what triggers additional support."],
-      ["More than software", "If your requirement is narrowly focused on flexible allowances or a lighter employee-facing layer, the wider Darwin and Mercer model may be more infrastructure than you need."],
+      ["Not every pupil will enjoy spoken tutoring", "Some children may find talking to a device uncomfortable or struggle to explain their thinking aloud. I’d want to test it with pupils who have SEND, EAL or communication needs before committing to a wider rollout."],
+      ["Teachers still need to act on the reports", "The platform can show where pupils are struggling, but someone still needs to review that information and decide whether to change the intervention, revisit a topic or provide direct adult support."],
     ],
-    pricing: "Darwin does not publish standard enterprise pricing. I would ask for the technology, implementation, integrations, managed administration and any Mercer Marsh Benefits consulting or broking work to be separated so the operating model and commercial model are both clear.",
+    pricing: "Skye starts at £3,500 per year for one-form entry primary schools, rising to £5,000 for two-form entry and £6,000 for three-form entry. Secondary school pricing is £5,000 annually, excluding VAT.",
+    pricingUrl: "https://thirdspacelearning.com/pricing/",
+    review: {
+      source: 3,
+      body: "Wormley CofE Primary School in Hertfordshire reported using Skye to extend tutoring across Years 4, 5 and 6. Its published case study records 138 pupils receiving 2,169 one-to-one sessions across the reporting period, with an annual subscription of £5,000.",
+   reviewUrl: "https://thirdspacelearning.com/case-studies/wormley-primary-review/",
+    },
+    verdict: "My first shortlist choice when staffing capacity is the barrier to regular individual support. I would run a supervised pilot and compare pupil learning, engagement and workload with the intervention currently in place.",
+    refs: [1, 2, 3],
+    image: "/images/thirdspacelearningbesthero.png",
+    quote: "The biggest benefit for us is that now all students can have it because it’s unlimited for a much lower cost",
+    quotePerson: "Deb Harris",
+    quoteRole: "Assistant Head and Maths Lead, Wormley CofE",
+  },
+  {
+    id: "maths-whizz",
+    name: "Maths-Whizz",
+    tag: "Adaptive online maths tutoring",
+    best: "Primary schools that want pupils to follow personalised maths lessons based on their individual understanding, with regular independent learning and progress tracking.",
+    summary: "An initial assessment identifies strengths and gaps. The virtual tutor then selects interactive lessons and adapts the learning pathway as pupils progress. Teachers can monitor results and provide additional support.",
+    priceShort: "School quote required. A four-week pilot is available.",
+    watch: "I’d check the recommended weekly usage and how staff support pupils who repeatedly struggle.",
+      intro: [
+      "One thing I like about Maths-Whizz is that it doesn’t assume two pupils in the same year group should be learning the same maths.",
+      "Think about a Year 5 class. One child might understand fractions but still struggle with multiplication. Another could be confident with multiplication but get stuck whenever decimals come up. They might both be below the expected standard, but putting them through the same intervention lessons wouldn’t necessarily help either of them.",
+      "Maths-Whizz starts by assessing what each pupil already knows.",
+      "From there, its virtual tutor builds an individual learning pathway, with interactive lessons, explanations and activities matched to their current understanding. As pupils improve, the programme adjusts what they work on next.",
+    ],
+        features: [
+      ["Initial maths assessment", "Maths-Whizz assesses pupils across different maths topics to work out what they already understand and where they’re falling behind. Each child gets a starting point based on their knowledge rather than simply their year group."],
+      ["Adaptive maths tutoring", "Pupils work through interactive lessons with animations, explanations and practice questions. The virtual tutor adjusts their learning pathway as they improve, so they’re not continually repeating topics they’ve already mastered."],
+      ["Regular independent learning", "Schools can build Maths-Whizz into weekly intervention sessions or independent learning time. Pupils follow their own activities, with rewards and challenges to encourage them to keep practising."],
+      ["Teacher progress reporting", "Teachers can see how much time pupils spend learning, which topics they’ve covered and how their Maths Age is changing. They can also use the reports to identify children who need additional help."],
+    ],
+    pros: [
+      ["Lessons matched to individual ability", "Pupils don’t have to work through the same activities simply because they’re in the same class. Maths-Whizz can give each child lessons based on their understanding, including topics from earlier year groups."],
+      ["Easier to provide regular practice", "Once pupils are familiar with the platform, they can work through individual lessons without a teacher delivering every activity. That makes it easier to support different learning needs during the same session."],
+      ["Useful information for teachers", "I like that teachers can see more than whether a pupil has logged in. Reports show progress across maths topics, which can help staff identify gaps and decide what needs revisiting in class."],
+    ],
+    cons: [
+      ["Regular use needs protecting", "Maths-Whizz recommends 45–60 minutes a week, so schools need to make room for it in the timetable. I’d also want someone checking that pupils are completing meaningful learning, rather than just logging in and working through activities."],
+      ["Some pupils may still need direct teaching", "The interactive lessons provide explanations and support, but I’d want to see what happens when a child repeatedly struggles with the same concept. Some pupils may still need a teacher to sit with them, explain the maths differently or work through a misconception."],
+    ],
+    pricing: "Maths-Whizz provides school pricing by quotation, depending on the number of pupils, the implementation and the support required. Schools can also request a free four-week pilot before committing.",
+   
+    review: {
+      source: 4,
+      body: "The EEF's 2026 evaluation involved 63 schools across England and found that pupils allocated to Maths-Whizz made an average of one additional month's progress in maths compared with pupils who weren't allocated to the programme.",
+   reviewUrl: "https://educationendowmentfoundation.org.uk/projects-and-evaluation/projects/maths-whizz-23-24-trial",
+    },
+    verdict: "Best considered when the school can protect repeated digital practice time and wants an individual learning pathway.",
+    refs: [4],
+    image: "/images/mathswhizz.jpeg",
+        quote: "Their focused approach helps us identify gaps, scaffold teaching, and accelerate progress especially for disadvantaged and high-attaining pupils. ",
+    quotePerson: "Kim Rogers",
+    quoteRole: "Director of Maths, Crofty Multi Academy Trust",
+  },
+  {
+    id: "eedi",
+    name: "Eedi",
+    tag: "Misconception-led diagnostic maths learning",
+    best: "Schools that want to understand why pupils are getting maths questions wrong and use that information to plan more targeted teaching and intervention.",
+    summary: "Diagnostic questions help identify why pupils have chosen a particular answer. Eedi also offers AI-supported tutoring designed to guide pupils through misconceptions rather than simply marking answers.",
+    priceShort: "Free school access is advertised, with paid support options also listed.",
+    watch: "I’d confirm which tutoring features are included and what additional support costs.",
+     intro: [
+      "I’ve always thought there’s a big difference between knowing a child has got a question wrong and understanding why they got it wrong.",
+      "Take a pupil who’s struggling with fractions. They might choose the wrong answer because they don’t understand equivalent fractions. Or perhaps they’re comparing the numbers in the numerator and denominator separately. Both mistakes could produce the same assessment score, but they tell a teacher very different things about what needs explaining.",
+      "That’s where Eedi gets interesting.",
+      "Its diagnostic questions are designed so that the incorrect answers reveal specific misconceptions. Instead of simply marking a question wrong, Eedi helps teachers understand the thinking that might have led to that answer.",
+      "And it doesn't stop at the assessment.",
+      "Pupils can work through recommended lessons with teaching videos, guided examples and follow-up questions. Eedi also offers tutoring support, so children who need more help aren't necessarily left to work everything out themselves.",
+    ],
+     features: [
+      ["Diagnostic maths questions", "Eedi uses carefully designed multiple-choice questions to identify the misconceptions behind pupils’ answers. Each incorrect option is linked to a particular misunderstanding, helping teachers see what pupils may be getting wrong rather than relying on their overall scores."],
+      ["Targeted follow-up lessons", "When pupils struggle with a question, they can work through teaching videos, guided examples and interactive activities that address the misunderstanding. They then answer a similar question to check whether they’ve understood the explanation."],
+      ["Individual and class-level reporting", "Teachers can review how pupils answered questions, which misconceptions are appearing and where additional teaching may be needed. I’d find this particularly useful when several children are struggling with the same topic for different reasons."],
+      ["Independent maths practice", "Pupils can complete recommended topics and teacher-assigned quizzes outside normal lessons. The platform also uses previous responses to recommend what they should work on next, rather than making everyone complete the same activities."],
+    ],
+    pros: [
+      ["More useful information about mistakes", "I like that Eedi tries to explain why pupils are getting questions wrong, not just how many they missed. That gives teachers a better starting point when deciding what to revisit or how to group children for intervention."],
+      ["Works alongside classroom teaching", "Teachers can use diagnostic questions before introducing a topic, check understanding afterwards or identify misconceptions that need addressing. "],
+      ["Core learning tools are free", "Schools can access diagnostic questions, personalised learning and reporting without paying for a standard subscription. That makes it easier to try the programme with a class before deciding whether additional tutoring support is needed."],
+    ],
+    cons: [
+      ["Pupils can still guess their answers", "I’d be careful about relying entirely on multiple-choice results. A child might select the correct answer without understanding it, or choose an incorrect option for a reason the system hasn’t anticipated. Teachers still need to check pupils’ reasoning, particularly when the same misconceptions keep appearing."],
+      ["Additional tutoring has separate arrangements", "Eedi includes targeted lessons and practice, but live support from qualified tutors is part of Eedi Plus. I’d want to confirm which tutoring services are available to schools, what they cost and how much additional teacher involvement is needed."],
+    ],
+    pricing: "Eedi's core platform is free for teachers, pupils and parents, including diagnostic assessments, personalised lessons and learning activities. Eedi Plus adds on-demand live tutor support and additional reporting. Its published family pricing is £9.99 per month or £83.88 annually, equivalent to £6.99 per month.",
+    pricingUrl: "https://www.eedi.com/news/new-uk-study-finds-students-using-eedi-gain-2-4-months-of-additional-maths-progresss",
+    review: {
+      source: 5,
+      body: "A 2025 WhatWorked Education study involving 2,901 Year 7 pupils across 20 UK schools found that Eedi delivered the equivalent of two additional months of maths progress, rising to four months for pupils completing roughly one quiz a week.",
+       reviewUrl: "https://educationendowmentfoundation.org.uk/projects-and-evaluation/projects/maths-whizz-23-24-trial",
+    },
+    verdict: "I would choose Eedi when better diagnosis and targeted reteaching matter more than outsourced individual tutoring.",
+    refs: [5],
+      image: "/images/eedimaths.png",
+    quote: "Eedi helps to really quickly identify misconceptions and address them straight away.",
+    quotePerson: "Suzanne Walsh",
+    quoteRole: "Head of Numeracy, All Hallows Catholic High School",
+  },
+
+ 
+  {
+    id: "123maths",
+    name: "123maths",
+    tag: "Structured arithmetic and numeracy practice",
+    best: "Schools that want to help pupils strengthen basic number skills through short, structured practice sessions, particularly when gaps in earlier learning are affecting their progress.",
+    summary: "Pupils work through sequenced online activities, revisiting questions until they demonstrate consistent success. Teachers can set assessments and targets and review mistakes.",
+    priceShort: "From £44.50 per user/year, excluding VAT. A 30-day school trial is available.",
+    watch: "I’d compare the number of licences needed with how often pupils will use them.",
+       intro: [
+      "One thing I think schools sometimes underestimate is how much maths a child can forget between lessons.",
+      "A pupil might finally understand their number bonds on Monday, get most of Tuesday’s questions right, and then struggle with the same calculations when they come up again the following week. It’s not necessarily that the original teaching was poor. Some children simply need more opportunities to practise before something becomes familiar enough to use confidently.",
+      "That’s the thinking behind 123maths.",
+      "Rather than trying to cover every part of the maths curriculum, it focuses on building the number skills pupils need for more complicated work. Children move through structured activities covering number bonds, mental calculations, multiplication, division, fractions and other foundational topics.",
+    ],
+      features: [
+      ["Structured number progression", "123maths gives pupils access to four learning programmes covering early number skills, mental arithmetic, multiplication, division, fractions, telling the time and times tables. Teachers can choose which programme a pupil works through based on the skills they need to strengthen."],
+      ["Repeated practice", "Pupils work through short questions and revisit them on different days. A question is only completed after three correct answers on consecutive visits, giving children more opportunities to practise skills they haven’t fully secured."],
+      ["Individual assessments and targets", "Teachers can set assessments, assign targets and leave comments that pupils see when they next log in. I like that staff can adjust what children are working towards rather than simply leave everyone to progress through the activities without oversight."],
+      ["Pupil progress reporting", "Teachers can review completed work, incorrect answers and individual progress. Reports help staff see which skills pupils are managing independently and where they may need further explanation or practice."],
+    ],
+    pros: [
+      ["Good for reinforcing basic number skills", "Some pupils need more time with number bonds, multiplication or mental calculations before they’re ready for harder topics. 123maths gives them a structured way to revisit those skills without constantly moving on to something new."],
+      ["Short sessions are easier to organise", "The programme is designed around approximately 10 minutes of daily practice. Schools can fit this into morning activities, intervention slots or independent learning time without needing to plan a full additional maths lesson."],
+      ["Teachers can reuse licences", "Schools can reassign a pupil’s licence once they’ve completed their books. I think that’s useful for intervention groups that change throughout the year, where one pupil may no longer need support while another is ready to begin."],
+    ],
+    cons: [
+      ["It focuses mainly on foundational maths", "123maths is useful for strengthening number knowledge, but I wouldn’t choose it as a replacement for a broader KS2 or GCSE tutoring programme. Pupils who need extended support with reasoning, problem-solving or more advanced concepts may need additional teaching."],
+      ["Repetition doesn’t replace explanation", "If a child keeps getting the same calculation wrong, I’d want someone to check whether they understand the method. The programme gives pupils repeated practice, but teachers may still need to step in, address misconceptions and explain concepts differently."],
+    ],
+    pricing: "123maths school subscriptions start at £44.50 per year for one user, excluding VAT. Schools can purchase licences for different numbers of pupils, with pricing adjusted according to the number of users required.",
+    pricingUrl: "https://123maths.co.uk/pricing-schools/",
+    review: {
+      source: 7,
+      body: "St George's CE Primary School in Essex is a useful example of how 123maths can fit into a normal school week. The school reported using a 21-user licence to support pupils in Years 3 to 6 who weren't making the expected progress in maths.",
+    reviewUrl: "https://123maths.co.uk/testimonials/st-georges-c-e-primary-school/",
+    },
+    verdict: "Shortlist for number fluency, not as an automatic substitute for individual tutoring.",
+    refs: [7],
+      image: "/images/123maths.jpeg",
+   quote: "We think 123maths is brilliant with its use of repetition and the children find it really user friendly.",
+    quotePerson: "St George's CE Primary School",
+    quoteRole: "Essex, UK",
+  },
+  {
+    id: "ark",
+    name: "Ark Mathematics Mastery",
+    tag: "Whole-school mastery teaching approach",
+    best: "Primary schools that want more consistent maths teaching across year groups, with structured resources and professional development to support pupils who are falling behind.",
+    summary: "A whole-school approach combining curriculum resources, teacher development and assessment. Its Ready to Progress resources also support individual and small-group intervention.",
+    priceShort: "School quote required.",
+    watch: "Consider the time needed for training, implementation and ongoing curriculum development.",
+     intro: [
+      "One thing I find interesting about Ark Mathematics Mastery is that it looks at what happens before a child needs intervention.",
+      "Think about a pupil moving from Year 3 into Year 4. They’ve learned addition using one method, with particular diagrams and language to help them understand it. Then they move into a different classroom, where the teacher explains the same ideas slightly differently. Neither teacher is necessarily doing anything wrong, but for a child who’s only just getting comfortable with the maths, those differences can make things more confusing.",
+      "Multiply that across six year groups, and you can see why consistency matters.",
+      "That’s what Mathematics Mastery is trying to address.",
+      "Rather than giving pupils another platform to practise on, Ark provides a structured maths curriculum, teaching resources and professional development to help teachers explain mathematical concepts more consistently. There’s a strong focus on visual models, mathematical language and making sure pupils understand an idea before moving on.",
+    ],
+    features: [
+      ["Structured maths curriculum", "Ark provides sequenced lessons, planning guides, classroom activities and assessments from Reception through Year 6. Teachers can follow a consistent approach to introducing concepts, revisiting prior knowledge and checking understanding across year groups."],
+      ["Visual models and mathematical language", "Lessons use diagrams, physical resources and structured discussion to help pupils understand how the maths works. Children are encouraged to explain their reasoning, rather than simply remember a method and apply it to similar questions."],
+      ["Teacher professional development", "Teachers can access training, lesson guidance, subject-specific videos and support from Ark’s maths specialists. I like that the programme works on teachers’ understanding as well as pupils’, particularly when staff are teaching topics they don’t feel completely confident explaining."],
+      ["Ready to Progress interventions", "Teaching assistants can use structured videos, diagnostic quizzes and guided activities to support pupils individually or in small groups. The resources cover number and place value, addition and subtraction, and multiplication and division, with guidance on common misconceptions and how to address them."],
+    ],
+    pros: [
+      ["More consistent teaching across year groups", "Children can encounter the same mathematical language, representations and teaching approaches as they move through school. That makes it easier to revisit earlier learning without having to explain everything using a completely different method."],
+      ["Better support for teaching assistants", "I particularly like the Ready to Progress resources because they give staff something more structured than another worksheet. Teaching assistants get examples, questions to ask and guidance on misconceptions, which can make individual and small-group intervention easier to prepare and deliver."],
+      ["Teachers get support alongside the resources", "The programme includes professional development, assessments and guidance from maths specialists. That’s useful for schools where improving pupils’ understanding also means helping teachers become more confident with the concepts they’re teaching."],
+    ],
+    cons: [
+      ["It needs a proper implementation plan", "I’d be careful about treating Mathematics Mastery as something teachers can simply start using halfway through a term. Getting the most from it means agreeing on teaching approaches, completing training and making sure staff use the resources consistently. That takes time and leadership involvement."],
+      ["Intervention still depends on staff availability", "Ready to Progress provides structured activities and teaching guidance, but a teacher or teaching assistant still needs to deliver the sessions. If the school is already struggling to find enough adult time for intervention, the resources won’t remove that staffing problem."],
+    ],
+    pricing: "Ark Curriculum Plus provides Mathematics Mastery pricing through individual school quotations, with costs depending on the support and implementation arrangements required.",
     review: {
       source: 8,
-      person: "Darwin customer base",
-      role: "Vendor-published evidence",
-      body: "Darwin is used by some of the largest employers in the market, including eight of the world’s ten biggest technology companies. One customer example also reports 87% employee usage, with thousands of benefit selections made through the platform."
+      body: "An EEF evaluation involving 5,108 Year 1 pupils across 90 schools found that Mathematics Mastery Primary delivered an average of two additional months of maths progress. However, the average impact fell to around one month when the primary and secondary trial results were combined.",
+  reviewUrl: "https://educationendowmentfoundation.org.uk/projects-and-evaluation/projects/mathematics-mastery-primary",
     },
-    verdict: "Darwin belongs on the shortlist when you need serious global benefits infrastructure and you value the wider Mercer Marsh Benefits ecosystem. I would test it hardest on configuration ownership, data movement and the practical difference between what the platform does and what the service team does for you.",
-    refs: [7, 8],
-    image: "/images/darwin.png",
-    quote: "87% of employees have now used Darwin to make thousands of benefits selections.",
-    quotePerson: "Ellie Vaughan",
-    quoteRole: "Global Head of Reward and Benefits, Herbert Smith Freehills Kramer",
+    verdict: "Best where the underlying brief is classroom teaching improvement rather than extra intervention capacity.",
+    refs: [8],
+      image: "/images/ark-maths-mastery.jpg",
+         quote: "The Ready to Progress interventions have really supported our TAs with delivery.",
+    quotePerson: "Kathryn Morgan",
+    quoteRole: "Maths Lead, Weston Park Primary School",
   },
+
   {
-    id: "alight",
-    name: "Alight Worklife",
-    tag: "Health, wealth, leave and benefits administration at very large scale",
-    best: "Very large employers with complex health, wealth, leave and benefits programmes that need deep administration as well as employee guidance and integration.",
-    summary: "Brings benefits administration, health, wealth, leave, communications and employee navigation into a much broader benefits ecosystem.",
-    priceShort: "Request a quote",
-    watch: "Test whether the depth matches the problem you are actually solving. If your biggest issue is global benefits coordination rather than end-to-end administration, make sure you are not buying significantly more infrastructure and implementation complexity than you need.",
-    intro: [
-      "Alight Worklife is built for employers where benefits administration has become a substantial operating environment in its own right.",
-      "The scope is broader than core enrolment. Health, retirement, leave, wellbeing, navigation and employee guidance can sit inside the same platform, with Alight also supporting the administration behind those programmes. That makes it particularly relevant when the benefits estate already spans multiple vendors, processes and employee populations."
+    id: "numbots",
+    name: "NumBots",
+    tag: "Early number fluency practice",
+    best: "Primary schools that want to help younger pupils develop stronger number sense, number bonds and mental addition and subtraction through short, regular practice sessions.",
+    summary: "Pupils work through short, game-based activities that build understanding and recall through visual representations and repeated practice. Teachers can track usage and progress.",
+    priceShort: "£113.15/year listed for a school subscription, with unlimited pupils and teachers.",
+    watch: "Best considered for foundational number skills rather than broad KS2 intervention.",
+     intro: [
+      "I’ve always thought there’s a big difference between a child being able to answer a maths question and being comfortable enough with numbers to answer it without starting from scratch every time.",
+      "Think about a Year 2 pupil working out 8 + 5. They might count on their fingers, get to 13 and give you the correct answer. That’s perfectly reasonable while they’re learning. But if they’re still counting through every calculation months later, you can imagine how difficult things become when the class moves on to larger numbers and more complicated questions.",
+      "Sometimes, children don’t need another new topic. They just need more time to become confident with the number skills they’ve already been taught.",
+      "That’s where NumBots comes in.",
+      "Made by the same company behind Times Tables Rock Stars, NumBots focuses on number sense, number bonds, addition and subtraction. Pupils work through short games that gradually build their understanding, starting with recognising small quantities before moving on to calculations involving larger numbers.",
     ],
-    features: [
-      ["Benefits administration", "Complex enrolment, plan rules, employee changes and ongoing administration can be managed across large employee populations and multiple benefits programmes."],
-      ["Health and wealth", "Healthcare, retirement, financial wellbeing and related guidance can sit within the same broader employee experience rather than across separate destinations."],
-      ["Leave management", "Worklife extends into absence and leave administration, giving larger employers another part of the benefits estate to manage within the same environment."],
-      ["Personalised guidance", "LumenAI uses workforce and benefits data to tailor communications and guidance around enrolment, healthcare, retirement, finances and leave."],
+       features: [
+      ["Foundational number skills", "NumBots begins with recognising quantities and understanding how numbers relate to one another. Pupils gradually move through number bonds, addition and subtraction, building towards mental calculations with two-digit numbers."],
+      ["Visual maths activities", "Story Mode uses ten-frames, number lines, bead strings and other representations to help children understand calculations before moving towards abstract questions. Each level builds on earlier skills, so pupils don’t immediately jump into more difficult arithmetic."],
+      ["Number fluency challenges", "Challenge Mode introduces short, timed activities where pupils practise recalling number facts more quickly. Children can revisit specific challenges, including number bonds and addition and subtraction, to improve their accuracy and speed."],
+      ["Teacher progress reporting", "Teachers can see which levels pupils have completed, how often they’re practising and where they’re getting stuck. I’d find the alerts for children struggling with particular levels especially useful, as they show where someone might need to step in."],
     ],
     pros: [
-      ["Genuine administration depth", "Alight goes well beyond presenting benefits to employees. The platform and surrounding services are designed to handle the administration behind complex health, wealth and leave programmes."],
-      ["Handles large populations", "The model is built for employers where workforce size, plan complexity and the number of connected benefits programmes make lighter platforms difficult to scale."],
-      ["Strong integration breadth", "Worklife can connect with more than 600 benefits programmes and tools, which matters when replacing every existing provider is neither realistic nor desirable."],
+      ["Good for building early number confidence", "Some children need more time recognising number relationships before they’re comfortable calculating mentally. NumBots starts with those foundations and gives pupils opportunities to practise them before moving on to harder questions."],
+      ["Easy to fit into the school day", "The recommended sessions are short enough to use during morning activities, independent learning or at home. Schools don’t need to organise a separate teaching assistant-led session every time a pupil uses the programme."],
+      ["Affordable for whole-school use", "The annual subscription covers unlimited pupils and teachers within the same school. That makes it practical to offer regular number practice across several year groups without purchasing additional licences for every pupil."],
     ],
     cons: [
-      ["Can be oversized", "If the requirement is mainly flexible benefits, allowances or a simpler global employee experience, Alight may introduce more administration depth than the programme actually needs."],
-      ["International depth varies", "The overall platform is broad, but I would still confirm which administration, navigation and health capabilities are available in each priority market rather than assuming the US model translates directly everywhere."],
+      ["Limited to foundational number skills", "NumBots focuses on number sense, addition and subtraction. I wouldn’t choose it as the main intervention for a Year 6 pupil struggling with fractions, geometry or multi-step reasoning. Those children may need broader teaching support."],
+      ["Practice doesn’t replace individual explanation", "I’d want teachers checking pupils who keep repeating the same level without improving. NumBots can identify where children are struggling, but someone may still need to explain the maths differently. The timed elements may also need careful introduction for pupils who require more processing time."],
     ],
-    pricing: "Alight does not publish standard enterprise pricing for Worklife. Commercial scope depends on employee population, modules, administration services, integrations and implementation requirements.",
+    pricing: "NumBots lists its school subscription at £113.15 per year, covering unlimited pupils and teachers within the same school. Schools with an active Times Tables Rock Stars subscription can receive an annual discount of £10.95. ",
+    pricingUrl: "https://numbots.com/purchase/",
     review: {
       source: 9,
-      person: "Alight Worklife",
-      role: "Vendor-published platform evidence",
-      body: "The stronger proof is in the financial and operational outcomes. A Forrester Consulting study commissioned by Alight found 112% ROI, $2 million in annual health-cost savings and 25% productivity gains for a global employer with around 20,000 employees using Worklife. "
+      body: "In a 2021 case study, St John's Church of England Academy in Darlington described using NumBots for 20 minutes a day with Year 1 pupils, alongside number lines, Numicon and other physical resources to support classroom learning.",
+    reviewUrl: "https://numbots.com/2021/03/26/year-one-wonders/",
     },
-    verdict: "Alight Worklife is the option I would look at when the benefits estate is huge, interconnected and already stretches well beyond perks or allowances. For a multinational with deep health, wealth and leave complexity, that breadth is a strength. For a simpler brief, it can be more machinery than the job requires.",
-    refs: [9, 10],
-    image: "/images/alight.png",
-    quote: "Alight has helped us streamline and make our day-to-day administrative processes much more efficient.",
-    quotePerson: "Executive Director of Benefits",
-    quoteRole: "Global employer with approximately 20,000 employees",
-  },
-  {
-    id: "forma",
-    name: "Forma",
-    tag: "Global lifestyle benefits and flexible spending accounts",
-    best: "Global employers whose main challenge is giving employees locally useful, equitable flexible benefits without building a separate reimbursement process in every country.",
-    summary: "Strong focus on lifestyle spending accounts, flexible benefit budgets and employee choice across distributed workforces.",
-    priceShort: "Request a quote",
-    watch: "Separate flexible spending from core benefits administration early. Ask exactly which parts of medical, pension, insurance and statutory benefits remain outside Forma so you understand whether it is the main platform or one layer within a wider benefits stack.",
-    intro: [
-      "Forma is built around Lifestyle Spending Accounts and flexible benefits rather than full global benefits administration. Employers can run wellbeing, learning, caregiving, home office and other allowances through one platform, while changing funding levels, eligible categories and programme rules by country or employee group.",
-      "That makes Forma particularly useful when flexible benefits are spread across expense claims, local vendors and separate reimbursement processes."
-    ],
-    features: [
-      ["Flexible spending accounts", "Employers can create multiple accounts for wellbeing, learning, caregiving, meals, remote work and other categories within the same benefits environment."],
-      ["Local market rules", "Programmes can vary by country, employee group and funding level without requiring a separate reimbursement workflow for each population."],
-      ["Global employee access", "Employees get one way to spend, claim and manage their allowances even when the benefit design differs behind the scenes."],
-      ["Utilisation reporting", "Admin teams can see how funds are being used across programmes and markets, making it easier to adjust funding and categories over time."],
-    ],
-    pros: [
-      ["Purpose is clear", "If the existing problem is reimbursements, fragmented allowances and low-use point solutions, Forma gives you a much cleaner problem to evaluate than a broad benefits suite."],
-      ["Global flexibility works", "The model is well suited to organisations where equity matters more than giving every employee the exact same benefit."],
-      ["Admin can fall sharply", "Forma publishes examples of receipt-review workload falling by more than 80% and admin time dropping from 128 hours a month to 15 minutes."],
-    ],
-    cons: [
-      ["Scope is narrower", "Forma does not replace every part of the benefits estate. Traditional insured benefits, complex enrolment and certain local-provider workflows may still need another platform."],
-      ["Funding needs judgement", "The technology can make a programme flexible, but it cannot decide whether £500 of wellbeing spend is meaningful in every country. Local funding and category design still need proper thought."],
-    ],
-    pricing: "Forma does not publish standard enterprise pricing. Commercial scope will depend on the accounts you run, employee population, countries, payment methods, implementation and any additional programme support.",
-    review: {
-      source: 11,
-      person: "Forma customer evidence",
-      role: "Vendor-published",
-      body: "Forma has useful proof around both consolidation and usage. Logitech consolidated more than 30 point solutions and later brought additional benefits onto the platform, while Bitsight built a global LSA programme with more than 87% engagement."
-    },
-    verdict: "Forma is a strong shortlist choice when global flexibility is the job to be done. If you are trying to give employees meaningful choice across countries and replace scattered reimbursement programmes, it is highly relevant. If you need end-to-end administration of a broad traditional benefits estate, compare it with a different lens.",
-    refs: [11, 12],
-    image: "/images/forma.jpg",
-    quote: "Forma’s not only taking the work off our internal teams to administer, it helps our employees live their best lives.",
-    quotePerson: "Julia",
-    quoteRole: "Global Benefits, Logitech",
-  },
-  {
-    id: "benepass",
-    name: "Benepass",
-    tag: "Card-first flexible benefits for distributed teams",
-    best: "Employers that want card-based flexible benefits and spending programmes with detailed rules for how employees can use employer-funded allowances.",
-    summary: "Combines a benefits card, employee app and configurable spending rules for programmes such as wellbeing, learning, meals and lifestyle benefits.",
-    priceShort: "Request a quote",
-    watch: "Go country by country on funding, tax treatment and employee access. I would also map what happens outside the spending-account layer, because the important question is whether Benepass replaces complexity or simply sits alongside your existing core-benefits processes.",
-    intro: [
-      "Benepass is built around a simple operating model: fund the benefit, define the rules and let employees spend directly.",
-      "The platform combines physical and virtual cards with Lifestyle Spending Accounts, wellness, food, family, professional development, remote-work programmes and several US pre-tax benefits. Eligible transactions can be approved at the point of purchase, while claims remain available when card payment is not practical.",
-      "For global teams, the advantage is consistency. Employees in different countries can use one benefits experience rather than navigating separate expense processes or local reimbursement tools, while employers still control budgets and eligible spend."
-    ],
-     features: [
-      ["Card-first spending", "Physical and virtual cards let employees use funded benefits directly, with eligible purchases approved against programme rules at the point of transaction."],
-      ["Configurable spending rules", "Employers can control eligible categories, merchants, budgets and employee groups without pushing every exception through a manual reimbursement process."],
-      ["Global programme access", "Employees can spend through the same platform across 90+ countries, while programmes and eligibility can still vary across different workforce populations."],
-      ["Claims and reimbursements", "When card payment is not possible, employees can still submit claims, with Benepass reporting average reimbursement approval times of under one minute."],
-    ],
-    pros: [
-      ["Reduces reimbursement admin", "The card-first model removes a lot of the work created when employees pay personally, submit receipts and wait for HR or Finance to approve every transaction."],
-      ["Rules stay enforceable", "Flexibility does not mean giving up control. Employers can widen employee choice while still defining exactly what each programme will and will not fund."],
-      ["High card adoption", "Benepass reports that more than 80% of transactions happen on card when employees have both card and reimbursement options, which suggests the payment model is doing real work rather than sitting beside the old process."],
-    ],
-    cons: [
-      ["Not full administration", "Card-based flexible benefits are not the same as administering insured benefits, complex enrolment or local provider relationships. Some employers will still need a broader administration platform alongside it."],
-      ["Local rules still matter", "Global card acceptance does not remove tax, payroll or regulatory differences between countries. Test how your highest-risk markets are handled before treating one programme as globally identical."],
-    ],
-    pricing: "Benepass does not publish standard enterprise pricing. I would ask for the platform fee, card and funding costs, international transaction treatment, reimbursements, integrations and any charges that vary by benefit programme or country.",
-    review: {
-      source: 13,
-      person: "Benepass customer evidence",
-      role: "Vendor-published",
-      body: "Trupanion reports an 80% annual engagement rate and 67% lower LSA admin costs, while The Aspen Group moved thousands of HSA, FSA and commuter accounts to Benepass in 75 days and now processes over 81% of transactions by card."
-    },
-    verdict: "Benepass is compelling when flexible spending is the centre of the benefits strategy. The card-first experience is easy to understand and the rules can carry a lot of operational weight. I would be more cautious if the real requirement is broad multinational administration rather than flexible benefits delivery.",
-    refs: [13, 14],
-    image: "/images/benepass.webp",
-    quote: "That proactive, as opposed to reactive approach, is something that has been really impactful to our team.",
-    quotePerson: "Stephanie Brazil",
-    quoteRole: "Director of Benefits and Workforce Support Services, The Aspen Group",
-  },
-  {
-    id: "reward-gateway",
-    name: "Reward Gateway | Edenred",
-    tag: "Benefits, discounts, recognition and employee engagement",
-    best: "Global employers that want benefits to sit alongside recognition, discounts, wellbeing and communications in one employee-facing destination.",
-    summary: "Stronger emphasis on the wider employee engagement experience, bringing benefits together with recognition, discounts, wellbeing and communication tools.",
-    priceShort: "Request a quote",
-    watch: "Ask how far the platform goes into actual benefits administration in your priority markets. If the core problem is eligibility, provider management, payroll reconciliation or global benefits governance, make sure those workflows are not sitting elsewhere behind the employee experience.",
-     intro: [
-      "Reward Gateway | Edenred is a global employee engagement platform that brings benefits, discounts, recognition, wellbeing and communications into one branded employee experience.",
-      "The platform is designed to give large, distributed workforces one place to access employer programmes, while allowing discounts, rewards, content and communications to remain locally relevant across different countries.",
-      "It supports multinational programmes across 65+ countries, with multi-language and multi-currency capabilities for global teams."
-    ],
-     features: [
-      ["Employee engagement hub", "Benefits, recognition, wellbeing, communications and surveys can sit inside one branded destination that employees can access across desktop and mobile."],
-      ["Discounts and savings", "Employees can access discounts and cashback across thousands of brands, with programmes designed to support multiple countries, currencies and languages."],
-      ["Recognition and reward", "Peer and manager recognition can be tied to company values, service milestones and rewards, with employees able to choose from a broad range of redemption options."],
-      ["Targeted communications", "HR teams can use the same platform to surface benefits, company updates and campaigns to different employee groups rather than relying on separate communication channels."],
-    ],
-    pros: [
-      ["Drives repeat engagement", "The platform gives employees reasons to return throughout the year through discounts, recognition, wellbeing and communications rather than only during benefits enrolment."],
-      ["Works for frontline teams", "Customer examples show strong adoption among employees without regular access to company devices or email, which matters for retail, transport and field-based workforces."],
-      ["Strong adoption proof", "Reward Gateway | Edenred publishes examples including 94% active usage at Chubb Fire & Security and Southeastern, alongside 95% active usage at Knight Frank."],
-    ],
-    cons: [
-      ["Not deep administration", "The platform is strongest around engagement, recognition and employee access. Employers with complex eligibility, payroll reconciliation or provider administration may still need deeper benefits infrastructure alongside it."],
-      ["Scope can expand", "Benefits, recognition, wellbeing, discounts and communications can all sit in the same programme. Keep the buying scope tied to the outcomes you actually need rather than adding modules simply because they are available."],
-    ],
-    pricing: "Reward Gateway | Edenred does not publish standard enterprise pricing. Commercial scope depends on the modules selected, employee population, countries, integrations, implementation and the reward or discount programmes included.",
-    review: {
-      source: 15,
-      person: "Reward Gateway | Edenred",
-      role: "Vendor-published customer evidence",
-      body: "The strongest proof is around adoption and measurable employee value. Southeastern reached 94% active usage, generated £83,000 in employee savings and saved £500,000 in National Insurance contributions, while Chubb Fire & Security increased active usage from 33% to 94% and reduced attrition by 33%."
-    },
-    verdict: "Reward Gateway | Edenred is strongest when the project is about making benefits and the wider EVP visible, useful and frequently visited. If your biggest pain sits in back-office benefits administration, I would pair it against a platform that goes deeper on global operations before deciding.",
-    refs: [15, 16],
-    image: "/images/reward-gateway.webp",
-    quote: "Engagement with the platform has been incredible, 95% of our people are active on it.",
-    quotePerson: "Kristin",
-    quoteRole: "Knight Frank",
+    verdict: "Appropriate as an accessible foundational supplement, not a direct replacement for a full maths tutoring programme.",
+    refs: [9],
+      image: "/images/numbots.webp",
+      quote: "We check the red exclamation marks on a daily basis and do a quick 1:1 to get the children through their difficulty.",
+    quotePerson: "Clare McAdam",
+    quoteRole: "Year 1 Teacher, St John's Church of England Academy, Darlington",
   },
 ];
 
 
+
 const criteria = [
   [
-    "Is ‘global’ actually one operating model?",
-    "Ask the vendor to show one employee population in the UK, another in Germany, and another in Singapore on a single screen. Can central HR maintain global policy governance while local rules, provider integrations, and statutory eligibility stay distinct under the hood? If the answer involves logging into three regional portals and stitching CSVs together, you have your answer.",
-    "globe",
-    "/images/global-employee-population.png",
-  ],
-  [
-    "What happens when eligibility changes on Thursday?",
-    "Ask the vendor to move an employee to a new entity, change their grade and add a dependant halfway through the month. Then follow what happens next. Do eligibility, provider records and payroll deductions update from that one change, or does HR still need to update each system separately? ",
+    "01. Can it identify specific gaps in understanding?",
+    "A pupil might get six fractions questions wrong, but that doesn’t necessarily mean they need to start fractions all over again. Maybe they understand the basics but struggle with equivalent fractions. Or perhaps it’s their multiplication knowledge that’s causing the problem. I’d want to see how the programme works that out, rather than simply putting every child who gets a low score through the same lessons.",
     "rules",
-    "/images/alex-chen-movement.png",
+    "/images/diagnostic-assessment.png"
   ],
   [
-    "Can payroll close without a reconciliation spreadsheet?",
-    "Take one employee’s benefit deduction and follow it from enrolment through to payroll and the provider bill. Then introduce a mismatch and see what happens. Does the platform flag the problem before payroll closes, show exactly what is wrong and tell the right person? Or does someone still have to compare files manually to catch it?",
-    "payroll",
-    "/images/benefit-deductions.png",
+    "02. Can it explain concepts in different ways?",
+    "If a pupil gets something wrong, what happens next? Do they get an explanation that helps them see where they’ve gone wrong, or just another question to attempt? And if they’re still confused, can the programme explain it in a different way?",
+    "puzzle",
+    "/images/spoken-maths-tutoring.png"
   ],
   [
-    "Will employees outside HQ actually use it?",
-    "Test the platform the way your employees will actually use it: on mobile, in different languages, with dependants and without a corporate email address. Include deskless employees and teams outside your largest markets. A consistent global experience does not mean much if enrolment is simple for head-office staff but difficult for everyone else.",
-    "mobile",
-    "/images/benefits-priya.png",
+    "03. How much help will the school need to provide?",
+    "It’s easy to underestimate this part. A programme might only require 30 minutes per pupil, but someone may still need to organise the groups, prepare resources, supervise sessions and help children who get stuck. I’d want to know exactly what teachers and teaching assistants would be responsible for, especially if the school is trying to support several year groups at once.",
+    "users",
+    "/images/intervention-staffing.png"
   ],
   [
-    "Can you explain the spend to Finance?",
-    "Ask the vendor to show benefits spend, take-up and utilisation across countries, plans and employee groups without exporting the data first. Then ask why one market is 11% over budget. Can you quickly separate headcount growth, provider rate increases and higher plan usage, or will Finance still need someone to rebuild the answer in Excel?",
+    "04. Can I tell whether pupils are actually improving?",
+    "I’d be careful about confusing completed lessons with progress. A child might finish every activity and still struggle when the same maths comes up in class. I’d want to see whether the programme tracks what pupils understood at the beginning, what they’ve learned since and which gaps still need attention.",
     "chart",
-    "/images/globalbenefitsspend.png",
+    "/images/maths-progress-report.png"
   ],
   [
-    "How much control stays with your team?",
-    "Ask the vendor to add a new entity in Poland, change an eligibility rule and update a local employee communication during the demo. Can your team make those changes themselves, or does each one require a support ticket or implementation request? If routine admin takes weeks to complete after go-live, the platform will become another operational dependency.",
-    "sliders",
-    "/images/new-entity-setup.png",
+    "05. Can it support pupils with different learning needs?",
+    "Not every child finds maths difficult for the same reason. Some need more time to process a question. Others struggle with the language or need to see a concept explained several ways. I’d want to know how flexible the programme is, particularly for pupils with SEND or EAL needs, and whether they can get extra help without feeling they’re constantly getting things wrong.",
+    "accessibility",
+    "/images/pupil-accessibility.png"
   ],
+  [
+    "06. What will it really cost to keep running?",
+    "A programme might look affordable when you're only comparing licence fees. But if a teaching assistant needs to supervise every session, the cost looks quite different when you're supporting 90 pupils instead of 20. I'd want to know what the school still has to provide, from staff time and training to devices and preparation. ",
+    "wallet",
+    "/images/intervention-cost.png"
+  ]
 ] as const;
-
-
 
 const choices = [
-  ["Bringing fragmented global benefits administration into one operating model", "Ben", "Strongest fit when the problem is spread across local processes, payroll, eligibility and reporting rather than employee access alone."],
-  ["Standardising a broad benefits and reward experience across a large multinational", "Benifex", "Best suited to organisations that want global consistency across benefits, total reward, wellbeing and recognition while keeping local programmes intact."],
-  ["Combining benefits technology with consulting, broking and programme support", "Darwin", "The surrounding Mercer Marsh Benefits relationship makes more sense when the transformation includes providers, design and cost management as well as software."],
-  ["Running complex health, wealth, leave and administration at very large scale", "Alight Worklife", "The deepest administration proposition in the group, particularly for employers with large populations and several connected benefits programmes."],
-  ["Replacing fragmented LSAs, allowances and reimbursement programmes globally", "Forma", "A clearer fit when the core problem is flexible-benefits design and administration rather than traditional insured-benefit workflows."],
-  ["Moving flexible benefits from reimbursement to direct employee spending", "Benepass", "Strongest where card-based access, transaction controls and simpler employee spending are the main requirements."],
-  ["Increasing benefits visibility, recognition and engagement across the workforce", "Reward Gateway | Edenred", "Best suited to organisations where the employee-facing experience and programme adoption matter more than deep benefits administration."],
+  [
+    "Giving more pupils regular one-to-one maths support",
+    "Third Space Learning (Skye)",
+    "I’d look here if teaching assistant availability is stopping pupils from receiving enough individual teaching. Skye delivers spoken one-to-one lessons, so several children can receive support at the same time without needing a separate adult for each session. The school still needs supervision, but the annual subscription includes unlimited tutoring.",
+  ],
+  [
+    "Helping pupils catch up across different maths topics",
+    "Maths-Whizz",
+    "This makes sense when pupils are working at different levels and need personalised lessons they can complete regularly. I’d want the school to protect the recommended 45–60 minutes each week, though. Without that consistency, even a well-designed learning pathway might not get used enough.",
+  ],
+  [
+    "Understanding why pupils keep making the same mistakes",
+    "Eedi",
+    "I’d consider Eedi when assessment scores tell teachers who’s struggling but don’t explain what’s going wrong. Its diagnostic questions can help identify misconceptions, making it easier to decide what needs reteaching.  ",
+  ],
+  [
+    "Giving pupils more practice with foundational arithmetic",
+    "123maths",
+    "If children understand a calculation during lessons but struggle to remember it later, 123maths provides structured repetition across different days. I’d use it for pupils who need to secure number skills, while making sure teachers still explain anything children consistently get wrong.",
+  ],
+  [
+    "Improving maths teaching across the whole school",
+    "Ark Mathematics Mastery",
+    "I’d look at Ark when the problem goes beyond individual pupils and involves how maths is taught across year groups. Its curriculum, professional development and Ready to Progress resources support more consistent teaching. It needs a bigger commitment from staff, though, and doesn’t remove the need for adults to deliver intervention.",
+  ],
+  [
+    "Strengthening early number sense and fluency",
+    "NumBots",
+    "For younger pupils who are still counting through basic calculations, NumBots offers short, visual activities to help develop number understanding and recall. It’s affordable for whole-school use and easier to fit into a daily routine, but it isn’t designed to address every maths topic or misconception.",
+  ],
 ] as const;
 
+
+
 const iconPaths: Record<string, string[]> = {
-  globe: ["M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z", "M2 12h20", "M12 2a15 15 0 0 1 0 20", "M12 2a15 15 0 0 0 0 20"],
-  rules: ["M4 6h16", "M4 12h10", "M4 18h16", "M18 10v4", "M16 12h4"],
-  payroll: ["M4 3h16v18H4z", "M8 7h8", "M8 11h3", "M8 15h8", "M15 10v3", "M13.5 11.5h3"],
-  mobile: ["M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z", "M10 18h4"],
-  chart: ["M4 20V10", "M10 20V4", "M16 20v-7", "M22 20H2"],
-  sliders: ["M4 6h10", "M18 6h2", "M14 4v4", "M4 12h2", "M10 12h10", "M8 10v4", "M4 18h12", "M20 18h0", "M18 16v4"],
-  spark: ["m12 3 1.4 4.2L18 9l-4.6 1.8L12 15l-1.4-4.2L6 9l4.6-1.8L12 3Z", "m5 16 .8 2.2L8 19l-2.2.8L5 22l-.8-2.2L2 19l2.2-.8L5 16Z"],
-  check: ["m5 12 4 4L19 6"],
-  alert: ["M12 3 2 21h20L12 3Z", "M12 9v5", "M12 18h.01"],
+  globe: [
+    "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z",
+    "M3.6 9h16.8",
+    "M3.6 15h16.8",
+    "M12 3a13 13 0 0 0 0 18",
+    "M12 3a13 13 0 0 1 0 18",
+  ],
+  rules: [
+    "M9 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3",
+    "M9 3h6v4H9z",
+    "M8 12h8",
+    "M8 16h5",
+  ],
+    accessibility: [
+    "M12 5.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z",
+    "M5 8.5h14",
+    "M12 8.5v6",
+    "M12 14.5 9 21",
+    "M12 14.5 15 21",
+  ],
+  puzzle: [
+    "M9 3h2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v2h1a2 2 0 1 1 0 4h-1v2a2 2 0 0 1-2 2h-2v-1a2 2 0 1 0-4 0v1H7a2 2 0 0 1-2-2v-2H4a2 2 0 1 1 0-4h1V8a2 2 0 0 1 2-2h2V5a2 2 0 0 1 2-2Z",
+  ],
+  wallet: [
+    "M3 7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z",
+    "M16 12h3",
+    "M3 9h18",
+  ],
+  users: [
+    "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2",
+    "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z",
+    "M22 21v-2a4 4 0 0 0-3-3.87",
+    "M16 3.13a4 4 0 0 1 0 7.75",
+  ],
+  payroll: [
+    "M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z",
+    "M9 7h6",
+    "M9 11h6",
+    "M9 15h3",
+  ],
+  mobile: [
+    "M9 2h6a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z",
+    "M11 18h2",
+  ],
+  chart: [
+    "M4 20V4",
+    "M4 20h16",
+    "M8 16v-5",
+    "M12 16V8",
+    "M16 16v-3",
+  ],
+  sliders: [
+    "M4 6h9",
+    "M17 6h3",
+    "M15 4v4",
+    "M4 12h3",
+    "M11 12h9",
+    "M9 10v4",
+    "M4 18h9",
+    "M17 18h3",
+    "M15 16v4",
+  ],
+  spark: [
+    "M12 3v4",
+    "M12 17v4",
+    "M3 12h4",
+    "M17 12h4",
+    "M5.6 5.6 8.5 8.5",
+    "M15.5 15.5l2.9 2.9",
+    "M5.6 18.4l2.9-2.9",
+    "M15.5 8.5l2.9-2.9",
+    "M12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z",
+  ],
+  check: ["M20 6 9 17l-5-5"],
+  alert: [
+    "M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z",
+    "M12 9v4",
+    "M12 17h.01",
+  ],
   arrow: ["M5 12h14", "m13 6 6 6-6 6"],
   arrowRight: ["M5 12h14", "m12 5 7 7-7 7"],
   minus: ["M5 12h14"],
@@ -426,10 +476,10 @@ function Icon({ name, size = 20 }: { name: string; size?: number }) {
 }
 function HeroControlRoom() {
   return (
-    <figure className="gb-hero-art" aria-label="Ben global benefits platform interface">
+    <figure className="gb-hero-art" aria-label="Skye maths intervention dashboard illustration">
       <img
-        src="/images/ben-hero-img.png"
-        alt="Ben global benefits platform showing operations overview"
+        src="/images/best-maths-hero.png"
+        alt="Illustrative Skye pupil tutoring and progress dashboard"
         width={1200}
         height={900}
         fetchPriority="high"
@@ -443,9 +493,9 @@ export type Props = {
   contactHref?: string;
 };
 
-const subheads = [["features", "Key capabilities"], ["pros", "Pros"], ["cons", "Limitations"], ["pricing", "Pricing"], ["reviews", "Customer evidence"]] as const;
+const subheads = [["features", "Key capabilities"], ["pros", "Pros"], ["cons", "Limitations"], ["pricing", "Pricing"], ["reviews", "Published evidence"]] as const;
 
-export default function BestGlobalEmployeeBenefitsPlatforms2026({
+export default function BestMathsInterventionProgrammes2026({
   portfolioHref = "/#work",
   contactHref = "https://www.seo-growup.com/get-in-touch",
 }: Props = {}) {
@@ -511,15 +561,15 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
           <header className="gb-hero">
             <div className="gb-hero-main gb-container">
               <div className="gb-hero-copy">
-                <div className="gb-eyebrow">HR tech writing sample</div>
-                <h1>7 Best Global Employee Benefits Platforms <span>for Enterprise Teams in 2026</span></h1>
-                <p className="gb-deck">A practical comparison of seven platforms covering global administration, local flexibility, employee experience, payroll controls and reporting, with real-world use cases to help teams evaluate vendors.</p>
+                <div className="gb-eyebrow">EdTech writing sample</div>
+                <h1>6 Best Maths Intervention Programmes <span>for UK Schools<br/> in 2026</span></h1>
+                <p className="gb-deck">Compare six maths intervention platforms, from one-to-one tutoring to adaptive learning, with a practical look at staff workload, costs and pupil progress.</p>
                 <div className="gb-meta">
-                  <span>By GrowUp | For Ben</span>
-                  <time dateTime="2026-10-05">Reviewed 5 October 2026</time>
+                  <span>By GrowUp | For Third Space Learning</span>
+                  <time dateTime="2026-10">Updated October 2026</time>
                   <span>18 min read</span>
                 </div>
-                <a className="gb-jump" href="#shortlist">Compare the seven platforms <span>↓</span></a>
+                <a className="gb-jump" href="#shortlist">Compare the seven programmes <span>↓</span></a>
               </div>
               <HeroControlRoom />
             </div>
@@ -534,8 +584,8 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
             <aside className="gb-toc">
               <div className="gb-eyebrow">On this page</div>
               <nav aria-label="Article contents">
-                {jump("criteria", "What enterprise teams should test")}
-                {jump("shortlist", "The seven platforms compared")}
+                {jump("criteria", "What school leaders should test")}
+                {jump("shortlist", "The six programmes compared")}
                
                
                
@@ -546,7 +596,7 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
                     {subheads.map(([id, label]) => jump(`${v.id}-${id}`, label))}
                   </details>
                 ))}
-                {jump("choose", "Which platform should you choose?")}
+                {jump("choose", "Which programme should you choose?")}
                 {jump("sources", "Sources & research")}
               </nav>
               <div className="gb-toc-foot">
@@ -568,37 +618,41 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
                 </nav>
               </details>
 
-          <section id="introduction" className="gb-intro" style={{ paddingTop: 0 }} aria-label="Introduction">
-  <p className="gb-intro-lede">The worst meeting you can get as a global HR lead is a surprise 15-minute calendar invite from the CFO with no agenda.</p>
-  <p className="gb-intro-body">I had that meeting two years ago. We were operating across 18 countries with 6,000 employees, and our global benefits spend had just run 11% over plan for the second consecutive quarter. I couldn’t answer why on the spot because our benefits data was trapped across six regional broker portals, three local HR systems, and a web of static Excel trackers maintained by local ops teams. To make matters worse, sales had just signed off on opening an entity in Poland with 50 hires going live in 30 days, and I had no infrastructure to deploy local compliant benefits without building another manual workflow from scratch.</p>
-  
-  
-  <figure className="lc-maya-search">
+      <section id="introduction" className="gb-intro" style={{ paddingTop: 0 }} aria-label="Introduction">
+  <p className="gb-intro-lede">I’ve always thought it’s a shame how quickly a child can go from struggling with maths to deciding they’re just not good at it.</p>
+  <p className="gb-intro-body">Sometimes, all it takes is one thing they didn’t understand in Year 4. Maybe it was fractions, place value or multiplication. The class moves on, the gap gets wider, and by the time the next assessment comes around, they’re struggling with questions that build on something they never properly understood in the first place.</p>
+ 
+ 
+<figure className="lc-maya-search">
   <img
-    src="/images/benefits-operations.png"
-    alt="Me, two years ago, trying to build a CFO-ready answer from six time zones"
+    src="/images/maths-intervention-challenge.png"
+    alt="how a missing piece of prior knowledge follows a pupil through every subsequent topic"
     width={1200}
     height={750}
     loading="lazy"
     decoding="async"
   />
-  <figcaption className="lc-maya-caption">Me, two years ago, trying to build a CFO-ready answer from six time zones</figcaption>
+  <figcaption className="lc-maya-caption">
+How a missing piece of prior knowledge follows a pupil through every subsequent topic
+  </figcaption>
 </figure>
-  
 
-<p className="gb-intro-body" style={{ paddingTop: 15 }}>I realised then that most enterprise benefits platforms are built for the best-case scenario. They look brilliant when you're enrolling an employee in London with standard data, but collapse the moment a local provider refuses to integrate or an entity structure changes mid-quarter.</p>
-  <p className="gb-intro-body">I built this guide around that exact lesson. I looked past marketing claims and evaluated what each platform actually does when local compliance rules shift, spend drifts out of budget, or a new international entity needs to go live on a tight deadline.</p>
+
+
+  <p className="gb-intro-body" style={{ paddingTop: 15 }}>And this is where I think schools have a difficult decision to make. It’s easy enough to find a platform that gives pupils more questions to practise. But what happens when a child gets the same question wrong three times? Giving them another attempt won’t necessarily help them understand why ¾ is greater than ⅔. Sometimes they need someone to sit down, explain it differently and work through the confusion with them.</p>
+  <p className="gb-intro-body">Of course, doing that for every pupil who needs help is easier said than done, especially when teaching assistants are already stretched.</p>
+  <p className="gb-intro-body"><strong>So I’ve compared six maths intervention programmes based on what they actually offer struggling pupils, how much work they leave for school staff and whether they’re realistic to run week after week.</strong></p>
+
 </section>
-
         
 
               <section id="criteria">
-                <h2>What should enterprise teams look for in a global benefits platform?</h2>
-                 <p>Sitting in my car after that CFO meeting, I made a promise to myself: I would never again buy HR software based on a glossy sales pitch or a 50-page RFP document where vendors just mark “Yes” to every feature.</p>
+               <h2>What Should Schools Look For in a Maths Intervention Programme?</h2>
+                 <p>I think the hardest part of choosing an intervention programme is that most of them sound good when you read through the features. They can assess pupils, personalise their learning and show you how they’re progressing. But I’d want to know what all of that looks like for a child who’s been struggling with the same topic for weeks.</p>
 
        
-                <p style={{ marginTop: -5 }}>Now when I look at any platform in this space (including our own), I ignore the pre-scripted demo script. Instead, I run six non-negotiable stress tests built directly from those operational battle scars:</p>
-                
+             <p style={{ marginTop: -5 }}>Here are the six practical tests I would take into a demonstration, whether the product is an AI tutor, an adaptive platform or a staff-led programme:</p>
+
                 <div className="gb-crit">
                   {criteria.map(([title, body, icon, image], i) => (
                     <div className="gb-crit-item" key={title}>
@@ -619,23 +673,27 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
               </section>
 
               <section id="shortlist">
-                <h2>7 best global employee benefits platforms for enterprise teams in 2026</h2>
-                <p>The seven platforms below solve different parts of the global benefits problem, so I would not compare them on feature count alone. I would use the six tests above to work out which ones actually fit your operating model.</p>
+                <h2>6 Best Maths Intervention Programmes for UK Schools in 2026</h2>
+                <p>Not every school needs the same kind of maths intervention. Some pupils need someone to explain a concept they haven't understood. Others need regular practice to become more confident with the basics. And sometimes it's the teachers who need better ways to spot gaps and plan support.</p>
+             
+               <p>Here’s how the seven compare.</p>
+             
+             
                 <div className="gb-table-shell gb-clean-shell">
-                  <div className="gb-table-scroll" role="region" aria-label="Global employee benefits platform comparison table; scroll horizontally on smaller screens" tabIndex={0}>
-                    <table className="gb-table gb-clean">
-                      <thead><tr><th scope="col">Platform</th><th scope="col">Best for</th><th scope="col">Main distinction</th><th scope="col">Pricing / what to check</th></tr></thead>
-                      <tbody>
-                        {vendors.map((v) => (
-                          <tr key={v.id}>
-                            <td><a href={`#${v.id}`}>{v.name} ↗</a></td>
-                            <td>{v.best}</td>
-                            <td>{v.summary}</td>
-                            <td><strong>{v.priceShort}.</strong><small>Check: {v.watch}</small></td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div className="gb-table-scroll" role="region" aria-label="Maths intervention programme comparison table; scroll horizontally on smaller screens" tabIndex={0}>
+                <table className="gb-table gb-clean">
+  <thead><tr><th scope="col">Programme</th><th scope="col">Best for</th><th scope="col">How it works</th><th scope="col">Pricing and what to consider</th></tr></thead>
+  <tbody>
+    {vendors.map((v) => (
+      <tr key={v.id}>
+        <td><a href={`#${v.id}`}>{v.name} ↗</a></td>
+        <td>{v.best}</td>
+        <td>{v.summary}</td>
+      <td><strong>{v.priceShort}</strong> {v.watch}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
                   </div>
    
                 </div>
@@ -689,25 +747,25 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
                 <div className="gb-preview-main">
                   <div className="gb-preview-title">
                     <div>
-                      <small>GLOBAL BENEFITS</small>
-                      <strong>Operations overview</strong>
+                      <small>MATHS INTERVENTION</small>
+                      <strong>Pupil progress overview</strong>
                     </div>
                     <i />
                   </div>
 
                   <div className="gb-preview-kpis" aria-hidden="true">
                     <div>
-                      <small>Employees</small>
+                      <small>Pupils</small>
                       <strong>2,842</strong>
                       <span>↑ 12%</span>
                     </div>
                     <div>
-                      <small>Countries</small>
+                      <small>Classes</small>
                       <strong>18</strong>
                       <span>+2</span>
                     </div>
                     <div>
-                      <small>Benefits</small>
+                      <small>Sessions</small>
                       <strong>24</strong>
                       <span>Active</span>
                     </div>
@@ -716,8 +774,8 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
                   <div className="gb-preview-dashboard" aria-hidden="true">
                     <div className="gb-preview-chart">
                       <div className="gb-preview-chart-top">
-                        <span>Benefits spend</span>
-                        <b>£12.4M</b>
+                        <span>Sessions spend</span>
+                        <b>78%</b>
                       </div>
 
                       <div className="gb-preview-bars">
@@ -731,9 +789,9 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
                     </div>
 
                     <div className="gb-preview-sidecard">
-                      <small>Coverage</small>
+                      <small>Attendance</small>
                       <strong>96%</strong>
-                      <span>Global workforce</span>
+                      <span>Intervention cohort</span>
 
                       <div className="gb-preview-mini-row">
                         <i />
@@ -760,7 +818,7 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
             </div>
 
             <div className="gb-preview-label">
-              Product screenshot placeholder
+              Illustrative product preview — not a real platform screenshot
             </div>
           </>
         )}
@@ -769,7 +827,7 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
       <div className="gb-vendor-summary">
         <div className="gb-vendor-count">
           <span>0{i + 1}</span>
-          <small>of 07</small>
+          <small>of 06</small>
         </div>
 
         <div className="gb-tool-heading">
@@ -796,16 +854,7 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
             <Icon name="arrowRight" size={14} />
           </a>
 
-          {v.id === "ben" && (
-            <a
-              className="gb-vendor-secondary"
-              href="https://www.thanksben.com/book-a-demo"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Book a demo
-            </a>
-          )}
+          
         </div>
 
 
@@ -829,12 +878,12 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
         <span className="gb-section-kicker">What it actually does</span>
         <h3 id={`${v.id}-features`}>Key capabilities</h3>
       </div>
-      <span className="gb-section-side">What {v.name} does well</span>
+      <span className="gb-section-side">How the programme works</span>
     </div>
 
     <div className="gb-feature-grid">
       {v.features.map(([title, body], featureIndex) => {
-        const featureIcons = ["globe", "sliders", "mobile", "chart", "spark"];
+        const featureIcons = ["rules", "mobile", "chart", "payroll", "globe"];
         const iconName = featureIcons[featureIndex] || "spark";
         return (
           <div className="gb-feature-card" key={title}>
@@ -911,14 +960,8 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
 
       <div className="gb-price-body">
         <p>{v.pricing}</p>
-
-        {v.id === "ben" && (
-          <a
-            className="gb-price-link"
-            href="https://www.thanksben.com/compare-plan"
-            target="_blank"
-            rel="noreferrer"
-          >
+        {v.pricingUrl && (
+          <a className="gb-price-link" href={v.pricingUrl} target="_blank" rel="noreferrer">
             View pricing
             <Icon name="arrowRight" size={13} />
           </a>
@@ -931,9 +974,9 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
     ───────────────────────────────────────── */}
     <div className="gb-section-heading gb-review-heading">
       <div>
-        <span className="gb-section-kicker">Real-world evidence</span>
+        <span className="gb-section-kicker">Research & school evidence</span>
         <h3 id={`${v.id}-reviews`}>
-          What does the customer evidence say about {v.name}?
+          What does the published evidence say about {v.name}?
         </h3>
       </div>
 
@@ -942,49 +985,22 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
     <div className="gb-review">
       <div className="gb-review-copy">
         <div className="gb-eyebrow">
-          Customer evidence
+          Published evidence
         </div>
 
         <p>{v.review.body}</p>
 
-        {v.id === "ben" ? (
-          <a
-            href="https://www.thanksben.com/customer-stories"
-            target="_blank"
-            rel="noreferrer"
-          >
-            See how global teams use Ben
-            <span>↗</span>
-          </a>
-        ) : (
-          <a
-            href={sourceLink(v.review.source)}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Read the source
-            <span>↗</span>
-          </a>
-        )}
+        <a
+          href={v.review.reviewUrl ?? sourceLink(v.review.source)}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Read the source <span>↗</span>
+        </a>
       </div>
 
       <div className="gb-review-logos">
-        {v.id === "ben" && (
-          <div className="gb-review-logo-row">
-            <img
-              src="/images/sigma-logo.avif"
-              alt="Sigma Connected"
-              className="gb-review-logo"
-              loading="lazy"
-            />
-            <img
-              src="/images/pleo-logo.svg"
-              alt="Pleo"
-              className="gb-review-logo"
-              loading="lazy"
-            />
-          </div>
-        )}
+        
 
         {v.quote && (
           <div className="gb-review-quote">
@@ -1012,10 +1028,16 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
 ))}
 
               <section id="choose">
-                <h2>Which global employee benefits platform should you choose?</h2>
-                <p>I would not choose from this list by asking who has the longest feature set. I would start with the part of your current benefits operation that creates the most work, risk or confusion, then make the vendor prove they can remove it. That usually gets you to a much shorter shortlist very quickly.</p>
+                <h2>Which Maths Intervention Programme Should Your School Choose?</h2>
+
+  <p>I don't think the best way to choose an intervention is to ask which programme has the most features. I'd start with a much simpler question: what is actually stopping these pupils from making progress?</p>
+
+  <p>Here's how I'd narrow down the options.</p>
+                
+                
+                
                 <div className="gb-table-shell gb-clean-shell">
-                  <div className="gb-table-scroll" role="region" aria-label="Shortlist global employee benefits platforms by business need" tabIndex={0}>
+                  <div className="gb-table-scroll" role="region" aria-label="Shortlist maths intervention programmes by school need" tabIndex={0}>
                     <table className="gb-table gb-clean gb-choose-table">
                       <thead><tr><th scope="col">If your priority is...</th><th scope="col">Start with</th><th scope="col">Why</th></tr></thead>
                       <tbody>{choices.map(([problem, tool, test]) => <tr key={problem}><td><strong>{problem}</strong></td><td>{tool}</td><td>{test}</td></tr>)}</tbody>
@@ -1025,13 +1047,13 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
 
                 <div className="gb-author">
                   <div className="gb-author-mark" aria-hidden="true"><span>G</span></div>
-                  <div className="gb-author-body"><div className="gb-author-eyebrow">Written by</div><div className="gb-author-name">GrowUp</div><p className="gb-author-bio">GrowUp writes content for HR technology brands. This guide is a portfolio sample created to demonstrate the kind of work GrowUp would produce for Ben. It is not published by or affiliated with Ben.</p></div>
+                  <div className="gb-author-body"><div className="gb-author-eyebrow">Written by</div><div className="gb-author-name">GrowUp</div><p className="gb-author-bio">GrowUp creates research-led content for education technology brands. This portfolio sample demonstrates how we'd approach a comparison for Third Space Learning, drawing on published research, school case studies and product information.</p></div>
                 </div>
               </section>
 
               <section id="sources">
                 <h2>Sources & research</h2>
-                <p style={{ fontSize: 14, color: "#596a65" }}>Product facts, coverage claims and customer examples below come from vendor-published sources. They establish what each vendor publicly says and shows, not independently measured comparative performance. Public information was reviewed on 5 October 2026.</p>
+                <p style={{ fontSize: 14, color: "#596a65" }}>Product descriptions and prices are based on linked vendor pages.   </p>
                 <ol className="gb-source-list">{sources.map(([title, url], i) => <li key={url} id={`source-${i + 1}`}><a href={url} target="_blank" rel="noreferrer">{title} ↗</a></li>)}</ol>
               </section>
             </article>
@@ -1039,9 +1061,9 @@ export default function BestGlobalEmployeeBenefitsPlatforms2026({
 
           <section className="gb-cta">
             <div>
-              <div className="gb-eyebrow">GrowUp · HR tech content writing</div>
-              <h2>High-intent content for acquisition, sales enablement and pipeline growth.</h2>
-              <p>From search-led articles to comparison pages and customer stories, we create content that brings buyers in, helps sales move deals forward and supports pipeline growth.</p>
+              <div className="gb-eyebrow">GrowUp · EdTech content writing</div>
+              <h2>Research-led EdTech content that supports evaluation and pipeline growth.</h2>
+              <p>From thought leadership and SEO to product storytelling and sales enablement, we help EdTech brands communicate their value, influence buying decisions and generate pipeline.</p>
             </div>
             <div>
               <a href={contactHref}>Commission an article like this <span>↗</span></a>
