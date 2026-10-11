@@ -59,6 +59,7 @@ export default function Nav() {
 
   return (
     <header
+      style={{ fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif" }}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         solid ? "pt-3 md:pt-4" : "pt-0"
       }`}
@@ -80,7 +81,7 @@ export default function Nav() {
 
       <div
         className={`relative mx-auto flex w-[min(1340px,calc(100%_-_32px))] items-center justify-between transition-all duration-300 md:w-[min(1340px,calc(100%_-_96px))] ${
-          solid ? "rounded-2xl bg-[#041b1c] px-4 py-3 md:px-8" : "py-4 md:py-6"
+          solid ? "rounded-xl border border-[#cdeee8]/[.14] bg-[#041b1c]/90 px-4 py-2.5 shadow-[0_10px_30px_rgba(0,0,0,.25)] backdrop-blur-md md:px-8" : "py-4 md:py-6"
         }`}
       >
         <a
@@ -161,10 +162,10 @@ export default function Nav() {
                 key={id}
                 href={`/#${id}`}
                 onClick={() => setOpen(false)}
-                className={`block rounded-xl px-4 py-3.5 text-base font-semibold transition ${
+                className={`block rounded-lg px-4 py-3.5 text-[15px] font-medium transition ${
                   active === id
-                    ? "bg-white/5 text-[#1F9FA1]"
-                    : "text-white hover:bg-white/5"
+                    ? "bg-white/5 text-[#8fd9cf]"
+                    : "text-[#cdeee8] hover:bg-white/5"
                 }`}
               >
                 {label}

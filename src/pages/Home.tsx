@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { SITE } from "../data/site";
 
 const ANIM_CSS = `
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 @keyframes hero-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 @keyframes hero-img { from { opacity: 0; transform: translateX(40px) scale(.97); } to { opacity: 1; transform: none; } }
 @keyframes rise { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
 .hero-anim { animation: hero-rise .9s cubic-bezier(.22,1,.36,1) backwards; }
 .hero-anim-img { animation: hero-img 1.1s cubic-bezier(.22,1,.36,1) .35s backwards; }
+.montserrat-page, .montserrat-page .font-serif, .montserrat-page .font-sans { font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif; }
 .reveal { opacity: 0; }
 .reveal.is-in { opacity: 1; animation: rise .9s cubic-bezier(.22,1,.36,1) backwards; }
 @media (prefers-reduced-motion: reduce) {
@@ -42,7 +44,7 @@ const steps = [
     n: "03",
     icon: "pencil",
     t: "Create content for complex decisions",
-    d: "We turn that evidence into buyer guides, platform comparisons, implementation planners and sales-support materials that help buyers assess the technology, understand what's involved and make the case for investment.",
+    d: "We turn that evidence into buyer guides, implementation planners, and sales-support materials that help buyers assess the technology, understand what's involved and make the case for investment.",
   },
   {
     n: "04",
@@ -351,78 +353,81 @@ useEffect(() => {
 
 
   return (
-    <main className="overflow-hidden bg-[#041b1c] text-white">
+    <main className="montserrat-page overflow-hidden bg-[#041b1c] text-white">
       <style>{ANIM_CSS}</style>
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-[radial-gradient(circle_at_72%_38%,rgba(25,144,132,.16),transparent_28%),linear-gradient(135deg,#06332f_0%,#041b1c_55%,#031516_100%)] pt-28">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[-220px] top-[-140px] h-[700px] w-[700px] rounded-full border border-[#6ddbd0]/10"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[-95px] top-[-25px] h-[470px] w-[470px] rounded-full border border-dashed border-[#6ddbd0]/15"
-        />
 
-        <div className="mx-auto grid w-[min(1340px,calc(100%-96px))] items-center gap-6 pb-16 lg:grid-cols-[.92fr_1.08fr] lg:pb-20">
-          <div className="relative z-10">
-                    <p className="hero-anim mb-6 text-[11px] font-semibold uppercase tracking-[.22em] text-[#1F9FA1]">
+
+      {/* HERO */}
+      <section
+        className="relative overflow-hidden bg-[linear-gradient(180deg,#05393a_0%,#031f20_60%,#021516_100%)] pb-[90px] pt-[150px]"
+        style={{ fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif" }}
+      >
+        <div className="mx-auto w-[min(1340px,calc(100%_-_32px))] md:w-[min(1340px,calc(100%_-_96px))]">
+          {/* EYEBROW */}
+          <div className="hero-anim mb-[34px] flex items-center">
+            <span className="mr-[10px] inline-block h-px w-[22px] shrink-0 bg-[#3d8f8a]" />
+            <p className="text-[13px] font-medium uppercase leading-none tracking-[.02em] text-[#8fd9cf]">
               EdTech writing samples
             </p>
-
-                      <h1 style={{ animationDelay: "120ms" }} className="hero-anim max-w-[720px] font-serif text-[50px] font-normal leading-[.98] tracking-[-.045em] text-[#f6f2e8] md:text-[58px]">
-              EdTech content built to<br className="hidden md:block" />{" "}
-              <span className="text-[#1F9FA1]">drive pipeline growth.</span>
-            </h1>
-
-            <p className="mt-7 max-w-[520px] text-[17px] leading-7 text-[#c4d3cf]">
-      See the kind of work we create for EdTech brands, from detailed buyer guides to interactive sales tools that help buyers understand the product, evaluate options and move closer to a decision.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#work"
-                className="inline-flex min-h-12 items-center gap-8 rounded-full bg-[#167273] px-7 text-[13px] font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1d8f90]"
-              >
-                Read the articles <Arrow />
-              </a>
-
-              <a
-                href="https://www.seo-growup.com/get-in-touch"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex min-h-12 items-center gap-7 rounded-full border border-[#75cfc7]/55 px-7 text-[13px] font-semibold text-[#edf8f5] transition hover:-translate-y-0.5 hover:border-[#75e4da]"
-              >
-                Work with us
-              </a>
-            </div>
-
- 
           </div>
 
-          <div className="relative w-full lg:-mr-[7vw]">
-            <img
-              src="/images/hr-tech-hero-image.png"
-              alt="Search performance dashboard showing organic traffic growth and ranking positions for fintech topics."
-              className="block h-auto w-full lg:w-[122%] lg:max-w-none lg:-ml-[12%] [filter:saturate(1.12)_contrast(1.05)] drop-shadow-[0_38px_70px_rgba(0,0,0,.28)]"
-            />
+          <div className="grid gap-x-10 gap-y-14 lg:grid-cols-[1.08fr_.92fr]">
+            {/* LEFT: HEADLINE */}
+            <div>
+              <h1
+                style={{ animationDelay: "120ms" }}
+                className="hero-anim text-[clamp(34px,4.2vw,54px)] font-bold leading-[1.18] tracking-[-0.01em] text-[#f2fbf9]"
+              >
+                EdTech content built to<br className="hidden lg:block" /> drive pipeline growth.
+              </h1>
+            </div>
 
+            {/* RIGHT: COPY + CTAs */}
+            <div
+              style={{ animationDelay: "240ms" }}
+              className="hero-anim flex flex-col justify-center lg:border-l lg:border-[#cdeee8]/[.14] lg:pl-11"
+            >
+              <p className="mb-[30px] max-w-[480px] text-[18px] font-normal leading-[1.7] text-[#a9d9d1]">
+                Explore the kind of EdTech content we create, from building awareness around complex products to helping sales teams have better buyer conversations.
+              </p>
+
+              <div className="flex flex-wrap gap-[14px]">
+                <a
+                  href="#work"
+                  className="inline-flex items-center whitespace-nowrap rounded-[3px] border border-[#167273] bg-[#167273] px-[26px] py-[15px] text-[15px] font-semibold tracking-[.01em] text-white transition-colors duration-200 hover:border-[#1f8f8f] hover:bg-[#1f8f8f]"
+                >
+                  Read the articles
+                </a>
+
+                <a
+                  href="https://www.seo-growup.com/get-in-touch"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center whitespace-nowrap rounded-[3px] border border-[#cdeee8]/[.28] bg-transparent px-[26px] py-[15px] text-[15px] font-semibold tracking-[.01em] text-[#cdeee8] transition-colors duration-200 hover:border-[#167273] hover:bg-[#167273] hover:text-white"
+                >
+                  Work with us
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
+
+
+
       {/* SELECTED WORK */}
       <section id="work" className="bg-[#f6f2e9] text-[#082722]">
-        <div className="mx-auto w-[min(1400px,calc(100%-48px))] pt-16 pb-16 md:w-[min(1400px,calc(100%-96px))] lg:pt-20 lg:pb-20">
+        <div className="mx-auto w-[min(1340px,calc(100%_-_32px))] pt-16 pb-16 md:w-[min(1340px,calc(100%_-_96px))] lg:pt-20 lg:pb-20">
           <div className="grid gap-8 lg:grid-cols-1">
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[.19em] text-[#17796e]">
                 Featured articles
               </p>
-              <h2 className="mt-4 max-w-[1250px] font-serif text-[43px] font-normal leading-[1.03] tracking-[-.045em] md:text-[58px]">
+              <h2 className="mt-4 max-w-[1250px] font-serif text-[43px] font-semibold leading-[1.03] tracking-[-.045em] md:text-[58px]">
                 Explore our EdTech writing samples.
               </h2>
-              <p className="mt-8 max-w-[900px] text-[18px] leading-7 text-[#011522]">
+              <p className="mt-8 max-w-[1100px] text-[18px] leading-7 text-[#011522]">
                 From school classroom tools to higher education ERP and enterprise learning platforms, these articles show how we turn complex education topics into clear, credible and commercially valuable content.
               </p>
             </div>
@@ -445,16 +450,16 @@ useEffect(() => {
                     Higher Ed
                   </p>
 
-                  <h3 className="mt-5 max-w-[620px] font-serif text-[38px] font-normal leading-[1.02] tracking-[-.04em] text-[#f5f1e8] md:text-[49px]">
+                  <h3 className="mt-5 max-w-[620px] font-serif text-[38px] font-semibold leading-[1.05] tracking-[-.04em] text-[#f5f1e8] md:text-[45px]">
                     Jenzabar Implementation<br/> Business Case
                   </h3>
 
-                  <p className="mt-5 max-w-[750px] text-[17px] leading-6 text-[#fafafa]">
+                  <p className="mt-5 max-w-[750px] text-[17px] leading-[1.75] text-[#fafafa]">
                     Implementation is a big part of the buying decision for higher education ERP. So we built Jenzabar an interactive planning tool that helps institutions work through timelines, staff capacity and potential disruptions, with an executive-ready presentation they can take into internal approval meetings.
                   </p>
 
                   <div className="mt-7 flex flex-wrap items-center gap-3">
-                    <span className="inline-flex min-h-11 items-center gap-8 rounded-full bg-[#167273] px-6 text-[14px] font-semibold text-white transition-all duration-300 group-hover:gap-10 group-hover:bg-[#1d8f90]">
+                    <span className="inline-flex min-h-11 items-center gap-3 rounded-full bg-[#167273] px-6 text-[14px] font-semibold text-white transition-all duration-300 group-hover:gap-5 group-hover:bg-[#1d8f90]">
                    View implementation roadmap <Arrow />
                     </span>
                   </div>
@@ -474,7 +479,7 @@ useEffect(() => {
                 <img
                   src="/images/jenzabar-edtech-sample.png"
                   alt="Jenzabar One implementation planner showing timeline, staffing, risks, milestones and resources across a 9 to 12 month rollout."
-                  className="absolute right-[4%] top-1/2 z-10 h-[88%] w-auto max-w-none -translate-y-1/2 object-contain object-right drop-shadow-[0_30px_48px_rgba(0,0,0,.30)] transition duration-700 group-hover:scale-[1.015]"
+                  className="absolute right-[3%] top-1/2 z-10 h-auto max-h-[86%] w-[94%] max-w-none -translate-y-1/2 object-contain object-center drop-shadow-[0_30px_48px_rgba(0,0,0,.30)] transition duration-700 group-hover:scale-[1.015]"
                 />
               </div>
             </div>
@@ -508,7 +513,7 @@ useEffect(() => {
           02 · UK Schools
         </p>
 
-        <h3 className="mt-4 max-w-[520px] font-serif text-[29px] font-normal leading-[1.04] tracking-[-.038em] text-[#011522] md:text-[32px]">
+        <h3 className="mt-4 max-w-[400px] font-serif text-[29px] font-semibold leading-[1.1] tracking-[-.038em] text-[#011522] md:text-[32px]">
           6 Best Maths Intervention Programmes for UK Schools in 2026
         </h3>
 
@@ -562,11 +567,11 @@ useEffect(() => {
           03 · Enterprise Learning
         </p>
 
-        <h3 className="mt-4 max-w-[505px] font-serif text-[29px] font-normal leading-[1.04] tracking-[-.038em] text-[#011522] md:text-[32px]">
+        <h3 className="mt-4 max-w-[450px] font-serif text-[29px] font-semibold leading-[1.1] tracking-[-.038em] text-[#011522] md:text-[32px]">
           How to Build a Skills-Based Learning Programme for 5,000 Employees
         </h3>
 
-        <p className="mt-3 max-w-[490px] text-[16px] leading-[1.55] text-[#011522]">
+        <p className="mt-3 max-w-[550px] text-[16px] leading-[1.55] text-[#011522]">
           Learn how to build and manage a skills-based learning
           programme for 5,000 employees using Northstar, from
           identifying skills gaps to tracking progress and
@@ -602,14 +607,14 @@ useEffect(() => {
 
 {/* APPROACH */}
 <section id="approach" className="bg-[#041b1c]">
-  <div className="mx-auto w-[min(1400px,calc(100%-48px))] pt-20 pb-16 md:w-[min(1400px,calc(100%-96px))] lg:pt-20 lg:pb-20">
+  <div className="mx-auto w-[min(1340px,calc(100%_-_32px))] pt-20 pb-16 md:w-[min(1340px,calc(100%_-_96px))] lg:pt-20 lg:pb-20">
     <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
       <div>
         <p className="text-[11px] font-bold uppercase tracking-[.22em] text-[#1F9FA1]">
           Our approach
         </p>
 
-        <h2 className="mt-5 max-w-[650px] font-serif text-[46px] font-normal leading-[1.02] tracking-[-.03em] text-[#f6f2e8] md:text-[62px]">
+        <h2 className="mt-5 max-w-[650px] font-serif text-[46px] font-semibold leading-[1.05] tracking-[-.03em] text-[#f6f2e8] md:text-[62px]">
           Content built for
           <br />
           complex enterprise
@@ -640,7 +645,7 @@ useEffect(() => {
                   </span>
                 </div>
 
-                <h3 className="mt-6 min-h-[64px] font-serif text-[26px] font-normal leading-[1.1] tracking-[-.02em] text-[#f4f0e7]">
+                <h3 className="mt-6 min-h-[64px] font-serif text-[26px] font-semibold leading-[1.15] tracking-[-.02em] text-[#f4f0e7]">
                   {s.t}
                 </h3>
                 <p className="mt-4 text-[14px] leading-6 text-[#b9cbc6]">{s.d}</p>
@@ -669,206 +674,289 @@ useEffect(() => {
 
   {/* INVESTMENT */}
   <section id="investment" className="scroll-mt-24 bg-white text-[#011522]">
-    <div className="mx-auto w-[min(1340px,calc(100%-48px))] py-16 md:w-[min(1340px,calc(100%-96px))] lg:py-20">
-      <div className="bg-[#f6f8f9] px-6 py-16 md:px-12 lg:px-16">
-        {/* HEADER */}
-        <div className="text-center">
-          <p className="flex items-center justify-center gap-2 text-[11px] font-medium uppercase tracking-[.22em] text-[#167273]">
-            <span className="h-px w-3 bg-[#167273]" />
+    <div className="mx-auto w-[min(1340px,calc(100%_-_32px))] py-16 md:w-[min(1340px,calc(100%_-_96px))] lg:py-20">
+      <div className="bg-[#eef4f3] px-6 py-[70px] md:px-10">
+      {/* HEADER */}
+      <div className="mx-auto mb-16 text-center">
+        <div className="mb-[22px] flex items-center justify-center gap-[10px]">
+          <span className="h-[2px] w-[22px] bg-[#167273]" />
+          <span className="text-[13px] font-semibold uppercase tracking-[.02em] text-[#0f5859]">
             Pricing
-          </p>
-          <h2 className="mt-4 font-serif text-[43px] font-normal leading-[1.03] tracking-[-.045em] text-[#011522] md:text-[58px]">
-            Investment Options and Packages
-          </h2>
-          <p className="mx-auto mt-5 max-w-[640px] text-[18px] leading-7 text-[#011522]">
-            Choose a single article or an ongoing monthly programme. Both include
-            research, strategic input and content written by EdTech specialists.
-          </p>
+          </span>
         </div>
+        <h2 className="mb-[18px] text-[clamp(30px,3.8vw,44px)] font-extrabold leading-[1.2] tracking-[-.01em] text-[#0a2e2e]">
+          Investment Options and Packages.
+        </h2>
+        <p className="mx-auto max-w-[840px] text-[19px] leading-[1.7] text-[#011522]">
+          Choose a single article or an ongoing monthly programme. Both include research,
+          strategic input and content written by EdTech specialists.
+        </p>
+      </div>
 
-        <div className="mt-14 grid items-stretch gap-6 md:grid-cols-2">
-          {/* MONTHLY (featured) */}
-          <div className="reveal relative flex flex-col border border-[#011522] bg-white p-9 shadow-[0_24px_60px_rgba(1,21,34,.08)]">
-             <span className="absolute -top-[11px] left-9 bg-[#167273] px-3 py-1 text-[9px] font-medium uppercase tracking-[.22em] text-white">
-              Most popular
-            </span>
-            <h3 className="font-serif text-[30px] font-normal leading-[1.05] tracking-[-.03em] text-[#011522]">
-              Monthly Programme
+      {/* CARDS */}
+      <div className="flex flex-wrap items-stretch justify-center gap-8">
+        {[
+          {
+            featured: true,
+            badge: "Most popular",
+            name: "Monthly Programme",
+            price: "£3,400",
+            unit: "/mo",
+            note: "4 pieces per month, saving £400",
+            stats: [
+              ["4 pieces", "Every month"],
+              ["£400", "Saved vs one-off"],
+              ["1 report", "Monthly pipeline"],
+            ],
+            intro:
+              "A consistent stream of well-researched, expert-led content for EdTech teams publishing quality work every month.",
+            groups: [
+              {
+                label: "Strategy",
+                items: [["Monthly topic plan and keyword research", false]],
+              },
+              {
+                label: "Content",
+                items: [
+                  ["4 buyer guides, comparisons or long-form articles each month", true],
+                  ["Educator and subject-expert review on every piece", true],
+                  ["Custom visuals for every piece", true],
+                ],
+              },
+              {
+                label: "Reporting & delivery",
+                items: [
+                  ["Monthly report on pipeline impact, rankings and traffic", false],
+                  ["Priority turnaround", false],
+                ],
+              },
+            ],
+            bestFor: "teams publishing every month who want content tied to pipeline.",
+            cta: "Start a monthly programme",
+          },
+          {
+            featured: false,
+            name: "Long-Form Article",
+            price: "£950",
+            unit: "/article",
+            note: "One-off, no commitment",
+            stats: [
+              ["1,600+", "Words, up to 2,000"],
+              ["2 rounds", "Of revisions"],
+              ["1 piece", "Research to publish"],
+            ],
+            intro:
+              "In-depth, research-led articles and buyer guides for schools, higher education and learning platforms.",
+            groups: [
+              {
+                label: "Research",
+                items: [
+                  ["Primary-source research and fact-checking", false],
+                  ["Keyword and search-intent research", false],
+                ],
+              },
+              {
+                label: "Writing & SEO",
+                items: [
+                  ["1,600 to 2,000 words", true],
+                  ["SEO title, meta description and internal links", false],
+                ],
+              },
+              {
+                label: "Delivery",
+                items: [
+                  ["Custom graphics and visuals", true],
+                  ["Two rounds of revisions", false],
+                ],
+              },
+            ],
+            bestFor: "a single high-value guide, comparison or article with no commitment.",
+            cta: "Commission an article",
+          },
+        ].map((p, pi) => (
+          <div
+            key={p.name}
+            style={{ animationDelay: `${pi * 150}ms` }}
+            className={`reveal relative box-border flex flex-[1_1_400px] flex-col px-6 pb-8 pt-9 md:px-10 md:pb-10 md:pt-11 ${
+              p.featured
+                ? "border-2 border-[#167273] bg-[#fbfefd] shadow-[0_20px_40px_rgba(10,46,46,.08)]"
+                : "border border-[#0a2e2e]/10 bg-white"
+            }`}
+          >
+            {p.featured && (
+              <span className="absolute -top-4 left-7 z-10 bg-[#167273] px-4 py-1.5 text-[11.5px] font-bold uppercase tracking-[.04em] text-white">
+                {p.badge}
+              </span>
+            )}
+
+            <h3 className="mb-[18px] text-[24px] font-extrabold tracking-[-.005em] text-[#0a2e2e]">
+              {p.name}
             </h3>
-            <p className="mt-4 font-serif text-[52px] font-normal leading-none tracking-[-.045em] text-[#011522]">
-              £3,400 <span className="font-sans text-[15px] font-normal tracking-normal text-[#011522]/50">/mo</span>
-            </p>
-            <p className="mt-2 text-[14px] text-[#011522]/50">4 pieces per month, saving £400</p>
 
-            <div className="mt-6 border-y border-[#011522]/10 py-3 text-[11px] font-medium uppercase tracking-[.12em] text-[#011522]">
-              Expert review and custom visuals on every piece
+            <div className="mb-1 flex items-baseline gap-1.5">
+              <span className="text-[42px] font-extrabold leading-none text-[#0a2e2e]">
+                {p.price}
+              </span>
+              <span className="text-[16px] font-medium text-[#7c928c]">{p.unit}</span>
             </div>
+            <p className="mb-6 text-[13.5px] text-[#7c928c]">{p.note}</p>
 
-            <p className="mt-5 text-[14px] leading-6 text-[#011522]">
-              A consistent stream of research-led content for teams publishing every month.
-            </p>
-            <ul className="mt-5 flex-1">
-              {[
-                "4 buyer guides, comparisons or long-form articles each month",
-                "Monthly topic plan and keyword research",
-                "Educator and subject-expert review on every piece",
-                "Custom visuals for every piece",
-                "Monthly report on pipeline impact, rankings and traffic",
-                "Priority turnaround",
-              ].map((f) => (
-                <li
-                  key={f}
-                  className="flex items-center gap-3 border-b border-[#011522]/[.07] py-3.5 text-[13.5px] text-[#011522] last:border-b-0"
-                >
-                  <span className="grid h-4 w-4 shrink-0 place-items-center text-[#167273]">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[1.5]" aria-hidden="true">
-                      <path d="m5 12 4.5 4.5L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-
-                    <a
-              href="https://www.seo-growup.com/get-in-touch"
-              target="_blank"
-              rel="noreferrer"
-              className="mt-8 block bg-[#011522] py-4 text-center text-[12px] font-medium uppercase tracking-[.14em] text-white transition hover:bg-[#167273]"
+            {/* STATS STRIP */}
+            <div
+              className={`mb-[22px] flex border ${
+                p.featured
+                  ? "border-[#167273]/20 bg-[#f4faf9]"
+                  : "border-[#0a2e2e]/10 bg-[#fafbfa]"
+              }`}
             >
-              Start a monthly programme
-            </a>
-          </div>
-
-          {/* ONE-OFF */}
-          <div style={{ animationDelay: "150ms" }} className="reveal relative flex flex-col border border-[#011522]/10 bg-white p-9">
-            <h3 className="font-serif text-[30px] font-normal leading-[1.05] tracking-[-.03em] text-[#011522]">
-              Long-Form Article
-            </h3>
-            <p className="mt-4 font-serif text-[52px] font-normal leading-none tracking-[-.045em] text-[#011522]">
-              £950 <span className="font-sans text-[15px] font-normal tracking-normal text-[#011522]/50">/article</span>
-            </p>
-            <p className="mt-2 text-[14px] text-[#011522]/50">One-off, no commitment</p>
-
-            <div className="mt-6 border-y border-[#011522]/10 py-3 text-[11px] font-medium uppercase tracking-[.12em] text-[#011522]">
-              Research, SEO and custom visuals included
+              {p.stats.map(([v, l], i) => (
+                <div
+                  key={v}
+                  className={`flex-1 px-2.5 py-3.5 text-center ${
+                    i > 0
+                      ? p.featured
+                        ? "border-l border-[#167273]/20"
+                        : "border-l border-[#0a2e2e]/10"
+                      : ""
+                  }`}
+                >
+                  <div className="text-[18px] font-extrabold leading-[1.1] text-[#0a2e2e] md:text-[20px]">
+                    {v}
+                  </div>
+                  <div className="mt-1 text-[11.5px] text-[#4b625d]">{l}</div>
+                </div>
+              ))}
             </div>
 
-            <p className="mt-5 text-[14px] leading-6 text-[#011522]">
-              In-depth, research-led articles and buyer guides for schools, higher education and learning platforms.
-            </p>
+            <p className="mb-3 text-[15.5px] leading-[1.7] text-[#011522]">{p.intro}</p>
 
-                       <ul className="mt-5 flex-1">
-              {[
-                "1,600 to 2,000 words",
-                "Primary-source research and fact-checking",
-                "Keyword and search-intent research",
-                "SEO title, meta description and internal links",
-                "Custom graphics and visuals",
-                "Two rounds of revisions",
-              ].map((f) => (
-                <li
-                  key={f}
-                  className="flex items-center gap-3 border-b border-[#011522]/[.07] py-3.5 text-[13.5px] text-[#011522] last:border-b-0"
-                >
-                  <span className="grid h-4 w-4 shrink-0 place-items-center text-[#167273]">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 fill-none stroke-current stroke-[1.5]" aria-hidden="true">
-                      <path d="m5 12 4.5 4.5L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  {f}
-                </li>
+            {/* GROUPED FEATURES */}
+            <div className="mb-[26px] flex-1">
+              {p.groups.map((g, gi) => (
+                <div key={g.label}>
+                  <div
+                    className={`pb-1 text-[12px] font-bold uppercase tracking-[.06em] text-[#167273] ${
+                      gi === 0 ? "pt-3.5" : "pt-4"
+                    }`}
+                  >
+                    {g.label}
+                  </div>
+                  {g.items.map(([text, bold], ii) => {
+                    const isLast = gi === p.groups.length - 1 && ii === g.items.length - 1;
+                    return (
+                      <div
+                        key={text as string}
+                        className={`flex items-start gap-3 py-3 ${
+                          isLast ? "" : "border-b border-[#0a2e2e]/[.08]"
+                        }`}
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 16 16"
+                          className="mt-[3px] shrink-0"
+                          aria-hidden="true"
+                        >
+                          <circle cx="8" cy="8" r="8" fill="#167273" />
+                          <path
+                            d="M4.5 8.2L6.7 10.5L11.5 5.5"
+                            stroke="#fff"
+                            strokeWidth="1.4"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <span
+                          className={`text-[15px] leading-[1.55] ${
+                            bold ? "font-semibold text-[#0a2e2e]" : "text-[#26433f]"
+                          }`}
+                        >
+                          {text}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
               ))}
-            </ul>
+            </div>
+
+            {/* BEST FOR */}
+            <div className="mb-[26px] border-t border-[#0a2e2e]/10 pt-5">
+              <span className="text-[13.5px] font-semibold text-[#0f5859]">Best for </span>
+              <span className="text-[13.5px] text-[#4b625d]">{p.bestFor}</span>
+            </div>
+
             <a
               href="https://www.seo-growup.com/get-in-touch"
               target="_blank"
               rel="noreferrer"
-              className="mt-8 block border border-[#011522] py-4 text-center text-[12px] font-medium uppercase tracking-[.14em] text-[#011522] transition hover:bg-[#011522] hover:text-white"
+              className={`mt-auto block w-full px-6 py-4 text-center text-[15px] font-bold tracking-[.01em] transition-colors duration-200 ${
+                p.featured
+                  ? "bg-[#0a2e2e] text-white hover:bg-[#167273]"
+                  : "border-[1.5px] border-[#167273] bg-transparent text-[#167273] hover:bg-[#167273] hover:text-white"
+              }`}
             >
-              Commission an article
+              {p.cta}
             </a>
           </div>
-        </div>
+        ))}
+      </div>
       </div>
     </div>
   </section>
-
-
     {/* FAQ */}
-    <section id="faq" className="scroll-mt-24 relative overflow-hidden bg-[#041b1c] text-white">
-
-
-      <div className="mx-auto w-[min(1340px,calc(100%-48px))] py-20 md:w-[min(1340px,calc(100%-96px))] lg:py-24">
-        <div className="grid gap-14 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
-
-          {/* LEFT */}
-          <div className="reveal relative">
-            <p className="text-[10px] font-bold uppercase tracking-[.2em] text-[#1F9FA1]">
+    <section id="faq" className="scroll-mt-24 relative overflow-hidden bg-[linear-gradient(180deg,#031f20_0%,#021516_100%)] text-white">
+      <div className="mx-auto w-[min(1340px,calc(100%_-_32px))] py-[100px] md:w-[min(1340px,calc(100%_-_96px))]">
+        {/* HEADER */}
+        <div className="reveal mx-auto mb-[68px] text-center">
+          <div className="mb-[34px] flex items-center justify-center gap-[10px]">
+            <span className="h-px w-[22px] bg-[#3d8f8a]" />
+            <p className="text-[13px] font-medium uppercase leading-none tracking-[.02em] text-[#8fd9cf]">
               FAQ
             </p>
-
-<h2 className="mt-5 max-w-[520px] font-serif text-[46px] font-normal leading-[.98] tracking-[-.045em] text-[#f6f2e8] md:text-[61px]">
-  Questions about our{" "}
-  <span className="text-[#1F9FA1]">EdTech writing</span>{" "}
-  services.
-</h2>
-
-<p className="mt-7 max-w-[470px] text-[17px] leading-7 text-[#c4d3cf]">
-  Learn how we research complex EdTech products, work with your
-  experts and create content that supports search, sales and
-  buying decisions.
-</p>
-
-      
+            <span className="h-px w-[22px] bg-[#3d8f8a]" />
           </div>
 
-          {/* RIGHT */}
-          <div style={{ animationDelay: "150ms" }} className="reveal space-y-3">
-            {faqItems.map((item, i) => (
-              <details
-                key={item.q}
-                open={openFaq === i}
-                onToggle={(e) => {
-                  if (e.currentTarget.open) {
-                    setOpenFaq(i);
-                  } else if (openFaq === i) {
-                    setOpenFaq(null);
-                  }
-                }}
-                className="group overflow-hidden rounded-[18px] border border-[#3fcfc0]/20 bg-[#05201f] transition duration-300 open:border-[#3fcfc0]/45 open:bg-[#062b28]"
-              >
-                <summary className="flex cursor-pointer list-none items-center gap-5 px-5 py-5 marker:hidden md:px-7 md:py-6">
-                  <span className="w-9 shrink-0 font-serif text-[22px] leading-none text-[#1F9FA1] md:text-[24px]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+          <h2 className="mx-auto mb-5 max-w-[1100px] font-sans text-[clamp(30px,3.8vw,44px)] font-bold leading-[1.22] tracking-[-0.01em] text-[#f2fbf9]">
+            Questions about our EdTech writing services.
+          </h2>
 
-                  <h3 className="flex-1 font-serif text-[22px] font-normal leading-[1.15] tracking-[-.025em] text-[#f4f0e7] md:text-[27px]">
-                    {item.q}
-                  </h3>
+          <p className="mx-auto max-w-[820px] text-[18px] leading-[1.7] text-[#a9d9d1]">
+            Learn how we research complex EdTech products, work with your experts and create content that supports search, sales and buying decisions.
+          </p>
+        </div>
 
-                  <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#0b4a43] text-[#1F9FA1]">
-                    <span className="absolute h-px w-4 bg-current" />
-                    <span className="absolute h-4 w-px bg-current transition-transform duration-300 group-open:rotate-90 group-open:opacity-0" />
-                  </span>
-                </summary>
+        {/* LIST */}
+        <div style={{ animationDelay: "150ms" }} className="reveal mx-auto">
+          {faqItems.map((item, i) => (
+            <details
+              key={item.q}
+              open={openFaq === i}
+              onToggle={(e) => {
+                if (e.currentTarget.open) {
+                  setOpenFaq(i);
+                } else if (openFaq === i) {
+                  setOpenFaq(null);
+                }
+              }}
+              className={`group py-[30px] ${i > 0 ? "border-t border-[#cdeee8]/[.14]" : ""}`}
+            >
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[17px] font-semibold leading-[1.4] text-[#f2fbf9] marker:hidden md:text-[19px] [&::-webkit-details-marker]:hidden">
+                <span>{item.q}</span>
+                <span className="inline-block shrink-0 text-[24px] font-light leading-none text-[#8fd9cf] transition-transform duration-200 group-open:rotate-45">
+                  +
+                </span>
+              </summary>
 
-                <div className="grid grid-cols-[36px_1fr_auto] gap-5 px-5 pb-6 md:grid-cols-[36px_1fr_44px] md:px-7 md:pb-7">
-                  <span />
-
-                  <p className="max-w-[690px] text-[14px] leading-7 text-[#b9cbc6] md:text-[15px]">
-                    {item.a}
-                  </p>
-
-                  <span />
-                </div>
-              </details>
-            ))}
-          </div>
+              <p className="mt-5 max-w-[1300px] text-[16px] leading-[1.8] text-[#a9d9d1] md:text-[18px]">
+                {item.a}
+              </p>
+            </details>
+          ))}
         </div>
       </div>
     </section>
-
  
 
 

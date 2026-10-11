@@ -2,8 +2,11 @@ import { SITE } from "../data/site";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#041b1c] text-white">
-      <div className="mx-auto w-[min(1340px,calc(100%-48px))] border-t border-[#3fcfc0]/20 pt-16 md:w-[min(1340px,calc(100%-96px))] lg:pt-20">
+    <footer
+      className="bg-[#021516] text-white"
+      style={{ fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif" }}
+    >
+      <div className="mx-auto w-[min(1340px,calc(100%_-_32px))] border-t border-[#cdeee8]/[.14] pt-16 md:w-[min(1340px,calc(100%_-_96px))] lg:pt-20">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_.7fr_.7fr_1fr] lg:gap-10">
           {/* BRAND */}
           <div>
@@ -16,14 +19,14 @@ export default function Footer() {
                 className="h-11 w-auto"
               />
             </a>
-            <p className="mt-6 max-w-[320px] font-serif text-[22px] leading-[1.45] text-[#e8e4d9]">
-          Content built to support search, sales and pipeline.
+            <p className="mt-6 max-w-[320px] text-[18px] font-semibold leading-[1.5] text-[#f2fbf9]">
+              Content built to support search, sales and pipeline.
             </p>
           </div>
 
           {/* NAVIGATION */}
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[.22em] text-[#6fdad1]">
+            <p className="text-[13px] font-medium uppercase tracking-[.02em] text-[#8fd9cf]">
               Navigation
             </p>
             <ul className="mt-6 space-y-4 text-[16px]">
@@ -34,7 +37,7 @@ export default function Footer() {
                 ["FAQ", "/#faq"],
               ].map(([label, href]) => (
                 <li key={label}>
-                  <a href={href} className="text-[#e8e4d9] transition hover:text-[#4de3d2]">
+                  <a href={href} className="text-[#a9d9d1] transition-colors duration-200 hover:text-white">
                     {label}
                   </a>
                 </li>
@@ -44,7 +47,7 @@ export default function Footer() {
 
           {/* COMPANY */}
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[.22em] text-[#6fdad1]">
+            <p className="text-[13px] font-medium uppercase tracking-[.02em] text-[#8fd9cf]">
               Company
             </p>
             <ul className="mt-6 space-y-4 text-[16px]">
@@ -59,7 +62,7 @@ export default function Footer() {
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#e8e4d9] transition hover:text-[#4de3d2]"
+                    className="text-[#a9d9d1] transition-colors duration-200 hover:text-white"
                   >
                     {label}
                   </a>
@@ -69,18 +72,18 @@ export default function Footer() {
           </div>
 
           {/* LET'S TALK */}
-          <div className="lg:border-l lg:border-white/10 lg:pl-10">
-            <p className="text-[11px] font-bold uppercase tracking-[.22em] text-[#6fdad1]">
+          <div className="lg:border-l lg:border-[#cdeee8]/[.14] lg:pl-10">
+            <p className="text-[13px] font-medium uppercase tracking-[.02em] text-[#8fd9cf]">
               Let&rsquo;s talk
             </p>
-            <h3 className="mt-6 max-w-[340px] font-serif text-[30px] font-normal leading-[1.2] tracking-[-.02em] text-[#f6f2e8]">
-     Have a content project in mind?
+            <h3 className="mt-6 max-w-[340px] text-[26px] font-bold leading-[1.25] tracking-[-0.01em] text-[#f2fbf9]">
+              Have a content project in mind?
             </h3>
             <a
               href="https://www.seo-growup.com/get-in-touch"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-7 inline-flex min-h-14 items-center gap-8 rounded-full bg-[#167273] px-8 text-[16px] font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#1d8f90]"
+              className="mt-7 inline-flex min-h-14 items-center gap-6 rounded-full bg-[#167273] px-8 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-[#1f8f8f]"
             >
               Let&rsquo;s talk
               <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-none stroke-current stroke-[1.7]">
@@ -91,8 +94,8 @@ export default function Footer() {
         </div>
 
         {/* BOTTOM BAR */}
-        <div className="mt-14 border-t border-[#3fcfc0]/20 py-8">
-          <p className="text-[14px] text-[#98ada8]">
+        <div className="mt-14 border-t border-[#cdeee8]/[.14] py-8">
+          <p className="text-[14px] text-[#a9d9d1]/70">
             &copy; {new Date().getFullYear()} GrowUp. All rights reserved.
           </p>
         </div>
