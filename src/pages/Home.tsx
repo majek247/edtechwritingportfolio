@@ -417,7 +417,7 @@ useEffect(() => {
 
 
       {/* SELECTED WORK */}
-      <section id="work" className="bg-[#f6f2e9] text-[#082722]">
+      <section id="work" className="bg-white text-[#082722]">
         <div className="mx-auto w-[min(1340px,calc(100%_-_32px))] pt-16 pb-16 md:w-[min(1340px,calc(100%_-_96px))] lg:pt-20 lg:pb-20">
           <div className="grid gap-8 lg:grid-cols-1">
             <div>
